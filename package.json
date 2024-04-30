@@ -1,0 +1,22 @@
+{
+  "name": "vocalized-site",
+  "version": "0.1.0",
+  "description": "A home for voice AI developers.",
+  "homepage": "https://vocalized.dev",
+  "scripts": {},
+  "dependencies": {
+    "next": "^14.2.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bephrem1/vocalized.dev"
+  },
+  "author": {
+    "name": "Benyam Ephrem",
+    "url": "https://twitter.com/notbenyam"
+  },
+  "private": true
+}
