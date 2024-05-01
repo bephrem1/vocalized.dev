@@ -1,6 +1,6 @@
 import Environment from '../Environment';
 
-const ogImagePrefix = Environment.isDevelopment(process.env.NEXT_PUBLIC_ENV)
+const ogImagePrefix = Environment.isDevelopment(process.env.NODE_ENV)
   ? ''
   : `https://${process.env.NEXT_PUBLIC_HOSTNAME}`;
 

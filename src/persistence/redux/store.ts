@@ -20,7 +20,7 @@ const store = configureStore({
     _storeMetadata: REDUX__storeMetadataReducer
   },
   preloadedState: defaultState,
-  devTools: Environment.isDevelopment(process.env.NEXT_PUBLIC_ENV)
+  devTools: Environment.isDevelopment(process.env.NODE_ENV)
 });
 
 export default store;

@@ -9,12 +9,14 @@
     "start": "next start -p $PORT"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "eslint": "^9.1.1",
     "next": "^14.2.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-modal": "^3.16.1",
     "react-redux": "^9.1.1",
+    "styled-components": "^6.1.9",
     "tinycolor2": "^1.6.0",
     "ua-parser-js": "^1.0.37"
   },
@@ -28,6 +30,7 @@
     "@types/ua-parser-js": "^0.7.39",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
+    "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss": "^3.4.3",
     "typescript": "^5.4.5"
   },
