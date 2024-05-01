@@ -2,6 +2,7 @@ import { EmptyObject } from '../types/empty';
 import { FunctionComponent } from 'react';
 import Head from 'next/head';
 import PageBase from '../components/shared/page/PageBase';
+import Playground from '../components/page-segments/playground/Playground';
 
 const PlaygroundPage: FunctionComponent<EmptyObject> = () => {
   return (
@@ -9,7 +10,7 @@ const PlaygroundPage: FunctionComponent<EmptyObject> = () => {
       <Head>
         <title>Vocalized | Playground</title>
       </Head>
-      playground
+      <Playground />
     </PageBase>
   );
 };
