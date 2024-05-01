@@ -29,8 +29,8 @@ const PulsingOrb: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="relative flex items-center justify-center">
       <div className="w-4 h-4 bg-white rounded-full" />
-      <PulsingRing $size={16} $duration={5} />
-      <PulsingRing $size={24} $duration={5} $delay={1} />
+      <PulsingRing $size={16} $duration={3} />
+      <PulsingRing $size={20} $duration={3} $delay={1} />
     </div>
   );
 };
