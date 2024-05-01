@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: 'Inter', sans-serif;
+  font-size: 100%;
+  background-color: #101010;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Text */
+
+h1 {
+  font-size: 3.052rem;
+}
+
+h2 {
+  font-size: 2.441rem;
+}
+
+h3 {
+  font-size: 1.953rem;
+}
+
+h4 {
+  font-size: 1.563rem;
+}
+
+h5 {
+  font-size: 1.25rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+p {
+  line-height: 1.5rem;
+}
+
+a {
+  color: unset;
+  font-size: unset;
+  text-decoration: none;
+}
+
+a:visited {
+  color: unset;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+code {
+  font-size: 0.95rem;
+  color: red;
+}
+
+pre {
+  margin: 0 !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+code {
+  margin: 0;
+  font-weight: unset;
+}
+
+/* Disabling Defaults */
+
+table,
+td {
+  border: none;
+}
+
+button {
+  font: unset;
+  border: none;
+}
+
+button:focus {
+  outline: 0;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+input {
+  font: unset;
+  border: none;
+  -webkit-appearance: none;
+}
+
+input:focus {
+  outline: 0;
+}
+
+textarea {
+  font-family: inherit;
+}
+
+hr {
+  margin: 0;
+}
+
+ul {
+  margin: 0;
+}
+
+/* Hide default form UI */
+
+input[type='file'] {
+  opacity: 0;
+  text-indent: -999em;
+  outline: none;
+}
+
+/* Hide default number toggle buttons */
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/*
+  react-modal css for animated modal open + close
+  (https://reactcommunity.org/react-modal/styles/transitions)
+  react-modal uses a portal so styled-component css won't work in-file
+*/
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
