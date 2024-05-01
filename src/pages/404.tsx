@@ -3,15 +3,15 @@ import { FunctionComponent } from 'react';
 import Head from 'next/head';
 import PageBase from '../components/shared/page/PageBase';
 
-const RootHomePage: FunctionComponent<EmptyObject> = () => {
+const NotFoundPage: FunctionComponent<EmptyObject> = () => {
   return (
     <PageBase>
       <Head>
-        <title>Vocalized | A Home for Voice AI Developers</title>
+        <title>Vocalized | Not Found</title>
       </Head>
-      home
+      not found
     </PageBase>
   );
 };
 
-export default RootHomePage;
+export default NotFoundPage;
