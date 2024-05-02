@@ -1,36 +1,18 @@
-import { Empty } from '../types/empty';
 import { FunctionComponent } from 'react';
 
 export interface BaseIconProps {
-  color?: string;
-  width?: string;
-  height?: string;
+  className?: string;
+  fill?: string;
+  stroke?: string;
+  strokeWidth?: string;
   alt?: string;
-  style?: React.CSSProperties;
 }
 
-export const getSvgTagBaseOptions = ({
-  iconName,
-  width,
-  height,
-  style
-}: {
-  iconName: string;
-  width?: string;
-  height?: string;
-  style?: React.CSSProperties | Empty;
-}) => {
+export const getBaseSvgProps = ({ iconName }: { iconName: string }) => {
   return {
-    width,
-    height,
     'aria-labelledby': getSVGAccessibilityTitleId(iconName),
     role: 'img',
-    draggable: 'false',
-    style: {
-      ...style,
-      minWidth: width,
-      minHeight: height
-    }
+    draggable: 'false'
   };
 };
 
@@ -41,6 +23,6 @@ export const IconAccessibilityTitle: FunctionComponent<{ iconName: string; alt?:
   return alt ? <title id={getSVGAccessibilityTitleId(iconName)}>{alt}</title> : null;
 };
 
-const getSVGAccessibilityTitleId = (svgName: string) => {
+export const getSVGAccessibilityTitleId = (svgName: string) => {
   return `${svgName}-id`;
 };
