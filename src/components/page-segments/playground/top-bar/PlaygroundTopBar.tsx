@@ -30,7 +30,7 @@ const LinkHomeBlock = () => {
 const ProviderKeysBlock = () => {
   return (
     <div className="h-full w-36 flex items-center justify-center border-l border-l-stone-600 border-dashed">
-      <div className="w-full h-full flex items-center justify-center hover:bg-blue-950 cursor-pointer">
+      <div className="w-full h-full flex items-center justify-center hover:bg-indigo-950 cursor-pointer">
         <FontAwesomeIcon icon={faKey} style={{ color: 'white', width: '20px', height: '20px' }} />
       </div>
     </div>
