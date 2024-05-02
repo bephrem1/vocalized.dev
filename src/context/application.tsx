@@ -31,16 +31,12 @@ export const ApplicationProvider = ({
 
   const { darkmodeEnabled, setDarkmodeEnabled } = useDarkmodeEnabled();
 
-  const applicationContextValue = {
+  const value = {
     isMobile,
     screenSize,
     darkmodeEnabled,
     setDarkmodeEnabled
   };
 
-  return (
-    <ApplicationContext.Provider value={applicationContextValue}>
-      {children}
-    </ApplicationContext.Provider>
-  );
+  return <ApplicationContext.Provider value={value}>{children}</ApplicationContext.Provider>;
 };

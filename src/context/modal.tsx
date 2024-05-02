@@ -43,7 +43,7 @@ export const ModalProvider = ({ children }: { children: any }) => {
     }
   };
 
-  const modalContextValue = {
+  const value = {
     isOpen,
     openModalId,
     content,
@@ -53,5 +53,5 @@ export const ModalProvider = ({ children }: { children: any }) => {
     requestModalUpdate
   };
 
-  return <ModalContext.Provider value={modalContextValue}>{children}</ModalContext.Provider>;
+  return <ModalContext.Provider value={value}>{children}</ModalContext.Provider>;
 };
