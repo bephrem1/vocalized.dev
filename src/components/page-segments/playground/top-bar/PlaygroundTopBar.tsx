@@ -37,7 +37,7 @@ const LinkHomeBlock = () => {
   return (
     <Tooltip>
       <TooltipTrigger>{Anchor}</TooltipTrigger>
-      <TooltipContent className="bg-emerald-800">{Content}</TooltipContent>
+      <TooltipContent className="bg-emerald-900">{Content}</TooltipContent>
     </Tooltip>
   );
 };
@@ -45,7 +45,7 @@ const LinkHomeBlock = () => {
 const ProviderKeysBlock = () => {
   const { togglePlaygroundDrawer } = useContext(PlaygroundContext);
 
-  return (
+  const Anchor = (
     <div className="h-full w-36 flex items-center justify-center border-l border-l-stone-600 border-dashed">
       <div
         className="w-full h-full flex items-center justify-center hover:bg-indigo-950 cursor-pointer"
@@ -54,6 +54,14 @@ const ProviderKeysBlock = () => {
         <FontAwesomeIcon icon={faKey} style={{ color: 'white', width: '20px', height: '20px' }} />
       </div>
     </div>
+  );
+  const Content = <p className="text-white">Add Credentials</p>;
+
+  return (
+    <Tooltip>
+      <TooltipTrigger>{Anchor}</TooltipTrigger>
+      <TooltipContent className="bg-indigo-900">{Content}</TooltipContent>
+    </Tooltip>
   );
 };
 
