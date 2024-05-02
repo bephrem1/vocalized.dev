@@ -51,7 +51,7 @@ const ProviderKeysBlock = () => {
         className="w-full h-full flex items-center justify-center hover:bg-indigo-950 cursor-pointer"
         onClick={togglePlaygroundDrawer}
       >
-        <FontAwesomeIcon icon={faKey} style={{ color: 'white', width: '20px', height: '20px' }} />
+        <FontAwesomeIcon icon={faKey} className="text-xl text-white" />
       </div>
     </div>
   );
