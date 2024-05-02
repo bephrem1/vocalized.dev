@@ -10,13 +10,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { INTERNAL_LINKS } from '../../../../helpers/urls';
 import Link from '../../../shared/elements/Link';
 import { PlaygroundContext } from '../../../../context/playground';
+import PlaygroundModeToggle from '../components/PlaygroundModeToggle';
 import PulsingOrb from '../../../shared/animated/PulsingOrb';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
 
 const PlaygroundTopBar: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="flex justify-between content-between w-screen h-16 border-b border-b-stone-600 border-dashed">
-      <LinkHomeBlock />
+      <div className="flex w-fit">
+        <LinkHomeBlock />
+        <PlaygroundModeBlock />
+      </div>
       <ProviderKeysBlock />
     </div>
   );
@@ -42,6 +46,16 @@ const LinkHomeBlock = () => {
   );
 };
 
+const PlaygroundModeBlock = () => {
+  return (
+    <div className="h-full flex items-center justify-center border-r border-r-stone-600 border-dashed hover:bg-neutral-900">
+      <div className="w-full h-full px-5 flex items-center justify-center">
+        <PlaygroundModeToggle />
+      </div>
+    </div>
+  );
+};
+
 const ProviderKeysBlock = () => {
   const { togglePlaygroundDrawer } = useContext(PlaygroundContext);
 
@@ -51,7 +65,11 @@ const ProviderKeysBlock = () => {
         className="w-full h-full flex items-center justify-center hover:bg-indigo-950 cursor-pointer"
         onClick={togglePlaygroundDrawer}
       >
-        <FontAwesomeIcon icon={faKey} className="text-xl text-white" />
+        <FontAwesomeIcon
+          icon={faKey}
+          className="text-white"
+          style={{ width: '20px', height: '20px' }}
+        />
       </div>
     </div>
   );
