@@ -73,7 +73,7 @@ const ProviderKeysBlock = () => {
       </div>
     </div>
   );
-  const Content = <p className="text-white">Add Credentials</p>;
+  const Content = <p className="text-white">Set Credentials</p>;
 
   return (
     <Tooltip>
