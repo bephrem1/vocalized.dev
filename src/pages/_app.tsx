@@ -9,6 +9,7 @@ import Modal from 'react-modal';
 import { ModalProvider } from '../context/modal';
 import React from 'react';
 import { Provider as ReactReduxProvider } from 'react-redux';
+import { TooltipProvider } from '../components/shared/shadcn/components/ui/tooltip';
 import { isEmpty } from '../helpers/empty';
 import store from '../persistence/redux/store';
 import { useDocumentHeadComponents } from '../hooks/page-headers';
@@ -29,10 +30,12 @@ const App = ({ Component, pageProps, props }: AppPropsWithServerProps) => {
       <ApplicationProvider userAgent={props.userAgent}>
         <ReactReduxProvider store={store}>
           <ModalProvider>
-            <GlobalModal />
-            <GlobalHead />
-            <GlobalEffects />
-            <Component {...pageProps} />
+            <TooltipProvider>
+              <GlobalModal />
+              <GlobalHead />
+              <GlobalEffects />
+              <Component {...pageProps} />
+            </TooltipProvider>
           </ModalProvider>
         </ReactReduxProvider>
       </ApplicationProvider>

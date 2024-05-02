@@ -1,12 +1,12 @@
 import { FunctionComponent } from 'react';
 import { useModalContext } from '../../utilities/hooks';
 
-export interface AddProviderKeyModalProps {}
+export interface AddCredentialModalProps {}
 
-const AddProviderKeyModal: FunctionComponent<AddProviderKeyModalProps> = () => {
+const AddCredentialModal: FunctionComponent<AddCredentialModalProps> = () => {
   const { closeModal } = useModalContext();
 
   return <div onClick={closeModal}>provider key modal</div>;
 };
 
-export default AddProviderKeyModal;
+export default AddCredentialModal;

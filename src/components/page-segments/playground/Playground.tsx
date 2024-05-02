@@ -5,7 +5,9 @@ import PlaygroundTopBar from './top-bar/PlaygroundTopBar';
 const Playground: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="w-screen h-screen">
-      <PlaygroundTopBar />
+      <div className="w-full h-screen flex-col justify-between content-between">
+        <PlaygroundTopBar />
+      </div>
     </div>
   );
 };

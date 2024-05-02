@@ -1,4 +1,9 @@
 import { FunctionComponent, useContext } from 'react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger
+} from '../../../shared/shadcn/components/ui/tooltip';
 
 import { EmptyObject } from '../../../../types/empty';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -18,14 +23,22 @@ const PlaygroundTopBar: FunctionComponent<EmptyObject> = () => {
 };
 
 const LinkHomeBlock = () => {
-  return (
-    <div className="h-full w-24 flex items-center justify-center border-r border-r-stone-600 border-dashed">
-      <Link type="internal" dest={INTERNAL_LINKS.HOME} openInNewWindow>
+  const Anchor = (
+    <Link type="internal" dest={INTERNAL_LINKS.HOME} openInNewWindow>
+      <div className="h-full w-24 flex items-center justify-center border-r border-r-stone-600 border-dashed">
         <div className="w-full h-full flex items-center justify-center hover:bg-emerald-950">
           <PulsingOrb />
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
+  );
+  const Content = <p className="text-white">Go Home</p>;
+
+  return (
+    <Tooltip>
+      <TooltipTrigger>{Anchor}</TooltipTrigger>
+      <TooltipContent className="bg-emerald-800">{Content}</TooltipContent>
+    </Tooltip>
   );
 };
 

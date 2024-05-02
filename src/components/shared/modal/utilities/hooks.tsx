@@ -1,6 +1,4 @@
-import AddProviderKeyModal, {
-  AddProviderKeyModalProps
-} from '../lib/provider-keys/AddProviderKeyModal';
+import AddCredentialModal, { AddCredentialModalProps } from '../lib/credentials/AddCredentialModal';
 import { useContext, useEffect } from 'react';
 
 import { ModalContext } from '../../../../context/modal';
@@ -10,14 +8,14 @@ import { ModalId } from './modal-id';
  * Open hooks
  */
 
-export const useAddProviderKeyModal = (props: AddProviderKeyModalProps) => {
+export const useAddCredentialModal = (props: AddCredentialModalProps) => {
   const { openFn } = useModalWithUpdate({
     props,
-    Component: AddProviderKeyModal,
-    modalId: ModalId.AddProviderKey
+    Component: AddCredentialModal,
+    modalId: ModalId.AddCredential
   });
 
-  return { openAddProviderKeyModal: openFn };
+  return { openAddCredentialModal: openFn };
 };
 
 /*
