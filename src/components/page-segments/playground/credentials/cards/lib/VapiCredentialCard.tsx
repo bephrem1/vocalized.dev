@@ -13,7 +13,7 @@ const VapiCredentialCard: FunctionComponent<EmptyObject> = () => {
 
   const imageClass = clsx([
     'w-12 h-12 mb-2',
-    hovered ? 'rounded-lg' : 'rounded-3xl',
+    hovered ? 'rounded-3xl' : 'rounded-lg',
     'transition-all duration-300 ease-in-out'
   ]);
 
@@ -32,7 +32,7 @@ const VapiCredentialCard: FunctionComponent<EmptyObject> = () => {
         </div>
       </TooltipTrigger>
       <TooltipContent className="bg-neutral-800 m-2">
-        <p className="text-white">Set Your Vapi Credentials</p>
+        <p className="text-white">Set Vapi Credentials</p>
       </TooltipContent>
     </Tooltip>
   );
