@@ -1,3 +1,4 @@
+import { CredentialsProvider } from '../context/credentials';
 import { EmptyObject } from '../types/empty';
 import { FunctionComponent } from 'react';
 import Head from 'next/head';
@@ -12,7 +13,9 @@ const PlaygroundPage: FunctionComponent<EmptyObject> = () => {
         <title>Vocalized | Playground</title>
       </Head>
       <PlaygroundProvider>
-        <Playground />
+        <CredentialsProvider>
+          <Playground />
+        </CredentialsProvider>
       </PlaygroundProvider>
     </PageBase>
   );

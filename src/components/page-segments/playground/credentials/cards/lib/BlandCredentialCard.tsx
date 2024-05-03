@@ -5,18 +5,18 @@ import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
 import { ProviderId } from '../../../../../../fixtures/providers';
 
-const VapiCredentialCard: FunctionComponent<EmptyObject> = () => {
+const BlandCredentialCard: FunctionComponent<EmptyObject> = () => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
 
-  const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Vapi });
+  const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Bland });
 
   return (
     <CredentialCard
-      providerName="Vapi"
-      providerImageUrl="/images/logos/vapi.png"
+      providerName="Bland"
+      providerImageUrl="/images/logos/bland.png"
       credentialsSet={credentialsSet}
     />
   );
 };
 
-export default VapiCredentialCard;
+export default BlandCredentialCard;
