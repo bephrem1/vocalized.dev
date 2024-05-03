@@ -12,7 +12,7 @@ const VapiCredentialCard: FunctionComponent<EmptyObject> = () => {
   const [hovered, setHovered] = useState<boolean>(false);
 
   const imageClass = clsx([
-    'w-12 h-12 mb-2',
+    'w-12 h-12 mb-3.5',
     hovered ? 'rounded-3xl' : 'rounded-lg',
     'transition-all duration-300 ease-in-out'
   ]);
@@ -27,7 +27,7 @@ const VapiCredentialCard: FunctionComponent<EmptyObject> = () => {
         >
           <div className="flex flex-col items-center">
             <img src="/images/logos/vapi.png" className={imageClass} draggable={false} />
-            <p className="text-white text-lg font-medium">Vapi</p>
+            <p className="text-white text-md font-medium">Vapi</p>
           </div>
         </div>
       </TooltipTrigger>
