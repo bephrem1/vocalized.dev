@@ -1,5 +1,6 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 
+import dynamic from 'next/dynamic';
 import { randomInt } from '../../../../helpers/numbers';
 
 interface SineWaveProps {
@@ -9,7 +10,7 @@ interface SineWaveProps {
 const SineWave: FunctionComponent<SineWaveProps> = ({ heightPx }) => {
   const svgRef = useRef(null);
   const pathRef = useRef(null);
-  let timeoutId = null;
+  const timeoutIdRef = useRef(null);
 
   useEffect(() => {
     const svg = svgRef.current;
@@ -31,29 +32,38 @@ const SineWave: FunctionComponent<SineWaveProps> = ({ heightPx }) => {
 
     // Set the stroke-dasharray and stroke-dashoffset for animation
     const pathLength = path.getTotalLength();
-    path.style.strokeDasharray = `${pathLength} ${pathLength}`;
-    path.style.strokeDashoffset = pathLength;
 
     const animateWave = () => {
+      const visibleLength = randomInt({ min: 200, max: 300 });
+
+      path.style.strokeDasharray = `${visibleLength}, ${pathLength}`;
+      path.style.strokeDashoffset = pathLength;
+
       const animation = path.animate(
         [{ strokeDashoffset: pathLength }, { strokeDashoffset: -pathLength }],
         {
-          duration: randomInt({ min: 4000, max: 7000 }),
+          duration: 10000, // control speed
           fill: 'forwards'
         }
       );
 
-      // restart the animation after it finishes, after a random delay
       animation.finished.then(() => {
-        if (timeoutId !== null) {
-          clearTimeout(timeoutId); // Clear any existing timeout to avoid overlaps
+        if (timeoutIdRef.current !== null) {
+          clearTimeout(timeoutIdRef.current);
         }
 
-        timeoutId = setTimeout(animateWave, randomInt({ min: 5000, max: 15000 }));
+        timeoutIdRef.current = setTimeout(animateWave, randomInt({ min: 15000, max: 30000 }));
       });
     };
 
-    animateWave(); // Start the animation loop
+    // start animation after delay
+    timeoutIdRef.current = setTimeout(animateWave, randomInt({ min: 10000, max: 20000 }));
+
+    return () => {
+      if (timeoutIdRef.current !== null) {
+        clearTimeout(timeoutIdRef.current);
+      }
+    };
   }, [heightPx]);
 
   return (
@@ -81,4 +91,5 @@ const SineWave: FunctionComponent<SineWaveProps> = ({ heightPx }) => {
   );
 };
 
-export default SineWave;
+// dynamic nature of animation causes client hydration mismatch
+export default dynamic(() => Promise.resolve(SineWave), { ssr: false });

@@ -29,7 +29,7 @@ const ConnectionStatusBlock = () => {
 const WhiteSpace = () => {
   return (
     <div className="flex flex-row flex-grow items-center justify-center">
-      <SineWave heightPx={12} />
+      <SineWave heightPx={15} />
     </div>
   );
 };
