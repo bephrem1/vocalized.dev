@@ -239,3 +239,21 @@ input[type='number'] {
 .ReactModal__Overlay--before-close {
   opacity: 0;
 }
+
+@keyframes drawWave {
+  from {
+    stroke-dasharray: 0, 1000;
+  }
+  to {
+    stroke-dasharray: 1000, 0;
+  }
+}
+
+@keyframes eraseWave {
+  from {
+    stroke-dasharray: 1000, 0;
+  }
+  to {
+    stroke-dasharray: 0, 1000;
+  }
+}

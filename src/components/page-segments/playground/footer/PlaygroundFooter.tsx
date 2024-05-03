@@ -2,12 +2,14 @@ import { EXTERNAL_LINKS } from '../../../../helpers/urls';
 import { EmptyObject } from '../../../../types/empty';
 import { FunctionComponent } from 'react';
 import Link from '../../../shared/elements/Link';
+import SineWave from '../components/SineWave';
 import XLogo from '../../../../icons/lib/companies/XLogo';
 
 const PlaygroundFooter: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="flex justify-between content-between w-screen h-10 border-t border-t-stone-600 border-dashed">
       <ConnectionStatusBlock />
+      <WhiteSpace />
       <FollowOnX />
     </div>
   );
@@ -20,6 +22,14 @@ const ConnectionStatusBlock = () => {
         <div className="w-2 h-2 bg-emerald-400 rounded-full mr-2" />
         <p className="text-white text-xs">connected</p>
       </div>
+    </div>
+  );
+};
+
+const WhiteSpace = () => {
+  return (
+    <div className="flex flex-row flex-grow items-center justify-center">
+      <SineWave heightPx={12} />
     </div>
   );
 };
