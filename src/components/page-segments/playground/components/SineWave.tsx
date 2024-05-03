@@ -30,12 +30,17 @@ const SineWave: FunctionComponent<SineWaveProps> = ({ heightPx }) => {
     }
     path.setAttribute('d', d);
 
-    // Set the stroke-dasharray and stroke-dashoffset for animation
+    // set the stroke-dasharray and stroke-dashoffset for animation
     const pathLength = path.getTotalLength();
+
+    // initially hide the wave
+    path.style.strokeDasharray = `0, ${pathLength}`;
+    path.style.strokeDashoffset = '0';
 
     const animateWave = () => {
       const visibleLength = randomInt({ min: 200, max: 300 });
 
+      // set the strokeDasharray to make the wave visible
       path.style.strokeDasharray = `${visibleLength}, ${pathLength}`;
       path.style.strokeDashoffset = pathLength;
 
