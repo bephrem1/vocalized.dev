@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 
-import dynamic from 'next/dynamic';
 import { randomInt } from '../../../../helpers/numbers';
 
 interface SineWaveProps {
@@ -96,5 +95,4 @@ const SineWave: FunctionComponent<SineWaveProps> = ({ heightPx }) => {
   );
 };
 
-// dynamic nature of animation causes client hydration mismatch
-export default dynamic(() => Promise.resolve(SineWave), { ssr: false });
+export default SineWave;

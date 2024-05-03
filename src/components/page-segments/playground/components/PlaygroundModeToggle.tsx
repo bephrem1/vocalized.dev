@@ -43,15 +43,17 @@ const DisabledTabItem = ({ label, icon, value }) => {
   return (
     <Tooltip>
       <TooltipTrigger>
-        <TabsTrigger value={value} className="opacity-50" disabled={true}>
-          <div className="flex flex-row items-center justify-center">
-            <FontAwesomeIcon
-              icon={icon}
-              className="text-neutral-900 mr-1"
-              style={{ width: '14px', height: '14px' }}
-            />
+        <TabsTrigger value={value} className="opacity-50" disabled={true} asChild={true}>
+          <div>
+            <div className="flex flex-row items-center justify-center">
+              <FontAwesomeIcon
+                icon={icon}
+                className="text-neutral-900 mr-1"
+                style={{ width: '14px', height: '14px' }}
+              />
+            </div>
+            <p className="text-white opacity-50">{label}</p>
           </div>
-          <p className="text-white opacity-50">{label}</p>
         </TabsTrigger>
       </TooltipTrigger>
       <TooltipContent className="bg-neutral-800 mt-1">
