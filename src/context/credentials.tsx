@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 
 type Credentials = {
-  [providerId: string]: {
-    apiKey: string;
-  };
+  secretKey?: string;
+  publicKey?: string;
+};
+type ProviderCredentials = {
+  [providerId: string]: Credentials;
 };
 
 interface ICredentialsContext {
-  getCredentials: ({ providerId }: { providerId: string }) => { apiKey: string } | null;
-  setCredentials: ({ providerId, apiKey }: { providerId: string; apiKey: string }) => void;
+  getCredentials: ({ providerId }: { providerId: string }) => Credentials | null;
+  setCredentials: ({
+    providerId,
+    credentials
+  }: {
+    providerId: string;
+    credentials: Credentials;
+  }) => void;
   clearCredentials: ({ providerId }: { providerId: string }) => void;
   checkCredentialsSet: ({ providerId }: { providerId: string }) => boolean;
 }
@@ -19,16 +27,22 @@ export const CredentialsContext = React.createContext<ICredentialsContext>({
   checkCredentialsSet: () => false
 });
 export const CredentialsProvider = ({ children }: { children: any }) => {
-  const [credentials, setCredentials] = useState<Credentials>({});
+  const [credentials, setCredentials] = useState<ProviderCredentials>({});
 
   const _getCredentials = ({ providerId }: { providerId: string }) => {
     return credentials[providerId] || null;
   };
-  const _setCredentials = ({ providerId, apiKey }: { providerId: string; apiKey: string }) => {
-    setCredentials((prevCredentials) => {
+  const _setCredentials = ({
+    providerId,
+    credentials
+  }: {
+    providerId: string;
+    credentials: Credentials;
+  }) => {
+    setCredentials((prevProviderCredentials) => {
       return {
-        ...prevCredentials,
-        [providerId]: { apiKey }
+        ...prevProviderCredentials,
+        [providerId]: credentials
       };
     });
   };
