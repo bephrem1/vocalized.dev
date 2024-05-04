@@ -15,13 +15,18 @@ const VapiCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const openVapiCredentialsModal = () => {
     openModal({ modalId: ModalId.SetVapiCredentials });
   };
+  const openClearVapiCredentialsModal = () => {
+    openModal({ modalId: ModalId.ClearVapiCredentials });
+  };
+
+  const onClick = credentialsSet ? openClearVapiCredentialsModal : openVapiCredentialsModal;
 
   return (
     <CredentialCard
       providerName="Vapi"
       providerImageUrl="/images/logos/vapi.png"
       credentialsSet={credentialsSet}
-      onClick={openVapiCredentialsModal}
+      onClick={onClick}
     />
   );
 };

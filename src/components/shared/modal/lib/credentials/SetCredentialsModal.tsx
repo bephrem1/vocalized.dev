@@ -3,27 +3,27 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger
-} from '../../shadcn/components/ui/accordion';
-import { CredentialName, CredentialsContext } from '../../../../context/credentials';
+} from '../../../shadcn/components/ui/accordion';
+import { CredentialName, CredentialsContext } from '../../../../../context/credentials';
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle
-} from '../../shadcn/components/ui/dialog';
+} from '../../../shadcn/components/ui/dialog';
 import { FunctionComponent, useContext, useState } from 'react';
-import { ProviderId, Providers } from '../../../../fixtures/providers';
 
-import { Button } from '../../shadcn/components/ui/button';
+import { Button } from '../../../shadcn/components/ui/button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Input } from '../../shadcn/components/ui/input';
-import { Label } from '../../shadcn/components/ui/label';
-import Link from '../../elements/Link';
-import { ModalContext } from '../../../../context/modal';
-import { ModalId } from '../modal-id';
+import { Input } from '../../../shadcn/components/ui/input';
+import { Label } from '../../../shadcn/components/ui/label';
+import Link from '../../../elements/Link';
+import { ModalContext } from '../../../../../context/modal';
+import { ModalId } from '../../modal-id';
+import { ProviderId } from '../../../../../fixtures/providers';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
-import { isEmpty } from '../../../../helpers/empty';
-import { toTitlecase } from '../../../../helpers/strings';
+import { isEmpty } from '../../../../../helpers/empty';
+import { toTitlecase } from '../../../../../helpers/strings';
 
 interface SetCredentialsModalProps {
   modalId: ModalId;

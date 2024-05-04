@@ -1,9 +1,10 @@
+import ClearVapiCredentialsModal from '../../shared/modal/lib/credentials/lib/ClearVapiCredentialsModal';
 import { EmptyObject } from '../../../types/empty';
 import { FunctionComponent } from 'react';
 import PlaygroundFooter from './footer/PlaygroundFooter';
 import PlaygroundTopBar from './top-bar/PlaygroundTopBar';
 import PlaygroundWorkspace from './workspace/PlaygroundWorkspace';
-import SetVapiCredentialsModal from '../../shared/modal/credentials/lib/SetVapiCredentialsModal';
+import SetVapiCredentialsModal from '../../shared/modal/lib/credentials/lib/SetVapiCredentialsModal';
 
 const Playground: FunctionComponent<EmptyObject> = () => {
   return (
@@ -25,6 +26,8 @@ const PlaygroundModals = () => {
   return (
     <>
       <SetVapiCredentialsModal />
+
+      <ClearVapiCredentialsModal />
     </>
   );
 };

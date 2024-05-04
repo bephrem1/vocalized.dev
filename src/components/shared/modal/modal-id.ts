@@ -1,4 +1,8 @@
 export enum ModalId {
   // credentials
-  SetVapiCredentials = 'set-vapi-credentials'
+  // — set
+  SetVapiCredentials = 'set-vapi-credentials',
+
+  // — clear
+  ClearVapiCredentials = 'clear-vapi-credentials'
 }
