@@ -31,7 +31,10 @@ interface SetCredentialsModalProps {
   title: string;
   description: string;
   logoPath: string;
+  homepageUrl: string;
+  siteHostname: string;
   credentialFields: Array<CredentialName>;
+  faqItems: Array<[JSX.Element, JSX.Element]>;
   bannerBackgroundColor: string;
 }
 
@@ -41,7 +44,10 @@ const SetCredentialsModal: FunctionComponent<SetCredentialsModalProps> = ({
   title,
   description,
   logoPath,
+  homepageUrl,
+  siteHostname,
   credentialFields,
+  faqItems,
   bannerBackgroundColor
 }) => {
   const { openModalId, openModal, closeModal } = useContext(ModalContext);
@@ -104,9 +110,9 @@ const SetCredentialsModal: FunctionComponent<SetCredentialsModalProps> = ({
             />
 
             <div className="absolute right-4 bottom-3">
-              <Link type="external" dest={Providers.Vapi.links.homepage} openInNewWindow>
+              <Link type="external" dest={homepageUrl} openInNewWindow>
                 <div className="w-full h-full flex flex-row items-center justify-center px-2 py-1 bg-neutral-900 border border-neutral-800 rounded-sm">
-                  <p className="text-neutral-500 text-xs mr-1.5"> Visit vapi.ai</p>
+                  <p className="text-neutral-500 text-xs mr-1.5"> Visit {siteHostname}</p>
                   <FontAwesomeIcon
                     icon={faArrowUpRightFromSquare}
                     className="text-neutral-500"
@@ -139,26 +145,16 @@ const SetCredentialsModal: FunctionComponent<SetCredentialsModalProps> = ({
                 ))}
               </div>
               <Accordion type="single" collapsible className="mb-8">
-                <AccordionItem value="public-key" className="border-b-neutral-600">
-                  <AccordionTrigger className="text-neutral-400 pb-3">
-                    Where can I find my Vapi public key?
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    <span className="text-xs">
-                      <p className="text-neutral-200 inline leading-4">
-                        Your Vapi public key will be in your{' '}
-                      </p>
-                      <Link type="external" dest={Providers.Vapi.links.dashboard}>
-                        dashboard
-                      </Link>
-                      <p className="text-neutral-200 inline leading-4"> in the </p>
-                      <Link type="external" dest={Providers.Vapi.links.credentials}>
-                        "organization" tab
-                      </Link>
-                      <p className="text-neutral-200 inline leading-4">. Copy & paste it above.</p>
-                    </span>
-                  </AccordionContent>
-                </AccordionItem>
+                {faqItems.map(([trigger, content], index) => (
+                  <AccordionItem
+                    key={index}
+                    value={`faq-${index}`}
+                    className="border-b-neutral-600"
+                  >
+                    <AccordionTrigger>{trigger}</AccordionTrigger>
+                    <AccordionContent>{content}</AccordionContent>
+                  </AccordionItem>
+                ))}
               </Accordion>
               <div className="w-full flex">
                 <Button

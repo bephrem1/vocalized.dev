@@ -10,6 +10,7 @@ export enum ProviderId {
 interface IProviderData {
   id: ProviderId;
   displayName: string;
+  siteHostname: string;
   logo: {
     localPath: string;
   };
@@ -24,6 +25,7 @@ export const Providers = {
   Vapi: {
     id: ProviderId.Vapi,
     displayName: 'Vapi',
+    siteHostname: 'vapi.ai',
     logo: {
       localPath: '/images/logos/vapi.png'
     },
