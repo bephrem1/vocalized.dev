@@ -5,7 +5,7 @@ import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
 import { ProviderId } from '../../../../../../fixtures/providers';
 
-const RetellCredentialCard: FunctionComponent<EmptyObject> = () => {
+const RetellCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
 
   const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Retell });
@@ -19,4 +19,4 @@ const RetellCredentialCard: FunctionComponent<EmptyObject> = () => {
   );
 };
 
-export default RetellCredentialCard;
+export default RetellCredentialsCard;

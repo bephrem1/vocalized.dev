@@ -5,7 +5,7 @@ import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
 import { ProviderId } from '../../../../../../fixtures/providers';
 
-const BlandCredentialCard: FunctionComponent<EmptyObject> = () => {
+const BlandCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
 
   const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Bland });
@@ -19,4 +19,4 @@ const BlandCredentialCard: FunctionComponent<EmptyObject> = () => {
   );
 };
 
-export default BlandCredentialCard;
+export default BlandCredentialsCard;

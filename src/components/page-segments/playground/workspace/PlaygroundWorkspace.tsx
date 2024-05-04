@@ -1,11 +1,11 @@
 import { EmptyObject } from '../../../../types/empty';
 import { FunctionComponent } from 'react';
-import VapiCredentialCard from '../credentials/cards/lib/VapiCredentialCard';
+import VapiCredentialsCard from '../credentials/cards/lib/VapiCredentialsCard';
 
 const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="flex flex-row h-full w-full items-center justify-center">
-      <VapiCredentialCard />
+      <VapiCredentialsCard />
     </div>
   );
 };
