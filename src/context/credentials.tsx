@@ -60,8 +60,6 @@ export const CredentialsProvider = ({ children }: { children: any }) => {
     return !!credentials[providerId];
   };
 
-  console.log(credentials);
-
   const value = {
     getCredentials: _getCredentials,
     setCredentials: _setCredentials,
