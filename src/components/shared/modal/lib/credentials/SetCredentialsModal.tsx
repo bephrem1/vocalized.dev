@@ -88,6 +88,8 @@ const SetCredentialsModal: FunctionComponent<SetCredentialsModalProps> = ({
       credentials: inputValues
     });
 
+    // clear input buffer & close modal
+    setInputValues(credentialFields.reduce((acc, field) => ({ ...acc, [field]: '' }), {}));
     closeModal();
   };
 
