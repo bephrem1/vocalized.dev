@@ -15,6 +15,7 @@ interface IProviderData {
   };
   links: {
     homepage: string;
+    dashboard?: string;
     credentials: string;
   };
 }
@@ -27,8 +28,9 @@ export const Providers = {
       localPath: '/images/logos/vapi.png'
     },
     links: {
-      homepage: 'https://vapi.ai/',
-      credentials: 'https://dashboard.vapi.ai/account'
+      homepage: 'https://vapi.ai',
+      dashboard: 'https://dashboard.vapi.ai',
+      credentials: 'https://dashboard.vapi.ai/vapi-api'
     }
   } as IProviderData
 };

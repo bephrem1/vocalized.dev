@@ -2,10 +2,7 @@ import '../styles/global.css';
 
 import type { AppProps } from 'next/app';
 import { ApplicationProvider } from '../context/application';
-import Environment from '../Environment';
-import GlobalModal from '../components/shared/modal/GlobalModal';
 import Head from 'next/head';
-import Modal from 'react-modal';
 import { ModalProvider } from '../context/modal';
 import React from 'react';
 import { Provider as ReactReduxProvider } from 'react-redux';
@@ -15,23 +12,17 @@ import store from '../persistence/redux/store';
 import { useDocumentHeadComponents } from '../hooks/page-headers';
 import { useHydrateReduxFromStorage } from '../hooks/redux';
 
-const appDivId = '#app';
-if (Environment.isClient()) {
-  Modal.setAppElement(document.getElementById(appDivId));
-}
-
 interface AppPropsWithServerProps extends AppProps {
   props: ServerSideComputedProps;
 }
 
 const App = ({ Component, pageProps, props }: AppPropsWithServerProps) => {
   return (
-    <div id={appDivId}>
+    <div>
       <ApplicationProvider userAgent={props.userAgent}>
         <ReactReduxProvider store={store}>
           <ModalProvider>
             <TooltipProvider>
-              <GlobalModal />
               <GlobalHead />
               <GlobalEffects />
               <Component {...pageProps} />

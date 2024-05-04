@@ -13,12 +13,14 @@ interface CredentialCardProps {
   providerName: string;
   providerImageUrl: string;
   credentialsSet?: boolean;
+  onClick?: () => void;
 }
 
 const CredentialCard: FunctionComponent<CredentialCardProps> = ({
   providerName,
   providerImageUrl,
-  credentialsSet = false
+  credentialsSet = false,
+  onClick
 }) => {
   const [hovered, setHovered] = useState<boolean>(false);
 
@@ -48,7 +50,7 @@ const CredentialCard: FunctionComponent<CredentialCardProps> = ({
 
   return (
     <Tooltip>
-      <TooltipTrigger>
+      <TooltipTrigger onClick={onClick}>
         <div
           className={rootClass}
           onMouseEnter={() => setHovered(true)}

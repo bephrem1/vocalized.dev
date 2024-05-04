@@ -3,6 +3,7 @@ import { FunctionComponent } from 'react';
 import PlaygroundFooter from './footer/PlaygroundFooter';
 import PlaygroundTopBar from './top-bar/PlaygroundTopBar';
 import PlaygroundWorkspace from './workspace/PlaygroundWorkspace';
+import SetVapiCredentialsModal from '../../shared/modal/credentials/lib/SetVapiCredentialsModal';
 
 const Playground: FunctionComponent<EmptyObject> = () => {
   return (
@@ -14,7 +15,17 @@ const Playground: FunctionComponent<EmptyObject> = () => {
         </div>
         <PlaygroundFooter />
       </div>
+
+      <PlaygroundModals />
     </div>
+  );
+};
+
+const PlaygroundModals = () => {
+  return (
+    <>
+      <SetVapiCredentialsModal />
+    </>
   );
 };
 

@@ -35,7 +35,7 @@ const Link: FunctionComponent<LinkProps> = ({
 
   const linkClass = clsx({
     'w-full h-full': true,
-    'text-emerald-500 hover:text-emerald-400': true,
+    'text-blue-500 hover:text-blue-400 visited:text-blue-300': true,
     'font-bold': isBold,
     underline: underline
   });

@@ -4,6 +4,8 @@ type Credentials = {
   secretKey?: string;
   publicKey?: string;
 };
+export type CredentialName = Credentials[keyof Credentials];
+
 type ProviderCredentials = {
   [providerId: string]: Credentials;
 };
