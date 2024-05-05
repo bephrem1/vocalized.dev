@@ -21,7 +21,7 @@ const SystemPromptBlock = () => {
   };
 
   return (
-    <div className="w-full md:w-[507px] h-full px-7 pt-6 md:border-r md:border-r-stone-600 md:border-dashed">
+    <div className="w-full md:w-[507px] h-full px-7 pt-7 md:border-r md:border-r-stone-600 md:border-dashed">
       <div className="flex flex-row items-center mb-3.5">
         <p className="text-white text-md font-normal mr-2">System Prompt</p>
         <InfoTooltip
