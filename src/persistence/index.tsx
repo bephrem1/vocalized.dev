@@ -1,13 +1,15 @@
 import { isEmpty } from '../helpers/empty';
 
 export const LOCAL_STORAGE_KEYS = {
-  SITE_THEME: 'site-theme',
-  PLAYGROUND: {
-    SYSTEM_PROMPT: 'playground:system-prompt'
-  }
+  SITE_THEME: 'site-theme'
 };
 
-export const SESSION_STORAGE_KEYS = {};
+export const SESSION_STORAGE_KEYS = {
+  PLAYGROUND: {
+    SYSTEM_PROMPT: 'playground:system-prompt',
+    FIRST_MESSAGE: 'playground:first-message'
+  }
+};
 
 export const persistData = ({
   key,

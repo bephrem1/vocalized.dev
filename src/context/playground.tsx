@@ -1,8 +1,8 @@
+import { FIRST_MESSAGE_DEFAULT, SYSTEM_PROMPT_DEFAULT } from '../fixtures/prompts';
 import React, { useState } from 'react';
 
-import { LOCAL_STORAGE_KEYS } from '../persistence';
 import { PlaygroundMode } from '../components/page-segments/playground/playground-modes';
-import { SYSTEM_PROMPT_DEFAULT } from '../fixtures/prompts';
+import { SESSION_STORAGE_KEYS } from '../persistence';
 import { usePersistedValue } from '../hooks/persistence';
 
 interface IPlaygroundContext {
@@ -14,6 +14,8 @@ interface IPlaygroundContext {
 
   systemPrompt?: string;
   setSystemPrompt: (prompt: string) => void;
+  firstMessage?: string;
+  setFirstMessage?: (message: string) => void;
 }
 export const PlaygroundContext = React.createContext<IPlaygroundContext>({
   playgroundMode: PlaygroundMode.Conversation,
@@ -23,7 +25,9 @@ export const PlaygroundContext = React.createContext<IPlaygroundContext>({
   togglePlaygroundDrawer: () => {},
 
   systemPrompt: SYSTEM_PROMPT_DEFAULT,
-  setSystemPrompt: () => {}
+  setSystemPrompt: () => {},
+  firstMessage: '',
+  setFirstMessage: () => {}
 });
 export const PlaygroundProvider = ({ children }) => {
   const [playgroundMode, setPlaygroundMode] = useState(PlaygroundMode.Conversation);
@@ -31,7 +35,12 @@ export const PlaygroundProvider = ({ children }) => {
 
   const { value: systemPrompt, setValue: setSystemPrompt } = usePersistedValue<string>({
     defaultValue: SYSTEM_PROMPT_DEFAULT,
-    persistenceKey: LOCAL_STORAGE_KEYS.PLAYGROUND.SYSTEM_PROMPT,
+    persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.SYSTEM_PROMPT,
+    useSessionStorage: true
+  });
+  const { value: firstMessage, setValue: setFirstMessage } = usePersistedValue<string>({
+    defaultValue: FIRST_MESSAGE_DEFAULT,
+    persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.FIRST_MESSAGE,
     useSessionStorage: true
   });
 
@@ -43,7 +52,9 @@ export const PlaygroundProvider = ({ children }) => {
     togglePlaygroundDrawer: () => setProviderKeyDrawerOpen(!providerKeyDrawerOpen),
 
     systemPrompt,
-    setSystemPrompt
+    setSystemPrompt,
+    firstMessage,
+    setFirstMessage
   };
 
   return <PlaygroundContext.Provider value={value}>{children}</PlaygroundContext.Provider>;
