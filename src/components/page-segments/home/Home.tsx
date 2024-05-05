@@ -8,7 +8,7 @@ const Home: FunctionComponent<EmptyObject> = () => {
     <div className="w-screen h-screen">
       <div className="flex flex-row w-full h-full items-center justify-center">
         <Link type="internal" dest={INTERNAL_LINKS.PLAYGROUND}>
-          <p className="text-white underline">playgrond</p>
+          <p className="text-white underline">playground</p>
         </Link>
       </div>
     </div>
