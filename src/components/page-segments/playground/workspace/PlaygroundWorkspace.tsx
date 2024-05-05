@@ -3,13 +3,14 @@ import { FunctionComponent, useContext } from 'react';
 import { EmptyObject } from '../../../../types/empty';
 import InfoTooltip from '../../../shared/tooltip/InfoTooltip';
 import { PlaygroundContext } from '../../../../context/playground';
+import PlaygroundConversationDemos from './conversation/PlaygroundConversationDemos';
 import { Textarea } from '../../../shared/shadcn/components/ui/textarea';
 
 const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="flex flex-row h-full w-full">
       <SystemPromptBlock />
-      <div className="">a</div>
+      <PlaygroundConversationDemos />
     </div>
   );
 };
