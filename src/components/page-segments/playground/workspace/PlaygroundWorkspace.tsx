@@ -22,8 +22,8 @@ const SystemPromptBlock = () => {
 
   return (
     <div className="w-full md:w-[507px] h-full px-7 pt-6 md:border-r md:border-r-stone-600 md:border-dashed">
-      <div className="flex flex-row items-center">
-        <p className="text-white text-md font-normal mb-3.5 mr-2">System Prompt</p>
+      <div className="flex flex-row items-center mb-3.5">
+        <p className="text-white text-md font-normal mr-2">System Prompt</p>
         <InfoTooltip
           text="The system prompt can be used to configure the context, role, personality, & instructions for your voice assistant."
           sizePx={10}

@@ -2,7 +2,6 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../shadcn/components/ui
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FunctionComponent } from 'react';
-import clsx from 'clsx';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
@@ -25,7 +24,7 @@ const InfoTooltip: FunctionComponent<Props> = ({
           style={{ width: `${sizePx}px`, height: `${sizePx}px` }}
         />
       </TooltipTrigger>
-      <TooltipContent className="max-w-[250px] my-1 bg-neutral-950 border border-dashed border-neutral-400">
+      <TooltipContent className="max-w-[250px] my-1 bg-neutral-950 border border-dashed border-neutral-500">
         <p className="text-white leading-5">{text}</p>
       </TooltipContent>
     </Tooltip>
