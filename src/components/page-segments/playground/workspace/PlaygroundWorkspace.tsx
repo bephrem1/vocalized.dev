@@ -4,8 +4,8 @@ import VapiCredentialsCard from '../credentials/cards/lib/VapiCredentialsCard';
 
 const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
   return (
-    <div className="flex flex-row h-full w-full items-center justify-center">
-      <VapiCredentialsCard />
+    <div className="flex flex-row h-full w-full">
+      <div className="w-[507px] h-full border-r border-r-stone-600 border-dashed"></div>
     </div>
   );
 };
