@@ -34,6 +34,7 @@ const Link: FunctionComponent<LinkProps> = ({
   }
 
   const linkClass = clsx({
+    'flex items-center justify-center': true,
     'w-full h-full': true,
     'text-blue-500 hover:text-blue-400 visited:text-blue-300': true,
     'font-bold': isBold,

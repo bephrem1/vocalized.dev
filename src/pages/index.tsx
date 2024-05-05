@@ -1,6 +1,7 @@
 import { EmptyObject } from '../types/empty';
 import { FunctionComponent } from 'react';
 import Head from 'next/head';
+import Home from '../components/page-segments/home/Home';
 import PageBase from '../components/shared/page/PageBase';
 
 const RootHomePage: FunctionComponent<EmptyObject> = () => {
@@ -9,7 +10,7 @@ const RootHomePage: FunctionComponent<EmptyObject> = () => {
       <Head>
         <title>Vocalized | A Home for Voice AI Developers</title>
       </Head>
-      home
+      <Home />
     </PageBase>
   );
 };

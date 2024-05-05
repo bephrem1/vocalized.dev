@@ -9,6 +9,7 @@ const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="flex flex-row h-full w-full">
       <SystemPromptBlock />
+      <div className="">a</div>
     </div>
   );
 };
