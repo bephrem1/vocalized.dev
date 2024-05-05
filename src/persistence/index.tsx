@@ -1,7 +1,10 @@
 import { isEmpty } from '../helpers/empty';
 
 export const LOCAL_STORAGE_KEYS = {
-  SITE_THEME: 'site-theme'
+  SITE_THEME: 'site-theme',
+  PLAYGROUND: {
+    SYSTEM_PROMPT: 'playground:system-prompt'
+  }
 };
 
 export const SESSION_STORAGE_KEYS = {};
