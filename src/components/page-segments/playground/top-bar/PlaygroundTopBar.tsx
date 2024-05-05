@@ -12,6 +12,7 @@ import Link from '../../../shared/elements/Link';
 import { PlaygroundContext } from '../../../../context/playground';
 import PlaygroundModeToggle from '../components/PlaygroundModeToggle';
 import PulsingOrb from '../../../shared/animated/PulsingOrb';
+import clsx from 'clsx';
 import { faKey } from '@fortawesome/free-solid-svg-icons';
 
 const PlaygroundTopBar: FunctionComponent<EmptyObject> = () => {
@@ -21,6 +22,7 @@ const PlaygroundTopBar: FunctionComponent<EmptyObject> = () => {
         <LinkHomeBlock />
         <PlaygroundModeBlock />
       </div>
+      <NegativeSpaceWordmarkBlock />
       <ProviderKeysBlock />
     </div>
   );
@@ -52,6 +54,41 @@ const PlaygroundModeBlock = () => {
       <div className="w-full h-full px-5 flex items-center justify-center">
         <PlaygroundModeToggle />
       </div>
+    </div>
+  );
+};
+
+const NegativeSpaceWordmarkBlock = () => {
+  const Text = ({ top, left }) => {
+    const className = clsx([
+      'absolute',
+      'text-neutral-800',
+      'font-extrabold text-3xl',
+      'skew-x-3 skew-y-3',
+      'rotate-12',
+      'opacity-50',
+      'select-none whitespace-nowrap'
+    ]);
+
+    return (
+      <p className={className} style={{ top, left }}>
+        v o c a l i z e d v o c a l i z e d
+      </p>
+    );
+  };
+
+  return (
+    <div className="relative flex flex-grow overflow-hidden">
+      <Text top={60} left={0} />
+      <Text top={10} left={-60} />
+      <Text top={0} left={35} />
+      <Text top={0} left={165} />
+      <Text top={0} left={300} />
+      <Text top={0} left={435} />
+      <Text top={0} left={570} />
+      <Text top={0} left={705} />
+      <Text top={0} left={840} />
+      <Text top={0} left={975} />
     </div>
   );
 };
