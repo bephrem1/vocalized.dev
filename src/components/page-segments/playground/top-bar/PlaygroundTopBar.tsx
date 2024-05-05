@@ -66,7 +66,7 @@ const NegativeSpaceWordmarkBlock = () => {
       'font-extrabold text-3xl',
       'skew-x-3 skew-y-3',
       'rotate-12',
-      'opacity-50',
+      'opacity-20',
       'select-none whitespace-nowrap'
     ]);
 
