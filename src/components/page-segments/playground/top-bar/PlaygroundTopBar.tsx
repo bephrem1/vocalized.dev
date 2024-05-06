@@ -79,7 +79,7 @@ const NegativeSpaceWordmarkBlock = () => {
 
   return (
     <div className="relative flex flex-grow overflow-hidden">
-      <Text top={60} left={0} />
+      <Text top={60} left={-10} />
       <Text top={10} left={-60} />
       <Text top={0} left={35} />
       <Text top={0} left={165} />
