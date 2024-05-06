@@ -30,7 +30,7 @@ const PlaygroundTopBar: FunctionComponent<EmptyObject> = () => {
 
 const LinkHomeBlock = () => {
   const Anchor = (
-    <Link type="internal" dest={INTERNAL_LINKS.HOME} openInNewWindow>
+    <Link type="internal" dest={INTERNAL_LINKS.HOME} fillContainer openInNewWindow>
       <div className="h-full w-24 flex items-center justify-center border-r border-r-stone-600 border-dashed">
         <div className="w-full h-full flex items-center justify-center hover:bg-emerald-950">
           <PulsingOrb />

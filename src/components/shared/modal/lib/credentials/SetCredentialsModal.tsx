@@ -112,7 +112,7 @@ const SetCredentialsModal: FunctionComponent<SetCredentialsModalProps> = ({
             />
 
             <div className="absolute right-4 bottom-3">
-              <Link type="external" dest={homepageUrl} openInNewWindow>
+              <Link type="external" dest={homepageUrl} fillContainer openInNewWindow>
                 <div className="w-full h-full flex flex-row items-center justify-center px-2 py-1 bg-neutral-900 border border-neutral-800 rounded-sm">
                   <p className="text-neutral-500 text-xs mr-1.5"> Visit {siteHostname}</p>
                   <FontAwesomeIcon

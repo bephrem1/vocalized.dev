@@ -37,7 +37,7 @@ const WhiteSpace = () => {
 const FollowOnX = () => {
   return (
     <div className="h-full w-52 flex items-center justify-center border-l border-l-stone-600 border-dashed">
-      <Link type="external" dest={EXTERNAL_LINKS.BEN.TWITTER} openInNewWindow>
+      <Link type="external" dest={EXTERNAL_LINKS.BEN.TWITTER} fillContainer openInNewWindow>
         <div className="w-full h-full flex items-center justify-center hover:bg-neutral-900">
           <div className="flex flex-row items-center justify-center">
             <span className="mr-1.5 flex items-center">
