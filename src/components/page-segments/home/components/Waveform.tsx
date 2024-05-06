@@ -23,12 +23,12 @@ const HomepageWaveform = () => {
 
       // create camera
       const camera = new THREE.PerspectiveCamera(
-        60,
+        70,
         window.innerWidth / window.innerHeight,
         1,
         20000
       );
-      camera.position.y = 400;
+      camera.position.y = 800;
 
       // create renderer
       const renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -49,8 +49,8 @@ const HomepageWaveform = () => {
       window.addEventListener('resize', onWindowResize);
 
       // Add mesh to the scene
-      const geometry = new THREE.PlaneGeometry(20000, 20000, 600, 128 - 1);
-      geometry.rotateX(-Math.PI / 4);
+      const geometry = new THREE.PlaneGeometry(20000, 20000, 600, 1);
+      geometry.rotateX(-Math.PI / 6);
       const texture = new THREE.TextureLoader().load('textures/water.jpg');
       texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
       texture.repeat.set(5, 5);
@@ -110,7 +110,7 @@ const HomepageWaveform = () => {
     };
   }, [isInitialized]);
 
-  return <div ref={mountRef} />;
+  return <div className="absolute w-screen h-screen z-10" ref={mountRef} />;
 };
 
 export default HomepageWaveform;

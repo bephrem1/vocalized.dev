@@ -7,6 +7,7 @@ const Home: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="w-screen h-screen">
       <div className="flex flex-row w-full h-full items-center justify-center">
+        <p className="text-white">asdf</p>
         <HomepageWaveform />
       </div>
     </div>
