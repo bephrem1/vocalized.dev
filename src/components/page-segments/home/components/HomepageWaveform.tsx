@@ -1,10 +1,15 @@
 import * as THREE from 'three';
 
-import { useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls.js';
+import { useOpacity } from '../../../../hooks/animation';
 
-const HomepageWaveform = () => {
+interface HomepageWaveformProps {
+  fadeInDelayMs?: number;
+}
+
+const HomepageWaveform: FunctionComponent<HomepageWaveformProps> = ({ fadeInDelayMs = 2000 }) => {
   const mountRef = useRef(null);
   const [isInitialized, setIsInitialized] = useState(false);
   const sceneRef = useRef(null);
@@ -110,7 +115,9 @@ const HomepageWaveform = () => {
     };
   }, [isInitialized]);
 
-  return <div className="absolute w-screen h-screen z-10" ref={mountRef} />;
+  const opacity = useOpacity({ fadeInDelayMs, start: 0, end: 1 });
+
+  return <div ref={mountRef} style={{ opacity }} />;
 };
 
 export default HomepageWaveform;
