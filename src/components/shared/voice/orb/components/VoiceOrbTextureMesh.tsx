@@ -5,13 +5,13 @@ import React, { useRef } from 'react';
 
 import { useFrame } from '@react-three/fiber';
 
-const VoiceOrbTextureMesh = ({
-  speedRef,
-  intensityRef
-}: {
+interface Props {
+  color?: string;
   speedRef: React.MutableRefObject<number>;
   intensityRef: React.MutableRefObject<number>;
-}) => {
+}
+
+const VoiceOrbTextureMesh: React.FC<Props> = ({ color, speedRef, intensityRef }) => {
   const mesh = useRef(null);
 
   useFrame((state) => {
@@ -28,6 +28,14 @@ const VoiceOrbTextureMesh = ({
     }
   });
 
+  const colorVector = new THREE.Color(color || '#ffffff');
+  const rgbaColor = new THREE.Vector4(colorVector.r, colorVector.g, colorVector.b, 1);
+
+  const colors = [
+    rgbaColor,
+    new THREE.Vector4(0.07058823529411765, 0.0784313725490196, 0.09411764705882353, 1)
+  ];
+
   return (
     <mesh ref={mesh} position={[0, 0, 0]} scale={5} rotation={[-Math.PI / 2, 0, -1.5]}>
       <sphereGeometry args={[4, 1024, 1024]} />
@@ -38,10 +46,7 @@ const VoiceOrbTextureMesh = ({
           u_intensity: { value: 0.764 },
           u_speed: { value: 0.056 },
           u_colors: {
-            value: [
-              new THREE.Vector4(0.36470588235294116, 0.996078431372549, 0.792156862745098, 1),
-              new THREE.Vector4(0.07058823529411765, 0.0784313725490196, 0.09411764705882353, 1)
-            ]
+            value: colors
           },
           u_noise: { value: true },
           u_noise_color: { value: [1, 0, 0] },

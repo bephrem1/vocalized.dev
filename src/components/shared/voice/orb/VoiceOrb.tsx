@@ -3,14 +3,14 @@ import { FunctionComponent, useEffect, useRef, useState } from 'react';
 import { CallState } from '../../../../types/call';
 import VoiceOrbCircle from './components/VoiceOrbCircle';
 import clsx from 'clsx';
-import { isEmpty } from '../../../../helpers/empty';
 import { motion } from 'framer-motion';
 
 interface Props {
+  color?: string;
   sizePx?: number;
 }
 
-const VoiceOrb: FunctionComponent<Props> = ({ sizePx = 200 }) => {
+const VoiceOrb: FunctionComponent<Props> = ({ color = '#FFF', sizePx = 200 }) => {
   const [callState, setCallState] = useState<CallState>(CallState.Off);
 
   const speedRef = useRef(0.16);
@@ -68,11 +68,12 @@ const VoiceOrb: FunctionComponent<Props> = ({ sizePx = 200 }) => {
         style={{ width: sizePx, height: sizePx }}
       >
         <VoiceOrbCircle
+          color={color}
+          fadeInDelayMs={1500}
+          fadeInDurationMs={1500}
           started={callState === CallState.Connected}
           speedRef={speedRef}
           intensityRef={intensityRef}
-          fadeInDelayMs={1500}
-          fadeInDurationMs={1500}
         />
       </motion.div>
     </div>

@@ -9,15 +9,21 @@ import { Textarea } from '../../../shared/shadcn/components/ui/textarea';
 const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="flex flex-row h-full w-full">
-      <SystemPromptBlock />
+      <ConfigsBlock />
       <PlaygroundConversationDemos />
     </div>
   );
 };
 
-const SystemPromptBlock = () => {
+const ConfigsBlock = () => {
   return (
     <div className="w-full md:w-[507px] h-full px-7 pt-7 md:border-r md:border-r-stone-600 md:border-dashed">
+      <div className="mb-6">
+        <p className="text-white text-2xl font-semibold mb-2">Conversation</p>
+        <p className="text-neutral-400 text-md">
+          Split test real-time conversation with different voice AI providers.
+        </p>
+      </div>
       <SystemPromptArea />
       <FirstMessageArea />
     </div>
@@ -45,7 +51,7 @@ const SystemPromptArea = () => {
         value={systemPrompt}
         placeholder="Enter your system prompt here..."
         onChange={handleChange}
-        className="text-white h-[450px] min-h-[250px] max-h-[600px] border-solid border-neutral-400 focus:border-neutral-200"
+        className="text-white h-[375px] min-h-[250px] max-h-[400px] border-solid border-neutral-400 focus:border-neutral-200"
       />
     </div>
   );

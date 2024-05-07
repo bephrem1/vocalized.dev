@@ -3,29 +3,26 @@ import OrbTextureMesh from './VoiceOrbTextureMesh';
 import React from 'react';
 import { motion } from 'framer-motion';
 import styled from 'styled-components';
+import tinycolor from 'tinycolor2';
 
 interface VoiceOrbCircleProps {
+  color?: string;
+  fadeInDelayMs?: number;
+  fadeInDurationMs?: number;
   speedRef: React.MutableRefObject<number>;
   intensityRef: React.MutableRefObject<number>;
   started: boolean;
-  fadeInDelayMs?: number;
-  fadeInDurationMs?: number;
 }
 
 const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
   ({
+    color,
     speedRef,
     intensityRef,
     started,
     fadeInDelayMs = 1000,
     fadeInDurationMs = 1500
-  }: {
-    speedRef: React.MutableRefObject<number>;
-    intensityRef: React.MutableRefObject<number>;
-    started: boolean;
-    fadeInDelayMs?: number;
-    fadeInDurationMs?: number;
-  }) => {
+  }: VoiceOrbCircleProps) => {
     const floatAnimationDelay = fadeInDelayMs / 1000;
     const fadeInDelay = fadeInDelayMs / 1000;
     const fadeInDuration = fadeInDurationMs / 1000;
@@ -47,9 +44,7 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
         style={{ height: '100%', width: '100%' }}
       >
         <motion.div
-          initial={{
-            opacity: 0
-          }}
+          initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
             transition: {
@@ -59,9 +54,9 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
           }}
           style={{ height: '100%', width: '100%' }}
         >
-          <OuterCircleMask>
+          <OuterCircleMask $color={color}>
             <CircleWrapper>
-              <CircleMask />
+              <CircleMask $color={color} />
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
@@ -94,7 +89,7 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
                     }}
                     style={{ height: '100%', width: '100%' }}
                   >
-                    <OrbTextureMesh speedRef={speedRef} intensityRef={intensityRef} />
+                    <OrbTextureMesh color={color} speedRef={speedRef} intensityRef={intensityRef} />
                   </Canvas>
                 )}
               </motion.div>
@@ -107,8 +102,9 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
   (p1, p2) => p1.started === p2.started
 );
 
-const OuterCircleMask = styled.div`
-  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.25), 0 0 80px #5dfeca88, 0 0 0px #5dfeca88;
+const OuterCircleMask = styled.div<{ $color: string }>`
+  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.25), 0 0 80px ${({ $color }) => $color},
+    0 0 0px ${({ $color }) => $color};
   border-radius: 9999px;
   width: 100%;
   height: 100%;
@@ -121,7 +117,7 @@ const CircleWrapper = styled.div`
   height: 100%;
 `;
 
-const CircleMask = styled.div`
+const CircleMask = styled.div<{ $color: string }>`
   overflow: hidden;
   border-radius: 9999px;
   position: absolute;
@@ -130,12 +126,19 @@ const CircleMask = styled.div`
   height: 100%;
   background: radial-gradient(
       54.75% 54.75% at 50% 50%,
-      rgba(0, 0, 0, 0.22) 70.24%,
-      rgba(93, 254, 202, 0.6) 100%
+      ${({ $color }) => tinycolor($color).setAlpha(0).toRgbString()} 70.24%,
+      ${({ $color }) => tinycolor($color).setAlpha(0.6).toRgbString()} 100%
     ),
-    linear-gradient(135deg, rgba(22, 35, 37, 0.54) 0%, rgba(93, 254, 202, 0) 100%),
-    radial-gradient(50% 50% at 50% 50%, rgba(0, 0, 0, 0.22) 0%, rgba(93, 254, 202, 0.65) 90.5%);
-
+    linear-gradient(
+      135deg,
+      rgba(22, 35, 37, 0.54) 0%,
+      ${({ $color }) => tinycolor($color).setAlpha(0).toRgbString()} 100%
+    ),
+    radial-gradient(
+      50% 50% at 50% 50%,
+      ${({ $color }) => tinycolor($color).setAlpha(0).toRgbString()} 0%,
+      ${({ $color }) => tinycolor($color).setAlpha(0.65).toRgbString()} 90.5%
+    );
   background-blend-mode: normal, darken, normal;
 `;
 

@@ -1,6 +1,9 @@
+import BlandDemo from './providers/BlandDemo';
 import { EmptyObject } from '../../../../../types/empty';
 import { FunctionComponent } from 'react';
+import RetellDemo from './providers/RetellDemo';
 import VapiDemo from './providers/VapiDemo';
+import VoiceOrb from '../../../../shared/voice/orb/VoiceOrb';
 
 const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {
   return (
@@ -9,9 +12,15 @@ const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {
         <div className="flex flex-row items-center justify-center border-dashed lg:border-r lg:border-r-stone-600 border-b border-b-stone-600">
           <VapiDemo />
         </div>
-        <div className="border-dashed border-b border-b-stone-600"></div>
-        <div className="border-dashed lg:border-r lg:border-r-stone-600 border-b border-b-stone-600 lg:border-b-0"></div>
-        <div></div>
+        <div className="border-dashed border-b border-b-stone-600">
+          <RetellDemo />
+        </div>
+        <div className="border-dashed lg:border-r lg:border-r-stone-600 border-b border-b-stone-600 lg:border-b-0">
+          <BlandDemo />
+        </div>
+        <div>
+          <VoiceOrb color="#FFD1A5" sizePx={200} />
+        </div>
       </div>
     </div>
   );
