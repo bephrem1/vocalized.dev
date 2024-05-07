@@ -17,14 +17,22 @@ const VoiceOrb: FunctionComponent<Props> = ({ color = '#FFF', sizePx = 200 }) =>
   const intensityRef = useRef(0);
   const [isHovering, setIsHovering] = useState(false);
 
+  const volumeIntervalRef = useRef(null);
   const [volume, setVolume] = useState(0);
   useEffect(() => {
-    const interval = setInterval(() => {
-      setVolume(Math.random());
-    }, 200);
+    if (callState === CallState.Connected) {
+      if (volumeIntervalRef.current) {
+        clearInterval(volumeIntervalRef.current);
+      }
+      volumeIntervalRef.current = setInterval(() => {
+        setVolume(Math.random());
+      }, 200);
+    }
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, []);
+    return () => {
+      clearInterval(volumeIntervalRef.current);
+    };
+  }, [callState]);
 
   const startCall = () => {
     setCallState(CallState.Connecting);

@@ -1,9 +1,9 @@
 import BlandDemo from './providers/BlandDemo';
 import { EmptyObject } from '../../../../../types/empty';
 import { FunctionComponent } from 'react';
+import HumeDemo from './providers/HumeDemo';
 import RetellDemo from './providers/RetellDemo';
 import VapiDemo from './providers/VapiDemo';
-import VoiceOrb from '../../../../shared/voice/orb/VoiceOrb';
 
 const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {
   return (
@@ -19,7 +19,7 @@ const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {
           <BlandDemo />
         </div>
         <div>
-          <VoiceOrb color="#FFD1A5" sizePx={200} />
+          <HumeDemo />
         </div>
       </div>
     </div>
