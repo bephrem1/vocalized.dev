@@ -17,7 +17,7 @@ const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
 
 const ConfigsBlock = () => {
   return (
-    <div className="w-full md:w-[507px] h-full px-7 pt-7 md:border-r md:border-r-stone-600 md:border-dashed">
+    <div className="w-full md:w-[507px] h-full px-7 pt-7 md:border-r md:border-r-stone-600 md:border-dashed overflow-y-auto">
       <div className="mb-6">
         <p className="text-white text-2xl font-semibold mb-2">Conversation</p>
         <p className="text-neutral-400 text-md">
@@ -65,7 +65,7 @@ const FirstMessageArea = () => {
   };
 
   return (
-    <div className="mb-3">
+    <div>
       <div className="flex flex-row items-center mb-3.5">
         <div className="flex flex-row items-center mr-2">
           <p className="text-white text-md font-normal mr-2">First Message</p>
