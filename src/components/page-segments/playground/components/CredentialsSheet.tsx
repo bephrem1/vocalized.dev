@@ -7,13 +7,17 @@ import {
 import { FunctionComponent, useContext } from 'react';
 import { Sheet, SheetClose, SheetContent } from '../../../shared/shadcn/components/ui/sheet';
 
+import BlandCredentialsCard from '../credentials/cards/lib/BlandCredentialsCard';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { EXTERNAL_LINKS } from '../../../../helpers/urls';
 import { EmptyObject } from '../../../../types/empty';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import HumeCredentialsCard from '../credentials/cards/lib/HumeCredentialsCard';
 import Link from '../../../shared/elements/Link';
 import { PlaygroundContext } from '../../../../context/playground';
+import RetellCredentialsCard from '../credentials/cards/lib/RetellCredentialsCard';
 import VapiCredentialsCard from '../credentials/cards/lib/VapiCredentialsCard';
+import VocodeCredentialsCard from '../credentials/cards/lib/VocodeCredentialsCard';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
 
 const CredentialsSheet: FunctionComponent<EmptyObject> = () => {
@@ -58,21 +62,26 @@ const ConversationProviders = () => {
           These providers offer APIs for real-time, human-like, conversation.
         </p>
       </div>
-      <div className="grid grid-cols-4 gap-5">
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
-        <VapiCredentialsCard />
+      <div className="">
+        <div className="mb-4">
+          <div className="mr-4 inline">
+            <VapiCredentialsCard />
+          </div>
+          <div className="mr-4 inline">
+            <RetellCredentialsCard />
+          </div>
+          <div className="mr-4 inline">
+            <BlandCredentialsCard />
+          </div>
+        </div>
+        <div>
+          <div className="mr-4 inline">
+            <HumeCredentialsCard />
+          </div>
+          <div className="mr-4 inline">
+            <VocodeCredentialsCard />
+          </div>
+        </div>
       </div>
     </div>
   );

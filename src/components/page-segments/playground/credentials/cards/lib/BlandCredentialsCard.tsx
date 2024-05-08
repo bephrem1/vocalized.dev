@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext } from 'react';
 
-import CredentialCard from '../CredentialCard';
+import CredentialsCard from '../CredentialsCard';
 import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
 import { ProviderId } from '../../../../../../fixtures/providers';
@@ -11,7 +11,7 @@ const BlandCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Bland });
 
   return (
-    <CredentialCard
+    <CredentialsCard
       providerName="Bland"
       providerImageUrl="/images/logos/bland.png"
       credentialsSet={credentialsSet}

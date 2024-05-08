@@ -16,7 +16,7 @@ interface CredentialCardProps {
   onClick?: () => void;
 }
 
-const CredentialCard: FunctionComponent<CredentialCardProps> = ({
+const CredentialsCard: FunctionComponent<CredentialCardProps> = ({
   providerName,
   providerImageUrl,
   credentialsSet = false,
@@ -28,6 +28,7 @@ const CredentialCard: FunctionComponent<CredentialCardProps> = ({
     'relative',
     'flex flex-row items-center justify-center',
     'py-6 px-8',
+    'min-w-[110px] max-w-[120px]',
     'border',
     credentialsSet ? 'border-stone-400' : 'border-stone-700',
     credentialsSet ? 'border-solid' : 'border-dashed',
@@ -95,4 +96,4 @@ const X = ({ hide }) => {
   );
 };
 
-export default CredentialCard;
+export default CredentialsCard;

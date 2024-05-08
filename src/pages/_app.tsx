@@ -6,6 +6,7 @@ import Head from 'next/head';
 import { ModalProvider } from '../context/modal';
 import React from 'react';
 import { Provider as ReactReduxProvider } from 'react-redux';
+import { Toaster } from '../components/shared/shadcn/components/ui/toaster';
 import { TooltipProvider } from '../components/shared/shadcn/components/ui/tooltip';
 import { isEmpty } from '../helpers/empty';
 import store from '../persistence/redux/store';
@@ -28,6 +29,8 @@ const App = ({ Component, pageProps, props }: AppPropsWithServerProps) => {
               <Component {...pageProps} />
             </TooltipProvider>
           </ModalProvider>
+
+          <Toaster />
         </ReactReduxProvider>
       </ApplicationProvider>
     </div>
