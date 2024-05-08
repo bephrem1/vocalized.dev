@@ -89,6 +89,12 @@ const NegativeSpaceWordmarkBlock = () => {
       <Text top={0} left={705} />
       <Text top={0} left={840} />
       <Text top={0} left={975} />
+      <Text top={0} left={1110} />
+      <Text top={0} left={1245} />
+      <Text top={0} left={1380} />
+      <Text top={0} left={1515} />
+      <Text top={0} left={1650} />
+      <Text top={0} left={1785} />
     </div>
   );
 };

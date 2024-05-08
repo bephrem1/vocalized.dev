@@ -13,7 +13,9 @@ interface BlandDemoProps {
 const BlandDemo: FunctionComponent<BlandDemoProps> = ({ disabled }) => {
   return (
     <div className="relative w-full h-full">
-      <VoiceOrb color="#D1A7E9" sizePx={190} callState={CallState.Off} disabled={disabled} />
+      <div className="flex flex-col w-full h-full items-center justify-center">
+        <VoiceOrb color="#D1A7E9" sizePx={190} callState={CallState.Off} disabled={disabled} />
+      </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
         <ConvoDemoLogoSymbol src={Providers.Bland.logo.localPath} />

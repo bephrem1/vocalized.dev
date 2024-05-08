@@ -37,7 +37,7 @@ const VoiceOrb: FunctionComponent<Props> = ({
   });
 
   return (
-    <div className="flex flex-col gap-4 justify-center items-center pt-16 pb-36 sm:py-0 h-full">
+    <div className="flex flex-col w-fit h-fit">
       <motion.div
         onClick={!disabled ? onClick : undefined}
         onMouseEnter={() => setIsHovering(true)}

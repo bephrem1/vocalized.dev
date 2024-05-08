@@ -1,13 +1,20 @@
-import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
+import {
+  ConvoDemoControlButton,
+  ConvoDemoLinkToSiteBadge,
+  ConvoDemoLogoSymbol
+} from '../components';
 import { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 
+import { Button } from '../../../../../shared/shadcn/components/ui/button';
 import { CallState } from '../../../../../../types/call';
 import { CredentialsContext } from '../../../../../../context/credentials';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalContext } from '../../../../../../context/modal';
 import { ModalId } from '../../../../../shared/modal/modal-id';
 import { Providers } from '../../../../../../fixtures/providers';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
+import { faPlay } from '@fortawesome/free-solid-svg-icons';
 
 interface VapiDemoProps {
   disabled?: boolean;
@@ -41,13 +48,16 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
 
   return (
     <div className={className}>
-      <VoiceOrb
-        color="#5dfeca88"
-        sizePx={190}
-        callState={callState}
-        onClick={onClick}
-        disabled={disabled}
-      />
+      <div className="relative flex flex-col w-full h-full items-center justify-center">
+        <VoiceOrb
+          color="#5dfeca88"
+          sizePx={190}
+          callState={callState}
+          onClick={onClick}
+          disabled={disabled}
+        />
+        <ConvoDemoControlButton callState={callState} disabled={disabled} onClick={onClick} />
+      </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
         <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
