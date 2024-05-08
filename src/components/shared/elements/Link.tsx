@@ -47,6 +47,7 @@ const Link: FunctionComponent<LinkProps> = ({
   const LinkTag = (
     <a
       className={linkClass}
+      style={{ display: 'inline' }}
       {...(type === LinkTypes.external && { href: dest })}
       {...(type === LinkTypes.external || openInNewWindow
         ? { target: '_blank', rel: 'noopener noreferrer' }

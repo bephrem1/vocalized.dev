@@ -1,16 +1,15 @@
+import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
 import { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 
 import { CallState } from '../../../../../../types/call';
-import { ConvoDemoLinkToSiteBadge } from '../components';
 import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
+import { ModalContext } from '../../../../../../context/modal';
+import { ModalId } from '../../../../../shared/modal/modal-id';
 import { Providers } from '../../../../../../fixtures/providers';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 
 const VapiDemo: FunctionComponent<EmptyObject> = () => {
-  const { checkCredentialsSet } = useContext(CredentialsContext);
-  const credentialSet = checkCredentialsSet({ providerId: Providers.Vapi.id });
-
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);
   const volumeIntervalRef = useRef(null);
@@ -30,19 +29,29 @@ const VapiDemo: FunctionComponent<EmptyObject> = () => {
     };
   }, [callState]);
 
-  const onClick = getOnClick({ callState, setCallState });
+  const onClick = useOnClick({ callState, setCallState });
 
   return (
     <div className="relative w-full h-full">
       <VoiceOrb color="#5dfeca88" sizePx={190} callState={callState} onClick={onClick} />
 
-      <LogoSymbol />
+      <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
       <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} />
     </div>
   );
 };
 
-const getOnClick = ({ callState, setCallState }) => {
+const useOnClick = ({ callState, setCallState }) => {
+  const { openModal } = useContext(ModalContext);
+  const { checkCredentialsSet } = useContext(CredentialsContext);
+
+  const credentialSet = checkCredentialsSet({ providerId: Providers.Vapi.id });
+  if (!credentialSet) {
+    return () => {
+      openModal({ modalId: ModalId.SetVapiCredentials });
+    };
+  }
+
   const startCall = () => {
     setCallState(CallState.Connecting);
 
@@ -62,14 +71,6 @@ const getOnClick = ({ callState, setCallState }) => {
     case 'connected':
       return stopCall;
   }
-};
-
-const LogoSymbol = () => {
-  return (
-    <div className="absolute bottom-2 right-2">
-      <img src={Providers.Vapi.logo.localPath} className="w-10 h-10 rounded-sm" draggable={false} />
-    </div>
-  );
 };
 
 export default VapiDemo;

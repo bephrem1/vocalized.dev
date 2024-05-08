@@ -18,3 +18,11 @@ export const ConvoDemoLinkToSiteBadge = ({ dest }: { dest: string }) => {
     </div>
   );
 };
+
+export const ConvoDemoLogoSymbol = ({ src }) => {
+  return (
+    <div className="absolute bottom-2 right-2 hover:opacity-80 transition-all duration-300">
+      <img src={src} className="w-10 h-10 rounded-sm" draggable={false} />
+    </div>
+  );
+};

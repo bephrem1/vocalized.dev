@@ -1,4 +1,6 @@
-import { ConvoDemoLinkToSiteBadge } from '../components';
+import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
+
+import { CallState } from '../../../../../../types/call';
 import { EmptyObject } from '../../../../../../types/empty';
 import { FunctionComponent } from 'react';
 import { Providers } from '../../../../../../fixtures/providers';
@@ -7,18 +9,10 @@ import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 const HumeDemo: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="relative w-full h-full">
-      <VoiceOrb color="#FFD1A5" sizePx={190} />
+      <VoiceOrb color="#FFD1A5" sizePx={190} callState={CallState.Off} />
 
-      <LogoSymbol />
+      <ConvoDemoLogoSymbol src={Providers.Hume.logo.localPath} />
       <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.documentation} />
-    </div>
-  );
-};
-
-const LogoSymbol = () => {
-  return (
-    <div className="absolute bottom-2 right-2">
-      <img src={Providers.Hume.logo.localPath} className="w-10 h-10 rounded-sm" draggable={false} />
     </div>
   );
 };

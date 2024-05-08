@@ -5,6 +5,7 @@ import { FunctionComponent } from 'react';
 import Link from '../../../../elements/Link';
 import { ModalId } from '../../../modal-id';
 import SetCredentialsModal from '../SetCredentialsModal';
+import { SetCredentialsModalUI } from '../components';
 
 const SetVapiCredentialsModal: FunctionComponent<EmptyObject> = () => {
   return (
@@ -19,19 +20,19 @@ const SetVapiCredentialsModal: FunctionComponent<EmptyObject> = () => {
       credentialFields={['publicKey']}
       faqItems={[
         [
-          <div className="text-neutral-400">Where can I find my Vapi public key?</div>,
+          <SetCredentialsModalUI.Faq.Title label="Where do I find my Vapi public key?" />,
           <span className="text-sm">
-            <p className="text-neutral-200 inline leading-6">
-              Your Vapi public key will be in your{' '}
-            </p>
-            <Link type="external" dest={Providers.Vapi.links.dashboard}>
-              dashboard
-            </Link>
-            <p className="text-neutral-200 inline leading-6"> in the </p>
-            <Link type="external" dest={Providers.Vapi.links.credentials}>
-              "organization" tab
-            </Link>
-            <p className="text-neutral-200 inline leading-6">. Copy & paste it above.</p>
+            <SetCredentialsModalUI.Faq.Text text="Your Vapi public key will be in your " />
+            <SetCredentialsModalUI.Faq.Link
+              dest={Providers.Vapi.links.dashboard}
+              anchor="dashboard"
+            />
+            <SetCredentialsModalUI.Faq.Text text=" in the " />
+            <SetCredentialsModalUI.Faq.Link
+              dest={Providers.Vapi.links.credentials}
+              anchor={`"organization" tab`}
+            />
+            <SetCredentialsModalUI.Faq.Text text=". Copy & paste it above." />
           </span>
         ]
       ]}
