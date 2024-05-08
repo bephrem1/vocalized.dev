@@ -26,7 +26,8 @@ const CredentialCard: FunctionComponent<CredentialCardProps> = ({
 
   const rootClass = clsx([
     'relative',
-    'flex flex-row py-6 px-8',
+    'flex flex-row items-center justify-center',
+    'py-6 px-8',
     'border',
     credentialsSet ? 'border-stone-400' : 'border-stone-700',
     credentialsSet ? 'border-solid' : 'border-dashed',
