@@ -7,10 +7,10 @@ import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 const BlandDemo: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="relative w-full h-full">
-      <VoiceOrb color="#D1A7E9" sizePx={200} />
+      <VoiceOrb color="#D1A7E9" sizePx={190} />
 
       <LogoSymbol />
-      <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.homepage} />
+      <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.documentation} />
     </div>
   );
 };

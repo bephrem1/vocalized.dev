@@ -7,10 +7,10 @@ import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 const HumeDemo: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="relative w-full h-full">
-      <VoiceOrb color="#FFD1A5" sizePx={200} />
+      <VoiceOrb color="#FFD1A5" sizePx={190} />
 
       <LogoSymbol />
-      <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.homepage} />
+      <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.documentation} />
     </div>
   );
 };

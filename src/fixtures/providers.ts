@@ -16,6 +16,7 @@ interface IProviderData {
   };
   links: {
     homepage: string;
+    documentation: string;
     dashboard?: string;
     credentials: string;
   };
@@ -31,6 +32,7 @@ export const Providers = {
     },
     links: {
       homepage: 'https://vapi.ai',
+      documentation: 'https://docs.vapi.ai',
       dashboard: 'https://dashboard.vapi.ai',
       credentials: 'https://dashboard.vapi.ai/vapi-api'
     }
@@ -44,6 +46,7 @@ export const Providers = {
     },
     links: {
       homepage: 'https://www.retellai.com',
+      documentation: 'https://docs.retellai.com',
       dashboard: '',
       credentials: ''
     }
@@ -57,6 +60,7 @@ export const Providers = {
     },
     links: {
       homepage: 'https://www.bland.ai',
+      documentation: 'https://docs.bland.ai',
       dashboard: '',
       credentials: ''
     }
@@ -70,6 +74,7 @@ export const Providers = {
     },
     links: {
       homepage: 'https://www.hume.ai',
+      documentation: 'https://dev.hume.ai',
       dashboard: '',
       credentials: ''
     }
@@ -83,6 +88,7 @@ export const Providers = {
     },
     links: {
       homepage: 'https://www.vocode.dev',
+      documentation: 'https://docs.vocode.dev',
       dashboard: '',
       credentials: ''
     }

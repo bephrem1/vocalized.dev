@@ -7,10 +7,10 @@ import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 const VapiDemo: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="relative w-full h-full">
-      <VoiceOrb color="#5dfeca88" sizePx={200} />
+      <VoiceOrb color="#5dfeca88" sizePx={190} />
 
       <LogoSymbol />
-      <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.homepage} />
+      <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} />
     </div>
   );
 };

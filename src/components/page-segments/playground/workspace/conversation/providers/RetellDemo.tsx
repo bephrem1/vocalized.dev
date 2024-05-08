@@ -7,10 +7,10 @@ import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 const RetellDemo: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="relative w-full h-full">
-      <VoiceOrb color="#ffffff" sizePx={200} />
+      <VoiceOrb color="#ffffff" sizePx={190} />
 
       <LogoSymbol />
-      <ConvoDemoLinkToSiteBadge dest={Providers.Retell.links.homepage} />
+      <ConvoDemoLinkToSiteBadge dest={Providers.Retell.links.documentation} />
     </div>
   );
 };
