@@ -2,7 +2,6 @@ import { ProviderId, Providers } from '../../../../../../fixtures/providers';
 
 import { EmptyObject } from '../../../../../../types/empty';
 import { FunctionComponent } from 'react';
-import Link from '../../../../elements/Link';
 import { ModalId } from '../../../modal-id';
 import SetCredentialsModal from '../SetCredentialsModal';
 import { SetCredentialsModalUI } from '../components';
