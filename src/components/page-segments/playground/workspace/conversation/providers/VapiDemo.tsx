@@ -18,7 +18,7 @@ interface VapiDemoProps {
 }
 
 const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
-  const [callState, setCallState] = useState<CallState>(CallState.Connected);
+  const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);
   const volumeIntervalRef = useRef(null);
 

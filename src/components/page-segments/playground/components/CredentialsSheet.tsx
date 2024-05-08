@@ -46,7 +46,7 @@ const ConversationProviders = () => {
   return (
     <div className="px-6 pt-5 pb-7 border-solid border-b border-b-neutral-800">
       <div className="mb-5">
-        <div className="flex flex-row items-center mb-[1px]">
+        <div className="flex flex-row items-center mb-0.5">
           <FontAwesomeIcon
             icon={faComments}
             className="text-neutral-300 mr-2"
