@@ -16,7 +16,7 @@ interface CredentialCardProps {
   onClick?: () => void;
 }
 
-const CredentialCard: FunctionComponent<CredentialCardProps> = ({
+const CredentialsCard: FunctionComponent<CredentialCardProps> = ({
   providerName,
   providerImageUrl,
   credentialsSet = false,
@@ -26,7 +26,9 @@ const CredentialCard: FunctionComponent<CredentialCardProps> = ({
 
   const rootClass = clsx([
     'relative',
-    'flex flex-row py-6 px-8',
+    'flex flex-row items-center justify-center',
+    'py-6 px-8',
+    'min-w-[110px] max-w-[120px]',
     'border',
     credentialsSet ? 'border-stone-400' : 'border-stone-700',
     credentialsSet ? 'border-solid' : 'border-dashed',
@@ -34,7 +36,9 @@ const CredentialCard: FunctionComponent<CredentialCardProps> = ({
     'rounded-lg transition ease-in-out duration-300 cursor-pointer'
   ]);
   const imageClass = clsx([
-    'w-12 h-12 mb-3.5',
+    'mb-3.5',
+    'min-w-12 w-12 max-w-12',
+    'min-h-12 h-12 max-h-12',
     hovered ? 'rounded-3xl' : 'rounded-lg',
     'transition-all duration-300 ease-in-out'
   ]);
@@ -92,4 +96,4 @@ const X = ({ hide }) => {
   );
 };
 
-export default CredentialCard;
+export default CredentialsCard;

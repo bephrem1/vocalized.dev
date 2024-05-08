@@ -1,28 +1,26 @@
-import { ConvoDemoLinkToSiteBadge } from '../components';
-import { EmptyObject } from '../../../../../../types/empty';
+import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
+
+import { CallState } from '../../../../../../types/call';
 import { FunctionComponent } from 'react';
 import { Providers } from '../../../../../../fixtures/providers';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
+import clsx from 'clsx';
 
-const BlandDemo: FunctionComponent<EmptyObject> = () => {
+interface BlandDemoProps {
+  disabled?: boolean;
+}
+
+const BlandDemo: FunctionComponent<BlandDemoProps> = ({ disabled }) => {
   return (
     <div className="relative w-full h-full">
-      <VoiceOrb color="#D1A7E9" sizePx={190} />
+      <div className="flex flex-col w-full h-full items-center justify-center">
+        <VoiceOrb color="#D1A7E9" sizePx={190} callState={CallState.Off} disabled={disabled} />
+      </div>
 
-      <LogoSymbol />
-      <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.documentation} />
-    </div>
-  );
-};
-
-const LogoSymbol = () => {
-  return (
-    <div className="absolute bottom-2 right-2">
-      <img
-        src={Providers.Bland.logo.localPath}
-        className="w-10 h-10 rounded-sm"
-        draggable={false}
-      />
+      <div className={clsx({ 'opacity-50': disabled })}>
+        <ConvoDemoLogoSymbol src={Providers.Bland.logo.localPath} />
+        <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.documentation} />
+      </div>
     </div>
   );
 };

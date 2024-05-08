@@ -34,7 +34,7 @@ export const Providers = {
       homepage: 'https://vapi.ai',
       documentation: 'https://docs.vapi.ai',
       dashboard: 'https://dashboard.vapi.ai',
-      credentials: 'https://dashboard.vapi.ai/vapi-api'
+      credentials: 'https://dashboard.vapi.ai/organizations'
     }
   } as IProviderData,
   Retell: {

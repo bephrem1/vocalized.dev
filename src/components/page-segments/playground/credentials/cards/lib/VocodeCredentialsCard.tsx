@@ -5,18 +5,18 @@ import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
 import { ProviderId } from '../../../../../../fixtures/providers';
 
-const RetellCredentialsCard: FunctionComponent<EmptyObject> = () => {
+const VocodeCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
 
-  const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Retell });
+  const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Vocode });
 
   return (
     <CredentialsCard
-      providerName="Retell"
-      providerImageUrl="/images/logos/retell.png"
+      providerName="Vocode"
+      providerImageUrl="/images/logos/vocode.png"
       credentialsSet={credentialsSet}
     />
   );
 };
 
-export default RetellCredentialsCard;
+export default VocodeCredentialsCard;

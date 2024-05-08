@@ -3,14 +3,15 @@ import React, { useState } from 'react';
 
 import { PlaygroundMode } from '../components/page-segments/playground/playground-modes';
 import { SESSION_STORAGE_KEYS } from '../persistence';
+import { isEmpty } from '../helpers/empty';
 import { usePersistedValue } from '../hooks/persistence';
 
 interface IPlaygroundContext {
   playgroundMode: PlaygroundMode;
   setPlaygroundMode: (mode: PlaygroundMode) => void;
 
-  providerKeyDrawerOpen: boolean;
-  togglePlaygroundDrawer: () => void;
+  credentialsDrawerOpen: boolean;
+  toggleCredentialsDrawer: (open?: boolean) => void;
 
   systemPrompt?: string;
   setSystemPrompt: (prompt: string) => void;
@@ -21,8 +22,8 @@ export const PlaygroundContext = React.createContext<IPlaygroundContext>({
   playgroundMode: PlaygroundMode.Conversation,
   setPlaygroundMode: () => {},
 
-  providerKeyDrawerOpen: false,
-  togglePlaygroundDrawer: () => {},
+  credentialsDrawerOpen: false,
+  toggleCredentialsDrawer: () => {},
 
   systemPrompt: SYSTEM_PROMPT_DEFAULT,
   setSystemPrompt: () => {},
@@ -30,8 +31,17 @@ export const PlaygroundContext = React.createContext<IPlaygroundContext>({
   setFirstMessage: () => {}
 });
 export const PlaygroundProvider = ({ children }) => {
-  const [playgroundMode, setPlaygroundMode] = useState(PlaygroundMode.Conversation);
-  const [providerKeyDrawerOpen, setProviderKeyDrawerOpen] = useState(false);
+  const { value: playgroundMode, setValue: setPlaygroundMode } = usePersistedValue<PlaygroundMode>({
+    defaultValue: PlaygroundMode.Conversation,
+    persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.MODE,
+    useSessionStorage: true
+  });
+  const { value: credentialsDrawerOpen, setValue: setCredentialsDrawerOpen } =
+    usePersistedValue<boolean>({
+      defaultValue: false,
+      persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.CREDENTIALS_DRAWER_OPEN,
+      useSessionStorage: true
+    });
 
   const { value: systemPrompt, setValue: setSystemPrompt } = usePersistedValue<string>({
     defaultValue: SYSTEM_PROMPT_DEFAULT,
@@ -44,12 +54,20 @@ export const PlaygroundProvider = ({ children }) => {
     useSessionStorage: true
   });
 
+  const toggleCredentialsDrawer = (open?: boolean) => {
+    if (!isEmpty(open)) {
+      setCredentialsDrawerOpen(open);
+    } else {
+      setCredentialsDrawerOpen(!credentialsDrawerOpen);
+    }
+  };
+
   const value = {
     playgroundMode,
     setPlaygroundMode,
 
-    providerKeyDrawerOpen,
-    togglePlaygroundDrawer: () => setProviderKeyDrawerOpen(!providerKeyDrawerOpen),
+    credentialsDrawerOpen,
+    toggleCredentialsDrawer,
 
     systemPrompt,
     setSystemPrompt,

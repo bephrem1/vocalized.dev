@@ -9,19 +9,19 @@ interface VoiceOrbCircleProps {
   color?: string;
   fadeInDelayMs?: number;
   fadeInDurationMs?: number;
+  animateTextureMesh: boolean;
   speedRef: React.MutableRefObject<number>;
   intensityRef: React.MutableRefObject<number>;
-  started: boolean;
 }
 
 const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
   ({
     color,
-    speedRef,
-    intensityRef,
-    started,
     fadeInDelayMs = 1000,
-    fadeInDurationMs = 1500
+    fadeInDurationMs = 1500,
+    animateTextureMesh,
+    speedRef,
+    intensityRef
   }: VoiceOrbCircleProps) => {
     const floatAnimationDelay = fadeInDelayMs / 1000;
     const fadeInDelay = fadeInDelayMs / 1000;
@@ -29,7 +29,6 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
 
     return (
       <motion.div
-        key="circle"
         initial={{ y: 50 }}
         animate={{
           y: [0, -10, 0],
@@ -60,7 +59,7 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
-                  opacity: started ? 1 : 0,
+                  opacity: animateTextureMesh ? 1 : 0,
                   transition: {
                     delay: 1,
                     duration: 0.5
@@ -68,7 +67,7 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
                 }}
                 style={{ height: '100%', width: '100%' }}
               >
-                {started && (
+                {animateTextureMesh && (
                   <Canvas
                     gl={{
                       preserveDrawingBuffer: true,
@@ -99,7 +98,7 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
       </motion.div>
     );
   },
-  (p1, p2) => p1.started === p2.started
+  (p1, p2) => p1.animateTextureMesh === p2.animateTextureMesh
 );
 
 const OuterCircleMask = styled.div<{ $color: string }>`

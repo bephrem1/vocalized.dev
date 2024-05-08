@@ -1,6 +1,6 @@
 import { FunctionComponent, useContext } from 'react';
 
-import CredentialCard from '../CredentialCard';
+import CredentialsCard from '../CredentialsCard';
 import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
 import { ModalContext } from '../../../../../../context/modal';
@@ -22,7 +22,7 @@ const VapiCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const onClick = credentialsSet ? openClearVapiCredentialsModal : openVapiCredentialsModal;
 
   return (
-    <CredentialCard
+    <CredentialsCard
       providerName="Vapi"
       providerImageUrl="/images/logos/vapi.png"
       credentialsSet={credentialsSet}

@@ -89,18 +89,28 @@ const NegativeSpaceWordmarkBlock = () => {
       <Text top={0} left={705} />
       <Text top={0} left={840} />
       <Text top={0} left={975} />
+      <Text top={0} left={1110} />
+      <Text top={0} left={1245} />
+      <Text top={0} left={1380} />
+      <Text top={0} left={1515} />
+      <Text top={0} left={1650} />
+      <Text top={0} left={1785} />
     </div>
   );
 };
 
 const ProviderKeysBlock = () => {
-  const { togglePlaygroundDrawer } = useContext(PlaygroundContext);
+  const { toggleCredentialsDrawer } = useContext(PlaygroundContext);
+
+  const onClick = () => {
+    toggleCredentialsDrawer();
+  };
 
   const Anchor = (
     <div className="h-full w-36 flex items-center justify-center border-l border-l-stone-600 border-dashed">
       <div
         className="w-full h-full flex items-center justify-center hover:bg-indigo-950 cursor-pointer"
-        onClick={togglePlaygroundDrawer}
+        onClick={onClick}
       >
         <FontAwesomeIcon
           icon={faKey}

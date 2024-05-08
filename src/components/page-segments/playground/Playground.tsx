@@ -1,4 +1,5 @@
 import ClearVapiCredentialsModal from '../../shared/modal/lib/credentials/lib/ClearVapiCredentialsModal';
+import CredentialsSheet from './components/CredentialsSheet';
 import { EmptyObject } from '../../../types/empty';
 import { FunctionComponent } from 'react';
 import PlaygroundFooter from './footer/PlaygroundFooter';
@@ -18,6 +19,7 @@ const Playground: FunctionComponent<EmptyObject> = () => {
       </div>
 
       <PlaygroundModals />
+      <PlaygroundSheets />
     </div>
   );
 };
@@ -28,6 +30,14 @@ const PlaygroundModals = () => {
       <SetVapiCredentialsModal />
 
       <ClearVapiCredentialsModal />
+    </>
+  );
+};
+
+const PlaygroundSheets = () => {
+  return (
+    <>
+      <CredentialsSheet />
     </>
   );
 };

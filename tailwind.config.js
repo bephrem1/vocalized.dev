@@ -65,11 +65,18 @@ module.exports = {
         'accordion-up': {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' }
+        },
+        'animated-ellipsis': {
+          '0%, 100%': { opacity: 0.5 },
+          '50%': { opacity: 1 }
         }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out'
+        'accordion-up': 'accordion-up 0.2s ease-out',
+        'ellipsis-dot-1': 'animated-ellipsis 1.2s infinite',
+        'ellipsis-dot-2': 'animated-ellipsis 1.2s infinite 0.2s',
+        'ellipsis-dot-3': 'animated-ellipsis 1.2s infinite 0.4s'
       }
     }
   },

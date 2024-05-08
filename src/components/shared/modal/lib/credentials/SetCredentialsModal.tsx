@@ -24,6 +24,7 @@ import { ProviderId } from '../../../../../fixtures/providers';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { isEmpty } from '../../../../../helpers/empty';
 import { toTitlecase } from '../../../../../helpers/strings';
+import { useToast } from '../../../shadcn/components/ui/use-toast';
 
 interface SetCredentialsModalProps {
   modalId: ModalId;
@@ -81,17 +82,23 @@ const SetCredentialsModal: FunctionComponent<SetCredentialsModalProps> = ({
     {}
   );
 
-  const saveDisabled = Object.values(inputValues).some(isEmpty);
+  const { toast } = useToast();
   const onSave = () => {
     setCredentials({
       providerId: providerId,
       credentials: inputValues
+    });
+    toast({
+      title: 'Credentials saved',
+      description: `Your credentials have been saved.`
     });
 
     // clear input buffer & close modal
     setInputValues(credentialFields.reduce((acc, field) => ({ ...acc, [field]: '' }), {}));
     closeModal();
   };
+
+  const saveDisabled = Object.values(inputValues).some(isEmpty);
 
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>

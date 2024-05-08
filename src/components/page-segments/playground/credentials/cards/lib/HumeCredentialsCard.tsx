@@ -5,18 +5,18 @@ import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
 import { ProviderId } from '../../../../../../fixtures/providers';
 
-const RetellCredentialsCard: FunctionComponent<EmptyObject> = () => {
+const HumeCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
 
-  const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Retell });
+  const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Hume });
 
   return (
     <CredentialsCard
-      providerName="Retell"
-      providerImageUrl="/images/logos/retell.png"
+      providerName="Hume"
+      providerImageUrl="/images/logos/hume.png"
       credentialsSet={credentialsSet}
     />
   );
 };
 
-export default RetellCredentialsCard;
+export default HumeCredentialsCard;
