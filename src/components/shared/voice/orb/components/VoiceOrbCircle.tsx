@@ -9,19 +9,19 @@ interface VoiceOrbCircleProps {
   color?: string;
   fadeInDelayMs?: number;
   fadeInDurationMs?: number;
+  animateTextureMesh: boolean;
   speedRef: React.MutableRefObject<number>;
   intensityRef: React.MutableRefObject<number>;
-  animateTextureMesh: boolean;
 }
 
 const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
   ({
     color,
-    speedRef,
-    intensityRef,
-    animateTextureMesh,
     fadeInDelayMs = 1000,
-    fadeInDurationMs = 1500
+    fadeInDurationMs = 1500,
+    animateTextureMesh,
+    speedRef,
+    intensityRef
   }: VoiceOrbCircleProps) => {
     const floatAnimationDelay = fadeInDelayMs / 1000;
     const fadeInDelay = fadeInDelayMs / 1000;
@@ -29,7 +29,6 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
 
     return (
       <motion.div
-        key="circle"
         initial={{ y: 50 }}
         animate={{
           y: [0, -10, 0],

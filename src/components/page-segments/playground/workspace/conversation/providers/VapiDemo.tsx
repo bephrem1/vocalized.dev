@@ -3,13 +3,17 @@ import { FunctionComponent, useContext, useEffect, useRef, useState } from 'reac
 
 import { CallState } from '../../../../../../types/call';
 import { CredentialsContext } from '../../../../../../context/credentials';
-import { EmptyObject } from '../../../../../../types/empty';
 import { ModalContext } from '../../../../../../context/modal';
 import { ModalId } from '../../../../../shared/modal/modal-id';
 import { Providers } from '../../../../../../fixtures/providers';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
+import clsx from 'clsx';
 
-const VapiDemo: FunctionComponent<EmptyObject> = () => {
+interface VapiDemoProps {
+  disabled?: boolean;
+}
+
+const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);
   const volumeIntervalRef = useRef(null);
@@ -31,12 +35,24 @@ const VapiDemo: FunctionComponent<EmptyObject> = () => {
 
   const onClick = useOnClick({ callState, setCallState });
 
-  return (
-    <div className="relative w-full h-full">
-      <VoiceOrb color="#5dfeca88" sizePx={190} callState={callState} onClick={onClick} />
+  const className = clsx({
+    'relative w-full h-full': true
+  });
 
-      <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
-      <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} />
+  return (
+    <div className={className}>
+      <VoiceOrb
+        color="#5dfeca88"
+        sizePx={190}
+        callState={callState}
+        onClick={onClick}
+        disabled={disabled}
+      />
+
+      <div className={clsx({ 'opacity-50': disabled })}>
+        <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
+        <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} />
+      </div>
     </div>
   );
 };

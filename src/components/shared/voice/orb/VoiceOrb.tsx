@@ -11,6 +11,7 @@ interface Props {
   callState: CallState;
   volume?: number;
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 const VoiceOrb: FunctionComponent<Props> = ({
@@ -18,25 +19,27 @@ const VoiceOrb: FunctionComponent<Props> = ({
   sizePx = 200,
   callState = CallState.Off,
   volume = 0,
-  onClick
+  onClick,
+  disabled = false
 }) => {
   const speedRef = useRef(0.16);
   const intensityRef = useRef(0);
 
   const [isHovering, setIsHovering] = useState(false);
 
-  const animateFilter = getFilter({ volume, callState, isHovering });
+  const animateFilter = getFilter({ volume, callState, isHovering, disabled });
   const animateTransition = getTransition({ callState });
 
   const circleWrapperClassName = clsx({
     relative: true,
-    'cursor-pointer': callState !== CallState.Connecting
+    'cursor-pointer': callState !== CallState.Connecting && !disabled,
+    'pointer-events-none': disabled
   });
 
   return (
     <div className="flex flex-col gap-4 justify-center items-center pt-16 pb-36 sm:py-0 h-full">
       <motion.div
-        onClick={onClick}
+        onClick={!disabled ? onClick : undefined}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         className={circleWrapperClassName}
@@ -57,7 +60,11 @@ const VoiceOrb: FunctionComponent<Props> = ({
   );
 };
 
-const getFilter = ({ volume, callState, isHovering }) => {
+const getFilter = ({ volume, callState, isHovering, disabled }) => {
+  if (disabled) {
+    return `brightness(0.2)`;
+  }
+
   if (callState === CallState.Connecting) {
     return [`brightness(0.2)`, `brightness(0.5)`];
   }
