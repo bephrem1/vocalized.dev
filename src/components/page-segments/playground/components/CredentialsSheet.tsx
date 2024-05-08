@@ -58,7 +58,7 @@ const ConversationProviders = () => {
           These providers offer APIs for real-time, human-like, conversation.
         </p>
       </div>
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-4 gap-5">
         <VapiCredentialsCard />
         <VapiCredentialsCard />
         <VapiCredentialsCard />

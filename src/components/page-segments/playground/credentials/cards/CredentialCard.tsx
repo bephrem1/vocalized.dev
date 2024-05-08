@@ -35,7 +35,9 @@ const CredentialCard: FunctionComponent<CredentialCardProps> = ({
     'rounded-lg transition ease-in-out duration-300 cursor-pointer'
   ]);
   const imageClass = clsx([
-    'w-12 h-12 mb-3.5',
+    'mb-3.5',
+    'min-w-12 w-12 max-w-12',
+    'min-h-12 h-12 max-h-12',
     hovered ? 'rounded-3xl' : 'rounded-lg',
     'transition-all duration-300 ease-in-out'
   ]);
