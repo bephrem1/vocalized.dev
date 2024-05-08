@@ -126,8 +126,8 @@ const FaqLink = ({ dest, anchor }) => {
 
 const CloseX = () => {
   return (
-    <SheetClose className="absolute right-6 top-6 p-[1px] bg-neutral-600 border-solid border-neutral-500 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-      <Cross2Icon style={{ height: '19px', width: '19px' }} />
+    <SheetClose className="absolute right-6 top-6 p-[1px] bg-neutral-800 border-solid border-neutral-500 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+      <Cross2Icon className="text-neutral-500" style={{ height: '19px', width: '19px' }} />
       <span className="sr-only">Close</span>
     </SheetClose>
   );
