@@ -1,10 +1,10 @@
+import { FaqWhereAreCredentialsStored, SetCredentialsModalUI } from '../components';
 import { ProviderId, Providers } from '../../../../../../fixtures/providers';
 
 import { EmptyObject } from '../../../../../../types/empty';
 import { FunctionComponent } from 'react';
 import { ModalId } from '../../../modal-id';
 import SetCredentialsModal from '../SetCredentialsModal';
-import { SetCredentialsModalUI } from '../components';
 
 const SetVapiCredentialsModal: FunctionComponent<EmptyObject> = () => {
   return (
@@ -33,7 +33,8 @@ const SetVapiCredentialsModal: FunctionComponent<EmptyObject> = () => {
             />
             <SetCredentialsModalUI.Faq.Text text=". Copy & paste it above." />
           </span>
-        ]
+        ],
+        FaqWhereAreCredentialsStored
       ]}
       bannerBackgroundColor="#092032"
     />

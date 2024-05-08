@@ -6,6 +6,7 @@ export const LOCAL_STORAGE_KEYS = {
 
 export const SESSION_STORAGE_KEYS = {
   PLAYGROUND: {
+    CREDENTIALS: 'playground:credentials',
     SYSTEM_PROMPT: 'playground:system-prompt',
     FIRST_MESSAGE: 'playground:first-message'
   }

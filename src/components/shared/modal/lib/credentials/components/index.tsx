@@ -1,3 +1,4 @@
+import { EXTERNAL_LINKS } from '../../../../../../helpers/urls';
 import Link from '../../../../elements/Link';
 
 export const SetCredentialsModalUI = {
@@ -17,3 +18,20 @@ export const SetCredentialsModalUI = {
     }
   }
 };
+
+export const FaqWhereAreCredentialsStored = [
+  <SetCredentialsModalUI.Faq.Title label="Where are credentials stored?" />,
+  <span className="text-sm">
+    <div className="mb-2">
+      <SetCredentialsModalUI.Faq.Text text="Keys get stored in your browser’s " />
+      <SetCredentialsModalUI.Faq.Link
+        dest={EXTERNAL_LINKS.RANDOM.WEB_STORAGE}
+        anchor="Session Storage"
+      />
+      <SetCredentialsModalUI.Faq.Text text=". This is done so your credentials survive page refresh." />
+    </div>
+    <div>
+      <SetCredentialsModalUI.Faq.Text text="Keys are never stored remotely." />
+    </div>
+  </span>
+] as [JSX.Element, JSX.Element];

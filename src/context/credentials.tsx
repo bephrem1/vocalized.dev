@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { SESSION_STORAGE_KEYS } from '../persistence';
+import { usePersistedValue } from '../hooks/persistence';
+
 type Credentials = {
   secretKey?: string;
   publicKey?: string;
@@ -29,7 +32,11 @@ export const CredentialsContext = React.createContext<ICredentialsContext>({
   checkCredentialsSet: () => false
 });
 export const CredentialsProvider = ({ children }: { children: any }) => {
-  const [credentials, setCredentials] = useState<ProviderCredentials>({});
+  const { value: credentials, setValue: setCredentials } = usePersistedValue<ProviderCredentials>({
+    defaultValue: {},
+    persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.CREDENTIALS,
+    useSessionStorage: true
+  });
 
   const _getCredentials = ({ providerId }: { providerId: string }) => {
     return credentials[providerId] || null;

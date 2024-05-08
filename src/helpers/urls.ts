@@ -9,6 +9,9 @@ export const INTERNAL_LINKS = {
 export const EXTERNAL_LINKS = {
   BEN: {
     TWITTER: 'https://twitter.com/notbenyam'
+  },
+  RANDOM: {
+    WEB_STORAGE: 'https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API'
   }
 };
 
