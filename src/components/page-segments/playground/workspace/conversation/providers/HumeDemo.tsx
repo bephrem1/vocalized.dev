@@ -1,3 +1,4 @@
+import { ConvoDemoLinkToSiteBadge } from '../components';
 import { EmptyObject } from '../../../../../../types/empty';
 import { FunctionComponent } from 'react';
 import { Providers } from '../../../../../../fixtures/providers';
@@ -9,6 +10,7 @@ const HumeDemo: FunctionComponent<EmptyObject> = () => {
       <VoiceOrb color="#FFD1A5" sizePx={200} />
 
       <LogoSymbol />
+      <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.homepage} />
     </div>
   );
 };

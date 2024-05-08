@@ -1,3 +1,4 @@
+import { ConvoDemoLinkToSiteBadge } from '../components';
 import { EmptyObject } from '../../../../../../types/empty';
 import { FunctionComponent } from 'react';
 import { Providers } from '../../../../../../fixtures/providers';
@@ -9,6 +10,7 @@ const BlandDemo: FunctionComponent<EmptyObject> = () => {
       <VoiceOrb color="#D1A7E9" sizePx={200} />
 
       <LogoSymbol />
+      <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.homepage} />
     </div>
   );
 };
