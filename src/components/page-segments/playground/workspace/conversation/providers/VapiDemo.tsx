@@ -1,12 +1,9 @@
-import {
-  ConvoDemoControlButton,
-  ConvoDemoLinkToSiteBadge,
-  ConvoDemoLogoSymbol
-} from '../components';
+import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
 import { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 
 import { Button } from '../../../../../shared/shadcn/components/ui/button';
 import { CallState } from '../../../../../../types/call';
+import { ConvoDemoControlButton } from '../components/ConvoDemoControlButton';
 import { CredentialsContext } from '../../../../../../context/credentials';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalContext } from '../../../../../../context/modal';
@@ -21,7 +18,7 @@ interface VapiDemoProps {
 }
 
 const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
-  const [callState, setCallState] = useState<CallState>(CallState.Off);
+  const [callState, setCallState] = useState<CallState>(CallState.Connected);
   const [volume, setVolume] = useState(0);
   const volumeIntervalRef = useRef(null);
 
@@ -72,7 +69,7 @@ const useOnClick = ({ callState, setCallState }) => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
 
   const credentialSet = checkCredentialsSet({ providerId: Providers.Vapi.id });
-  if (!credentialSet) {
+  if (callState === CallState.Off && !credentialSet) {
     return () => {
       openModal({ modalId: ModalId.SetVapiCredentials });
     };

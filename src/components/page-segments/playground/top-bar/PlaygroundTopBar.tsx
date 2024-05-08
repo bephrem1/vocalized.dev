@@ -100,13 +100,17 @@ const NegativeSpaceWordmarkBlock = () => {
 };
 
 const ProviderKeysBlock = () => {
-  const { togglePlaygroundDrawer } = useContext(PlaygroundContext);
+  const { toggleCredentialsDrawer } = useContext(PlaygroundContext);
+
+  const onClick = () => {
+    toggleCredentialsDrawer();
+  };
 
   const Anchor = (
     <div className="h-full w-36 flex items-center justify-center border-l border-l-stone-600 border-dashed">
       <div
         className="w-full h-full flex items-center justify-center hover:bg-indigo-950 cursor-pointer"
-        onClick={togglePlaygroundDrawer}
+        onClick={onClick}
       >
         <FontAwesomeIcon
           icon={faKey}
