@@ -31,8 +31,17 @@ export const PlaygroundContext = React.createContext<IPlaygroundContext>({
   setFirstMessage: () => {}
 });
 export const PlaygroundProvider = ({ children }) => {
-  const [playgroundMode, setPlaygroundMode] = useState(PlaygroundMode.Conversation);
-  const [credentialsDrawerOpen, setCredentialsDrawerOpen] = useState(false);
+  const { value: playgroundMode, setValue: setPlaygroundMode } = usePersistedValue<PlaygroundMode>({
+    defaultValue: PlaygroundMode.Conversation,
+    persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.MODE,
+    useSessionStorage: true
+  });
+  const { value: credentialsDrawerOpen, setValue: setCredentialsDrawerOpen } =
+    usePersistedValue<boolean>({
+      defaultValue: false,
+      persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.CREDENTIALS_DRAWER_OPEN,
+      useSessionStorage: true
+    });
 
   const { value: systemPrompt, setValue: setSystemPrompt } = usePersistedValue<string>({
     defaultValue: SYSTEM_PROMPT_DEFAULT,
