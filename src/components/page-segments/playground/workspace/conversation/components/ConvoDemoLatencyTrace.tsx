@@ -57,11 +57,11 @@ const LatencyPill = ({ latencyMs, index }: { latencyMs: number; index: number })
     'w-fit h-fit px-4 py-1': true,
     'mb-1.5 last:mb-0': true,
     'bg-emerald-700 bg-opacity-75 hover:bg-opacity-50 border border-solid border-emerald-600':
-      latencyMs <= 800,
+      latencyMs <= 1000,
     'bg-amber-700 bg-opacity-75 hover:bg-opacity-50 border border-solid border-amber-600':
-      latencyMs > 800 && latencyMs <= 1000,
+      latencyMs > 1000 && latencyMs <= 1500,
     'bg-rose-800 bg-opacity-75 hover:bg-opacity-50 border border-solid border-rose-600':
-      latencyMs > 1000,
+      latencyMs > 1500,
     'rounded-full': true,
     'select-none': true
   });
