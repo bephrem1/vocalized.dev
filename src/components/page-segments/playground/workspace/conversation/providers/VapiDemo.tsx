@@ -3,6 +3,7 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { CallState } from '../../../../../../types/call';
 import { ConvoDemoControlButton } from '../components/ConvoDemoControlButton';
+import ConvoDemoLatencyTrace from '../components/ConvoDemoLatencyTrace';
 import { CredentialsContext } from '../../../../../../context/credentials';
 import { ModalContext } from '../../../../../../context/modal';
 import { ModalId } from '../../../../../shared/modal/modal-id';
@@ -31,7 +32,9 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
 
   const onClick = useOnClick({ callState, setCallState, vapiClient });
   // const showVolumeIndicator = callState === CallState.Connected;
+  // const showLatencyTrace = callState === CallState.Connected;
   const showVolumeIndicator = true;
+  const showLatencyTrace = true;
 
   const orbColor = tinycolor(vapiBrandColor).setAlpha(0.2).toRgbString();
   const className = clsx({
@@ -54,6 +57,9 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
 
       <div className={clsx({ 'opacity-50': disabled })}>
         {showVolumeIndicator && <VolumeIndicator volume={volume} />}
+        {showLatencyTrace && (
+          <LatencyTrace latencyReadings={[200, 500, 700, 900, 1300, 1800, 2500, 3200]} />
+        )}
 
         <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
         <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} />
@@ -79,6 +85,19 @@ const VolumeIndicator = ({ volume }) => {
         className="w-[125px] bg-neutral-700 mt-2 h-1.5"
         indicatorClassName={`bg-[${vapiBrandColor}]`}
       />
+    </div>
+  );
+};
+
+const LatencyTrace = ({ latencyReadings }) => {
+  const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
+
+  return (
+    <div
+      className="absolute top-0 right-0 w-fit h-fit pr-5 pt-3.5 border-dashed border-r-neutral-100"
+      style={{ opacity: animatedOpacity }}
+    >
+      <ConvoDemoLatencyTrace readings={latencyReadings} />
     </div>
   );
 };
@@ -109,6 +128,7 @@ const useVapi = ({ setCallState, setVolume }) => {
 
       vapiClient.on('call-end', () => {
         setCallState(CallState.Off);
+        setVolume(0);
       });
 
       vapiClient.on('speech-start', () => {
