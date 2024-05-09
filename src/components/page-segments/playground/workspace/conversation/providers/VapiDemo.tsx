@@ -117,9 +117,9 @@ const useOnClick = ({ callState, setCallState, vapiClient }) => {
   }
 
   const startCall = () => {
-    setCallState(CallState.Connecting);
-
     if (vapiClient) {
+      setCallState(CallState.Connecting);
+
       vapiClient.start({
         transcriber: {
           provider: 'deepgram',
@@ -147,6 +147,8 @@ const useOnClick = ({ callState, setCallState, vapiClient }) => {
   const stopCall = () => {
     if (vapiClient) {
       vapiClient.stop();
+
+      setCallState(CallState.Off);
     }
   };
 
