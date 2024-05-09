@@ -106,17 +106,16 @@ const RealtimeStats = ({ assistantIsSpeaking, volume }) => {
   const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
 
   return (
-    <div
-      className="absolute top-0 left-0 w-fit h-fit pl-5 pt-3.5"
-      style={{ opacity: animatedOpacity }}
-    >
-      <div className="mb-3.5">
+    <div className="absolute top-0 left-0 w-fit h-fit" style={{ opacity: animatedOpacity }}>
+      <div className="pt-3 pb-4 px-4 border-r border-r-stone-800 border-b border-b-stone-800 border-dashed">
         <VolumeStats volume={volume} />
       </div>
-      <ConvoDemoTurnIndicator
-        assistantIsSpeaking={assistantIsSpeaking}
-        providerId={Providers.Vapi.id}
-      />
+      <div className="pt-3 pb-4 px-4 border-r border-r-stone-800 border-b border-b-stone-800 border-dashed rounded-br-sm">
+        <ConvoDemoTurnIndicator
+          assistantIsSpeaking={assistantIsSpeaking}
+          providerId={Providers.Vapi.id}
+        />
+      </div>
     </div>
   );
 };
