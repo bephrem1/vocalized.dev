@@ -5,12 +5,15 @@ import InfoTooltip from '../../../shared/tooltip/InfoTooltip';
 import { PlaygroundContext } from '../../../../context/playground';
 import PlaygroundConversationDemos from './conversation/PlaygroundConversationDemos';
 import { Textarea } from '../../../shared/shadcn/components/ui/textarea';
+import { UserSpeechRecognitionProvider } from '../../../../context/user-speech-recognition';
 
 const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="flex flex-row h-full w-full">
       <ConfigsBlock />
-      <PlaygroundConversationDemos />
+      <UserSpeechRecognitionProvider>
+        <PlaygroundConversationDemos />
+      </UserSpeechRecognitionProvider>
     </div>
   );
 };

@@ -4,20 +4,23 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { CallState } from '../../../../../../types/call';
 import { ConvoDemoControlButton } from '../components/ConvoDemoControlButton';
 import ConvoDemoLatencyTrace from '../components/ConvoDemoLatencyTrace';
+import { ConvoDemoTurnIndicator } from '../components/ConvoDemoTurnIndicator';
 import { CredentialsContext } from '../../../../../../context/credentials';
 import { ModalContext } from '../../../../../../context/modal';
 import { ModalId } from '../../../../../shared/modal/modal-id';
 import { PlaygroundContext } from '../../../../../../context/playground';
 import { Progress } from '../../../../../shared/shadcn/components/ui/progress';
 import { Providers } from '../../../../../../fixtures/providers';
+import { UserSpeechRecognitionContext } from '../../../../../../context/user-speech-recognition';
 import Vapi from '@vapi-ai/web';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
 import { isEmpty } from '../../../../../../helpers/empty';
 import { roundToNPlaces } from '../../../../../../helpers/numbers';
 import tinycolor from 'tinycolor2';
-import { useLatencyTimer } from '../hooks/useLatencyTimer';
+import { useLatencyTimer } from '../../hooks/useLatencyTimer';
 import { useOpacity } from '../../../../../../hooks/animation';
+import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
 
 interface VapiDemoProps {
   disabled?: boolean;
@@ -28,6 +31,7 @@ const vapiBrandColor = '#5dfeca';
 const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);
+  const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
 
   const [latencyReadings, setLatencyReadings] = useState<number[]>([]);
   const addLatencyReading = (latencyMs: number) =>
@@ -43,15 +47,25 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
     }
   };
 
+  const { isUserSpeaking } = useContext(UserSpeechRecognitionContext);
+  useUserSpeechHandlers({
+    isUserSpeaking,
+    onUserSpeechEnd: () => {
+      startLatencyTimer();
+    }
+  });
+
   const { vapiClient } = useVapi({
     setCallState,
     setVolume,
     recordLatencyReading,
-    clearLatencyReadings
+    clearLatencyReadings,
+    setAssistantIsSpeaking
   });
 
   const onClick = useOnClick({ callState, setCallState, vapiClient });
-  const showVolumeIndicator = callState === CallState.Connected;
+  // const showRealtimeStats = callState === CallState.Connected;
+  const showRealtimeStats = true;
   const showLatencyTrace = callState === CallState.Connected;
 
   const orbColor = tinycolor(vapiBrandColor).setAlpha(0.2).toRgbString();
@@ -73,8 +87,12 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
         <ConvoDemoControlButton callState={callState} disabled={disabled} onClick={onClick} />
       </div>
 
+      <p className="absolute bottom-16 left-11 text-white">{String(isUserSpeaking)}</p>
+
       <div className={clsx({ 'opacity-50': disabled })}>
-        {showVolumeIndicator && <VolumeIndicator volume={volume} />}
+        {showRealtimeStats && (
+          <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
+        )}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
@@ -84,22 +102,36 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   );
 };
 
-const VolumeIndicator = ({ volume }) => {
+const RealtimeStats = ({ assistantIsSpeaking, volume }) => {
   const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
 
+  return (
+    <div
+      className="absolute top-0 left-0 w-fit h-fit pl-5 pt-3.5"
+      style={{ opacity: animatedOpacity }}
+    >
+      <div className="mb-3.5">
+        <VolumeStats volume={volume} />
+      </div>
+      <ConvoDemoTurnIndicator
+        assistantIsSpeaking={assistantIsSpeaking}
+        providerId={Providers.Vapi.id}
+      />
+    </div>
+  );
+};
+
+const VolumeStats = ({ volume }) => {
   const adjustedVolume = volume * 100;
   const displayVolume = roundToNPlaces({ value: volume, n: 6 });
 
   return (
-    <div
-      className="absolute top-0 left-0 w-fit h-fit pl-5 pt-3.5 border-dashed border-r-neutral-100"
-      style={{ opacity: animatedOpacity }}
-    >
+    <div>
       <p className="text-neutral-300 text-sm inline">Volume: {displayVolume}</p>
       <Progress
         value={adjustedVolume}
         className="w-[125px] bg-neutral-700 mt-2 h-1.5"
-        indicatorClassName={`bg-[${vapiBrandColor}]`}
+        indicatorStyle={{ backgroundColor: vapiBrandColor }}
       />
     </div>
   );
@@ -118,7 +150,13 @@ const LatencyTrace = ({ latencyReadings }) => {
   );
 };
 
-const useVapi = ({ setCallState, setVolume, recordLatencyReading, clearLatencyReadings }) => {
+const useVapi = ({
+  setCallState,
+  setVolume,
+  recordLatencyReading,
+  clearLatencyReadings,
+  setAssistantIsSpeaking
+}) => {
   const [vapiClient, setVapiClient] = useState(null);
 
   // set client on credentials available
@@ -149,12 +187,13 @@ const useVapi = ({ setCallState, setVolume, recordLatencyReading, clearLatencyRe
       });
 
       vapiClient.on('speech-start', () => {
-        // assistant speech start
+        setAssistantIsSpeaking(true);
+
         recordLatencyReading();
       });
 
       vapiClient.on('speech-end', () => {
-        // assistant speech end
+        setAssistantIsSpeaking(false);
       });
 
       vapiClient.on('volume-level', (volume: number) => {

@@ -1,7 +1,7 @@
 import BlandDemo from './providers/BlandDemo';
 import { EmptyObject } from '../../../../../types/empty';
 import { FunctionComponent } from 'react';
-import HumeDemo from './providers/HumeDemo';
+import PlayAIDemo from './providers/PlayAIDemo';
 import RetellDemo from './providers/RetellDemo';
 import VapiDemo from './providers/VapiDemo';
 
@@ -19,7 +19,7 @@ const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {
           <BlandDemo disabled={true} />
         </div>
         <div>
-          <HumeDemo disabled={true} />
+          <PlayAIDemo disabled={true} />
         </div>
       </div>
     </div>
