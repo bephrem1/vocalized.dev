@@ -87,8 +87,6 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
         <ConvoDemoControlButton callState={callState} disabled={disabled} onClick={onClick} />
       </div>
 
-      <p className="absolute bottom-16 left-11 text-white">{String(isUserSpeaking)}</p>
-
       <div className={clsx({ 'opacity-50': disabled })}>
         {showRealtimeStats && (
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
