@@ -16,6 +16,7 @@ import clsx from 'clsx';
 import { isEmpty } from '../../../../../../helpers/empty';
 import { roundToNPlaces } from '../../../../../../helpers/numbers';
 import tinycolor from 'tinycolor2';
+import { useLatencyTimer } from '../hooks/useLatencyTimer';
 import { useOpacity } from '../../../../../../hooks/animation';
 
 interface VapiDemoProps {
@@ -28,7 +29,25 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);
 
-  const { vapiClient } = useVapi({ setCallState, setVolume });
+  const [latencyReadings, setLatencyReadings] = useState<number[]>([]);
+  const clearLatencyReadings = () => setLatencyReadings([]);
+
+  const { startLatencyTimer, readAndResetLatencyTimer } = useLatencyTimer();
+  const recordLatencyReading = () => {
+    const latencyMs = readAndResetLatencyTimer();
+
+    if (!isEmpty(latencyMs)) {
+      setLatencyReadings((prev) => [...prev, latencyMs]);
+    }
+  };
+
+  const { vapiClient } = useVapi({
+    setCallState,
+    setVolume,
+    startLatencyTimer,
+    recordLatencyReading,
+    clearLatencyReadings
+  });
 
   const onClick = useOnClick({ callState, setCallState, vapiClient });
   // const showVolumeIndicator = callState === CallState.Connected;
@@ -57,9 +76,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
 
       <div className={clsx({ 'opacity-50': disabled })}>
         {showVolumeIndicator && <VolumeIndicator volume={volume} />}
-        {showLatencyTrace && (
-          <LatencyTrace latencyReadings={[200, 500, 700, 900, 1300, 1800, 2500, 3200]} />
-        )}
+        {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
         <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} />
@@ -102,7 +119,13 @@ const LatencyTrace = ({ latencyReadings }) => {
   );
 };
 
-const useVapi = ({ setCallState, setVolume }) => {
+const useVapi = ({
+  setCallState,
+  setVolume,
+  startLatencyTimer,
+  recordLatencyReading,
+  clearLatencyReadings
+}) => {
   const [vapiClient, setVapiClient] = useState(null);
 
   // set client on credentials available
@@ -129,14 +152,33 @@ const useVapi = ({ setCallState, setVolume }) => {
       vapiClient.on('call-end', () => {
         setCallState(CallState.Off);
         setVolume(0);
+        clearLatencyReadings();
       });
 
       vapiClient.on('speech-start', () => {
-        // handle assistant speech start
+        console.log('assistant speech started');
+        recordLatencyReading();
       });
 
       vapiClient.on('speech-end', () => {
         // handle assistant speech end
+      });
+
+      vapiClient.on('message', (data: any) => {
+        const eventType = data?.type;
+        if (eventType) {
+          switch (eventType) {
+            case 'speech-update':
+              const role = data?.role;
+              const status = data?.status;
+              if (!isEmpty(role) && role === 'user' && !isEmpty(status) && status === 'stopped') {
+                startLatencyTimer();
+                console.log('user speech stopped');
+              }
+
+              break;
+          }
+        }
       });
 
       vapiClient.on('volume-level', (volume: number) => {

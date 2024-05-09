@@ -10,11 +10,14 @@ const MAX_VISIBLE_READINGS = 7;
 
 const ConvoDemoLatencyTrace: FunctionComponent<ConvoDemoLatencyTraceProps> = ({ readings }) => {
   const visibleReadings = readings.slice(0, MAX_VISIBLE_READINGS);
+  const showPlaceholderPill = readings.length === 0;
 
   return (
     <div>
       <Header />
       <div className="flex flex-col items-end">
+        {showPlaceholderPill && <PlaceholderPill />}
+
         {visibleReadings.map((latencyMs, i) => (
           <LatencyPill key={i} latencyMs={latencyMs} index={i} />
         ))}
@@ -59,12 +62,21 @@ const LatencyPill = ({ latencyMs, index }: { latencyMs: number; index: number })
       latencyMs > 800 && latencyMs <= 1000,
     'bg-rose-800 bg-opacity-75 hover:bg-opacity-50 border border-solid border-rose-600':
       latencyMs > 1000,
-    'rounded-full': true
+    'rounded-full': true,
+    'select-none': true
   });
 
   return (
     <div className={className} style={{ opacity }}>
       <p className="text-neutral-300 text-xs">{latencyMs}ms</p>
+    </div>
+  );
+};
+
+const PlaceholderPill = () => {
+  return (
+    <div className="w-fit h-fit px-4 py-1 mb-1.5 bg-neutral-900 border border-solid border-neutral-800 rounded-full select-none">
+      <p className="text-neutral-300 text-xs">waiting for speech</p>
     </div>
   );
 };
