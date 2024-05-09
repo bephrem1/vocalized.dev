@@ -7,15 +7,21 @@ import { CredentialsContext } from '../../../../../../context/credentials';
 import { ModalContext } from '../../../../../../context/modal';
 import { ModalId } from '../../../../../shared/modal/modal-id';
 import { PlaygroundContext } from '../../../../../../context/playground';
+import { Progress } from '../../../../../shared/shadcn/components/ui/progress';
 import { Providers } from '../../../../../../fixtures/providers';
 import Vapi from '@vapi-ai/web';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
 import { isEmpty } from '../../../../../../helpers/empty';
+import { roundToNPlaces } from '../../../../../../helpers/numbers';
+import tinycolor from 'tinycolor2';
+import { useOpacity } from '../../../../../../hooks/animation';
 
 interface VapiDemoProps {
   disabled?: boolean;
 }
+
+const vapiBrandColor = '#5dfeca';
 
 const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   const [callState, setCallState] = useState<CallState>(CallState.Off);
@@ -24,6 +30,9 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   const { vapiClient } = useVapi({ setCallState, setVolume });
 
   const onClick = useOnClick({ callState, setCallState, vapiClient });
+  const showVolumeIndicator = callState === CallState.Connected;
+
+  const orbColor = tinycolor(vapiBrandColor).setAlpha(0.2).toRgbString();
   const className = clsx({
     'relative w-full h-full': true
   });
@@ -32,7 +41,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
     <div className={className}>
       <div className="relative flex flex-col w-full h-full items-center justify-center">
         <VoiceOrb
-          color="#5dfeca88"
+          color={orbColor}
           sizePx={175}
           callState={callState}
           volume={volume}
@@ -43,9 +52,32 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
       </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
+        {showVolumeIndicator && <VolumeIndicator volume={volume} />}
+
         <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
         <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} />
       </div>
+    </div>
+  );
+};
+
+const VolumeIndicator = ({ volume }) => {
+  const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
+
+  const adjustedVolume = volume * 100;
+  const displayVolume = roundToNPlaces({ value: volume, n: 6 });
+
+  return (
+    <div
+      className="absolute top-0 left-0 w-fit h-fit pl-5 pt-3.5 border-dashed border-r-neutral-100"
+      style={{ opacity: animatedOpacity }}
+    >
+      <p className="text-neutral-300 text-sm inline">Volume: {displayVolume}</p>
+      <Progress
+        value={adjustedVolume}
+        className="w-[125px] bg-neutral-700 mt-2 h-1.5"
+        indicatorClassName={`bg-[${vapiBrandColor}]`}
+      />
     </div>
   );
 };
@@ -79,15 +111,11 @@ const useVapi = ({ setCallState, setVolume }) => {
       });
 
       vapiClient.on('speech-start', () => {
-        setCallState(CallState.Connected);
-
-        console.log('Assistant speech has started.');
+        // handle assistant speech start
       });
 
       vapiClient.on('speech-end', () => {
-        setCallState(CallState.Connected);
-
-        console.log('Assistant speech has ended.');
+        // handle assistant speech end
       });
 
       vapiClient.on('volume-level', (volume: number) => {

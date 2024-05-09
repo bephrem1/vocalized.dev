@@ -58,7 +58,7 @@ export const ConvoDemoControlButton: FunctionComponent<ConvoDemoControlButtonPro
   const faIcon = getFaIcon();
 
   return (
-    <div className="absolute bottom-8 w-full flex justify-center items-center">
+    <div className="absolute bottom-12 w-full flex justify-center items-center">
       <Button
         className="bg-neutral-900 hover:bg-neutral-800 border-solid border-neutral-700 px-6 py-4 rounded-full active:opacity-80"
         disabled={buttonDisabled}
