@@ -64,8 +64,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   });
 
   const onClick = useOnClick({ callState, setCallState, vapiClient });
-  // const showRealtimeStats = callState === CallState.Connected;
-  const showRealtimeStats = true;
+  const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
   const orbColor = tinycolor(vapiBrandColor).setAlpha(0.2).toRgbString();
