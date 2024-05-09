@@ -30,7 +30,8 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   const { vapiClient } = useVapi({ setCallState, setVolume });
 
   const onClick = useOnClick({ callState, setCallState, vapiClient });
-  const showVolumeIndicator = callState === CallState.Connected;
+  // const showVolumeIndicator = callState === CallState.Connected;
+  const showVolumeIndicator = true;
 
   const orbColor = tinycolor(vapiBrandColor).setAlpha(0.2).toRgbString();
   const className = clsx({
