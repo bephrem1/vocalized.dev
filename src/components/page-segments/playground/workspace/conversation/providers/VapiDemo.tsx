@@ -1,17 +1,17 @@
 import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
 import { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
 
-import { Button } from '../../../../../shared/shadcn/components/ui/button';
 import { CallState } from '../../../../../../types/call';
 import { ConvoDemoControlButton } from '../components/ConvoDemoControlButton';
 import { CredentialsContext } from '../../../../../../context/credentials';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalContext } from '../../../../../../context/modal';
 import { ModalId } from '../../../../../shared/modal/modal-id';
+import { PlaygroundContext } from '../../../../../../context/playground';
 import { Providers } from '../../../../../../fixtures/providers';
+import Vapi from '@vapi-ai/web';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
-import { faPlay } from '@fortawesome/free-solid-svg-icons';
+import { isEmpty } from '../../../../../../helpers/empty';
 
 interface VapiDemoProps {
   disabled?: boolean;
@@ -20,25 +20,10 @@ interface VapiDemoProps {
 const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);
-  const volumeIntervalRef = useRef(null);
 
-  useEffect(() => {
-    if (callState === CallState.Connected) {
-      if (volumeIntervalRef.current) {
-        clearInterval(volumeIntervalRef.current);
-      }
-      volumeIntervalRef.current = setInterval(() => {
-        setVolume(Math.random());
-      }, 200);
-    }
+  const { vapiClient } = useVapi({ setCallState, setVolume });
 
-    return () => {
-      clearInterval(volumeIntervalRef.current);
-    };
-  }, [callState]);
-
-  const onClick = useOnClick({ callState, setCallState });
-
+  const onClick = useOnClick({ callState, setCallState, vapiClient });
   const className = clsx({
     'relative w-full h-full': true
   });
@@ -48,8 +33,9 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
       <div className="relative flex flex-col w-full h-full items-center justify-center">
         <VoiceOrb
           color="#5dfeca88"
-          sizePx={190}
+          sizePx={175}
           callState={callState}
+          volume={volume}
           onClick={onClick}
           disabled={disabled}
         />
@@ -64,12 +50,67 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   );
 };
 
-const useOnClick = ({ callState, setCallState }) => {
-  const { openModal } = useContext(ModalContext);
-  const { checkCredentialsSet } = useContext(CredentialsContext);
+const useVapi = ({ setCallState, setVolume }) => {
+  const [vapiClient, setVapiClient] = useState(null);
 
-  const credentialSet = checkCredentialsSet({ providerId: Providers.Vapi.id });
-  if (callState === CallState.Off && !credentialSet) {
+  // set client on credentials available
+  const { getCredentials, checkCredentialsSet } = useContext(CredentialsContext);
+  const credentials = getCredentials({ providerId: Providers.Vapi.id });
+  const credentialsSet = checkCredentialsSet({ providerId: Providers.Vapi.id });
+  useEffect(() => {
+    if (credentialsSet) {
+      const { publicKey } = credentials;
+
+      setVapiClient(new Vapi(publicKey));
+    } else {
+      setVapiClient(null);
+    }
+  }, [credentialsSet]);
+
+  // wire event handlers
+  useEffect(() => {
+    if (vapiClient) {
+      vapiClient.on('call-start', () => {
+        setCallState(CallState.Connected);
+      });
+
+      vapiClient.on('call-end', () => {
+        setCallState(CallState.Off);
+      });
+
+      vapiClient.on('speech-start', () => {
+        setCallState(CallState.Connected);
+
+        console.log('Assistant speech has started.');
+      });
+
+      vapiClient.on('speech-end', () => {
+        setCallState(CallState.Connected);
+
+        console.log('Assistant speech has ended.');
+      });
+
+      vapiClient.on('volume-level', (volume: number) => {
+        setVolume(volume);
+      });
+
+      vapiClient.on('error', (e: any) => {
+        console.error(e);
+      });
+    }
+  }, [vapiClient]);
+
+  return { vapiClient };
+};
+
+const useOnClick = ({ callState, setCallState, vapiClient }) => {
+  const { checkCredentialsSet } = useContext(CredentialsContext);
+  const credentialsSet = checkCredentialsSet({ providerId: Providers.Vapi.id });
+
+  const { openModal } = useContext(ModalContext);
+  const { systemPrompt, firstMessage } = useContext(PlaygroundContext);
+
+  if (callState === CallState.Off && !credentialsSet) {
     return () => {
       openModal({ modalId: ModalId.SetVapiCredentials });
     };
@@ -78,12 +119,35 @@ const useOnClick = ({ callState, setCallState }) => {
   const startCall = () => {
     setCallState(CallState.Connecting);
 
-    setTimeout(() => {
-      setCallState(CallState.Connected);
-    }, 2000);
+    if (vapiClient) {
+      vapiClient.start({
+        transcriber: {
+          provider: 'deepgram',
+          model: 'nova-2',
+          language: 'en-US'
+        },
+        model: {
+          provider: 'openai',
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {
+              role: 'system',
+              content: systemPrompt
+            }
+          ]
+        },
+        voice: {
+          provider: 'playht',
+          voiceId: 'jennifer'
+        },
+        ...(!isEmpty(firstMessage) ? { firstMessage } : {})
+      });
+    }
   };
   const stopCall = () => {
-    setCallState(CallState.Off);
+    if (vapiClient) {
+      vapiClient.stop();
+    }
   };
 
   switch (callState) {

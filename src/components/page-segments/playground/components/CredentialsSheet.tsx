@@ -104,7 +104,7 @@ const Faq = () => {
       <div className="text-neutral-400">Where are credentials stored?</div>,
       <>
         <div className="mb-2">
-          <FaqText text="Keys get stored in your browser’s " />
+          <FaqText text="Keys are stored in your browser’s " />
           <FaqLink dest={EXTERNAL_LINKS.RANDOM.WEB_STORAGE} anchor="Session Storage" />
           <FaqText text=". This is done so your credentials survive page refresh." />
         </div>
