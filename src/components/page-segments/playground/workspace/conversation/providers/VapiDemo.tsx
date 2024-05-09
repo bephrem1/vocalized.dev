@@ -38,7 +38,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
     setLatencyReadings((prev) => [latencyMs, ...prev]);
   const clearLatencyReadings = () => setLatencyReadings([]);
 
-  const { startLatencyTimer, readAndResetLatencyTimer } = useLatencyTimer();
+  const { startLatencyTimer, readAndResetLatencyTimer, resetLatencyTimer } = useLatencyTimer();
   const recordLatencyReading = () => {
     const latencyMs = readAndResetLatencyTimer();
 
@@ -59,6 +59,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
     setCallState,
     setVolume,
     recordLatencyReading,
+    resetLatencyTimer,
     clearLatencyReadings,
     setAssistantIsSpeaking
   });
@@ -150,6 +151,7 @@ const useVapi = ({
   setCallState,
   setVolume,
   recordLatencyReading,
+  resetLatencyTimer,
   clearLatencyReadings,
   setAssistantIsSpeaking
 }) => {
@@ -174,6 +176,9 @@ const useVapi = ({
     if (vapiClient) {
       vapiClient.on('call-start', () => {
         setCallState(CallState.Connected);
+
+        resetLatencyTimer();
+        clearLatencyReadings();
       });
 
       vapiClient.on('call-end', () => {

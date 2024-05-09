@@ -6,13 +6,15 @@ export const useLatencyTimer = () => {
   const startLatencyTimer = () => {
     startTime.current = Date.now();
   };
+  const resetLatencyTimer = () => {
+    startTime.current = null;
+  };
   const readAndResetLatencyTimer = () => {
     if (startTime.current !== null) {
       const endTime = Date.now();
       const elapsedMs = endTime - startTime.current;
 
-      // reset the timer
-      startTime.current = null;
+      resetLatencyTimer();
 
       return elapsedMs;
     }
@@ -22,6 +24,7 @@ export const useLatencyTimer = () => {
 
   return {
     startLatencyTimer,
-    readAndResetLatencyTimer
+    readAndResetLatencyTimer,
+    resetLatencyTimer
   };
 };
