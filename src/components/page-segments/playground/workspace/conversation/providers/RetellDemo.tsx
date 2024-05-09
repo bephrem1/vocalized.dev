@@ -19,7 +19,7 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = ({ disabled }) => {
 
       <div className={clsx({ 'opacity-50': disabled })}>
         <ConvoDemoLogoSymbol src={Providers.Retell.logo.localPath} />
-        <ConvoDemoLinkToSiteBadge dest={Providers.Retell.links.documentation} />
+        <ConvoDemoLinkToSiteBadge dest={Providers.Retell.links.documentation} label="docs" />
       </div>
     </div>
   );

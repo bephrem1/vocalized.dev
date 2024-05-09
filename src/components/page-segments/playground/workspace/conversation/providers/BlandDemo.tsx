@@ -19,7 +19,7 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = ({ disabled }) => {
 
       <div className={clsx({ 'opacity-50': disabled })}>
         <ConvoDemoLogoSymbol src={Providers.Bland.logo.localPath} />
-        <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.documentation} />
+        <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.documentation} label="docs" />
       </div>
     </div>
   );

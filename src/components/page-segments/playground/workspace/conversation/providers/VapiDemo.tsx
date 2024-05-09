@@ -78,7 +78,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
-        <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} />
+        <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} label="docs" />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ export enum ProviderId {
   Vapi = 'vapi',
   Retell = 'retell',
   Bland = 'bland',
+  PlayAI = 'playai',
   Hume = 'hume',
   Vocode = 'vocode'
 }
@@ -18,6 +19,7 @@ interface IProviderData {
     homepage: string;
     documentation: string;
     dashboard?: string;
+    playground?: string;
     credentials: string;
   };
 }
@@ -34,6 +36,7 @@ export const Providers = {
       homepage: 'https://vapi.ai',
       documentation: 'https://docs.vapi.ai',
       dashboard: 'https://dashboard.vapi.ai',
+      playground: null,
       credentials: 'https://dashboard.vapi.ai/organizations'
     }
   } as IProviderData,
@@ -47,8 +50,9 @@ export const Providers = {
     links: {
       homepage: 'https://www.retellai.com',
       documentation: 'https://docs.retellai.com',
-      dashboard: '',
-      credentials: ''
+      dashboard: 'https://retellai.com/dashboard',
+      playground: null,
+      credentials: 'https://beta.retellai.com/dashboard/apiKeys'
     }
   } as IProviderData,
   Bland: {
@@ -61,8 +65,24 @@ export const Providers = {
     links: {
       homepage: 'https://www.bland.ai',
       documentation: 'https://docs.bland.ai',
-      dashboard: '',
-      credentials: ''
+      dashboard: 'https://app.bland.ai',
+      playground: null,
+      credentials: 'https://app.bland.ai/dashboard?page=settings'
+    }
+  } as IProviderData,
+  PlayAI: {
+    id: ProviderId.PlayAI,
+    displayName: 'PlayAI',
+    siteHostname: 'play.ai',
+    logo: {
+      localPath: '/images/logos/playai.png'
+    },
+    links: {
+      homepage: 'https://play.ai',
+      documentation: 'https://docs.play.ai',
+      dashboard: 'https://play.ai/my-agents',
+      playground: null,
+      credentials: 'https://play.ai/developers'
     }
   } as IProviderData,
   Hume: {
@@ -75,8 +95,9 @@ export const Providers = {
     links: {
       homepage: 'https://www.hume.ai',
       documentation: 'https://dev.hume.ai',
-      dashboard: '',
-      credentials: ''
+      dashboard: 'https://beta.hume.ai',
+      playground: 'https://beta.hume.ai/playground/voice',
+      credentials: 'https://beta.hume.ai/settings/keys'
     }
   } as IProviderData,
   Vocode: {
@@ -89,8 +110,9 @@ export const Providers = {
     links: {
       homepage: 'https://www.vocode.dev',
       documentation: 'https://docs.vocode.dev',
-      dashboard: '',
-      credentials: ''
+      dashboard: 'https://dashboard.vocode.dev/',
+      playground: null,
+      credentials: 'https://dashboard.vocode.dev/developers/api-keys'
     }
   } as IProviderData
 };

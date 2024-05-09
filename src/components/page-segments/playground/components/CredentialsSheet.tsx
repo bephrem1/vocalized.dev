@@ -112,7 +112,7 @@ const Faq = () => {
           <FaqText text="Credentials will only be available in the tab you set them in. When you close this tab, all credential data gets cleared." />
         </div>
         <div className="mb-2">
-          <FaqText text="Keys are never saved remotely. If cautious, you can use test credentials (that can be deleted later)." />
+          <FaqText text="Keys are never saved remotely. If cautious, you can use test credentials that can be deleted later." />
         </div>
       </>
     ]

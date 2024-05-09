@@ -19,7 +19,7 @@ const HumeDemo: FunctionComponent<HumeDemoProps> = ({ disabled }) => {
 
       <div className={clsx({ 'opacity-50': disabled })}>
         <ConvoDemoLogoSymbol src={Providers.Hume.logo.localPath} />
-        <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.documentation} />
+        <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.playground} label="playground" />
       </div>
     </div>
   );
