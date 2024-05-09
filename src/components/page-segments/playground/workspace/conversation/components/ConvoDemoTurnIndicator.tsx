@@ -26,7 +26,7 @@ export const ConvoDemoTurnIndicator: FunctionComponent<ConvoDemoTurnIndicatorPro
     clsx({
       'mr-2': true,
       'bg-neutral-900 border border-solid border-neutral-800': !isUserSpeaking,
-      'bg-emerald-700 bg-opacity-75 hover:bg-opacity-50 border border-solid border-emerald-600':
+      'bg-fuchsia-950 bg-opacity-75 hover:bg-opacity-50 border border-solid border-fuchsia-900':
         isUserSpeaking
     })
   );
