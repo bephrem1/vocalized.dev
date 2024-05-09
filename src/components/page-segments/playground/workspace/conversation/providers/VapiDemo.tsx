@@ -46,7 +46,6 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   const { vapiClient } = useVapi({
     setCallState,
     setVolume,
-    startLatencyTimer,
     recordLatencyReading,
     clearLatencyReadings
   });
@@ -119,13 +118,7 @@ const LatencyTrace = ({ latencyReadings }) => {
   );
 };
 
-const useVapi = ({
-  setCallState,
-  setVolume,
-  startLatencyTimer,
-  recordLatencyReading,
-  clearLatencyReadings
-}) => {
+const useVapi = ({ setCallState, setVolume, recordLatencyReading, clearLatencyReadings }) => {
   const [vapiClient, setVapiClient] = useState(null);
 
   // set client on credentials available
@@ -156,29 +149,12 @@ const useVapi = ({
       });
 
       vapiClient.on('speech-start', () => {
-        console.log('assistant speech started');
+        // assistant speech start
         recordLatencyReading();
       });
 
       vapiClient.on('speech-end', () => {
-        // handle assistant speech end
-      });
-
-      vapiClient.on('message', (data: any) => {
-        const eventType = data?.type;
-        if (eventType) {
-          switch (eventType) {
-            case 'speech-update':
-              const role = data?.role;
-              const status = data?.status;
-              if (!isEmpty(role) && role === 'user' && !isEmpty(status) && status === 'stopped') {
-                startLatencyTimer();
-                console.log('user speech stopped');
-              }
-
-              break;
-          }
-        }
+        // assistant speech end
       });
 
       vapiClient.on('volume-level', (volume: number) => {
