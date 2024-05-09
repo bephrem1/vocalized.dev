@@ -1,5 +1,5 @@
 import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
-import { FunctionComponent, useContext, useEffect, useRef, useState } from 'react';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import { CallState } from '../../../../../../types/call';
 import { ConvoDemoControlButton } from '../components/ConvoDemoControlButton';
