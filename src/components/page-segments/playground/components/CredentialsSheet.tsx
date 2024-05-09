@@ -14,6 +14,7 @@ import { EmptyObject } from '../../../../types/empty';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import HumeCredentialsCard from '../credentials/cards/lib/HumeCredentialsCard';
 import Link from '../../../shared/elements/Link';
+import PlayAICredentialsCard from '../credentials/cards/lib/PlayAICredentialsCard';
 import { PlaygroundContext } from '../../../../context/playground';
 import RetellCredentialsCard from '../credentials/cards/lib/RetellCredentialsCard';
 import VapiCredentialsCard from '../credentials/cards/lib/VapiCredentialsCard';
@@ -75,6 +76,9 @@ const ConversationProviders = () => {
           </div>
         </div>
         <div>
+          <div className="mr-4 inline">
+            <PlayAICredentialsCard />
+          </div>
           <div className="mr-4 inline">
             <HumeCredentialsCard />
           </div>

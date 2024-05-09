@@ -1,9 +1,9 @@
 import { FunctionComponent, useContext } from 'react';
+import { ProviderId, Providers } from '../../../../../../fixtures/providers';
 
 import CredentialsCard from '../CredentialsCard';
 import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
-import { ProviderId } from '../../../../../../fixtures/providers';
 
 const HumeCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
@@ -12,7 +12,7 @@ const HumeCredentialsCard: FunctionComponent<EmptyObject> = () => {
 
   return (
     <CredentialsCard
-      providerName="Hume"
+      providerName={Providers.Hume.displayName}
       providerImageUrl="/images/logos/hume.png"
       credentialsSet={credentialsSet}
     />

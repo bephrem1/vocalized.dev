@@ -1,11 +1,11 @@
 import { FunctionComponent, useContext } from 'react';
+import { ProviderId, Providers } from '../../../../../../fixtures/providers';
 
 import CredentialsCard from '../CredentialsCard';
 import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
 import { ModalContext } from '../../../../../../context/modal';
 import { ModalId } from '../../../../../shared/modal/modal-id';
-import { ProviderId } from '../../../../../../fixtures/providers';
 
 const VapiCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
@@ -23,7 +23,7 @@ const VapiCredentialsCard: FunctionComponent<EmptyObject> = () => {
 
   return (
     <CredentialsCard
-      providerName="Vapi"
+      providerName={Providers.Vapi.displayName}
       providerImageUrl="/images/logos/vapi.png"
       credentialsSet={credentialsSet}
       onClick={onClick}

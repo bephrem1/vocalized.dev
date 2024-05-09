@@ -5,18 +5,18 @@ import CredentialsCard from '../CredentialsCard';
 import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
 
-const VocodeCredentialsCard: FunctionComponent<EmptyObject> = () => {
+const PlayAICredentialsCard: FunctionComponent<EmptyObject> = () => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
 
-  const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Vocode });
+  const credentialsSet = checkCredentialsSet({ providerId: ProviderId.PlayAI });
 
   return (
     <CredentialsCard
-      providerName={Providers.Vocode.displayName}
-      providerImageUrl="/images/logos/vocode.png"
+      providerName={Providers.PlayAI.displayName}
+      providerImageUrl="/images/logos/playai.png"
       credentialsSet={credentialsSet}
     />
   );
 };
 
-export default VocodeCredentialsCard;
+export default PlayAICredentialsCard;
