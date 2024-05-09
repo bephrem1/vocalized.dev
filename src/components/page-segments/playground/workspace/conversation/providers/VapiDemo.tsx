@@ -30,6 +30,8 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   const [volume, setVolume] = useState(0);
 
   const [latencyReadings, setLatencyReadings] = useState<number[]>([]);
+  const addLatencyReading = (latencyMs: number) =>
+    setLatencyReadings((prev) => [latencyMs, ...prev]);
   const clearLatencyReadings = () => setLatencyReadings([]);
 
   const { startLatencyTimer, readAndResetLatencyTimer } = useLatencyTimer();
@@ -37,7 +39,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
     const latencyMs = readAndResetLatencyTimer();
 
     if (!isEmpty(latencyMs)) {
-      setLatencyReadings((prev) => [...prev, latencyMs]);
+      addLatencyReading(latencyMs);
     }
   };
 
@@ -50,10 +52,8 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
   });
 
   const onClick = useOnClick({ callState, setCallState, vapiClient });
-  // const showVolumeIndicator = callState === CallState.Connected;
-  // const showLatencyTrace = callState === CallState.Connected;
-  const showVolumeIndicator = true;
-  const showLatencyTrace = true;
+  const showVolumeIndicator = callState === CallState.Connected;
+  const showLatencyTrace = callState === CallState.Connected;
 
   const orbColor = tinycolor(vapiBrandColor).setAlpha(0.2).toRgbString();
   const className = clsx({
