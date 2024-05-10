@@ -9,7 +9,7 @@ import { UserSpeechRecognitionProvider } from '../../../../context/user-speech-r
 
 const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
   return (
-    <div className="flex flex-row h-full w-full">
+    <div className="flex flex-col sm:flex-row h-full w-full">
       <ConfigsBlock />
       <UserSpeechRecognitionProvider>
         <PlaygroundConversationDemos />
@@ -20,7 +20,7 @@ const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
 
 const ConfigsBlock = () => {
   return (
-    <div className="w-full md:w-[507px] h-full px-7 pt-7 md:border-r md:border-r-stone-600 md:border-dashed overflow-y-auto">
+    <div className="w-full md:w-[507px] px-7 pt-7 md:border-r md:border-r-stone-600 md:border-dashed overflow-y-auto">
       <div className="mb-6">
         <p className="text-white text-2xl font-semibold mb-2">Conversation</p>
         <p className="text-neutral-400 text-md">

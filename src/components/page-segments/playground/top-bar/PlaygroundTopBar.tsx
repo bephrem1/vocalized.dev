@@ -17,7 +17,7 @@ import { faKey } from '@fortawesome/free-solid-svg-icons';
 
 const PlaygroundTopBar: FunctionComponent<EmptyObject> = () => {
   return (
-    <div className="flex justify-between content-between w-screen h-16 border-b border-b-stone-600 border-dashed">
+    <div className="flex flex-row justify-between content-between w-screen h-16 border-b border-b-stone-600 border-dashed">
       <div className="flex w-fit">
         <LinkHomeBlock />
         <PlaygroundModeBlock />
