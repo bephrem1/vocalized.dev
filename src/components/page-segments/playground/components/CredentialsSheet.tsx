@@ -33,8 +33,8 @@ const CredentialsSheet: FunctionComponent<EmptyObject> = () => {
       <SheetContent
         className="w-full sm:w-[525px] border-l-neutral-800 pt-6 px-0 pb-16 overflow-y-auto"
         style={{
-          backdropFilter: 'blur(30px)',
-          backgroundColor: 'rgba(60, 60, 60, 0.2)'
+          backdropFilter: 'blur(90px)',
+          backgroundColor: 'rgba(40, 40, 40, 0.2)'
         }}
       >
         <CloseX />
