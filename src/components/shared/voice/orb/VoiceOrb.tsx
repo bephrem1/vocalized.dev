@@ -1,4 +1,4 @@
-import { FunctionComponent, useRef, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 
 import { CallState } from '../../../../types/call';
 import VoiceOrbCircle from './components/VoiceOrbCircle';
@@ -22,9 +22,6 @@ const VoiceOrb: FunctionComponent<Props> = ({
   onClick,
   disabled = false
 }) => {
-  const speedRef = useRef(0.16);
-  const intensityRef = useRef(0);
-
   const [isHovering, setIsHovering] = useState(false);
 
   const animateFilter = getFilter({ volume, callState, isHovering, disabled });
@@ -49,11 +46,9 @@ const VoiceOrb: FunctionComponent<Props> = ({
       >
         <VoiceOrbCircle
           color={color}
-          fadeInDelayMs={1500}
-          fadeInDurationMs={1500}
+          fadeInDelayMs={500}
+          fadeInDurationMs={1250}
           animateTextureMesh={callState === CallState.Connected}
-          speedRef={speedRef}
-          intensityRef={intensityRef}
         />
       </motion.div>
     </div>

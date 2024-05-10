@@ -7,12 +7,13 @@ import { useFrame } from '@react-three/fiber';
 
 interface Props {
   color?: string;
-  speedRef: React.MutableRefObject<number>;
-  intensityRef: React.MutableRefObject<number>;
 }
 
-const VoiceOrbTextureMesh: React.FC<Props> = ({ color, speedRef, intensityRef }) => {
+const VoiceOrbTextureMesh: React.FC<Props> = ({ color }) => {
   const mesh = useRef(null);
+
+  const speedRef = useRef(0.16);
+  const intensityRef = useRef(0);
 
   useFrame((state) => {
     const { clock, mouse } = state;
