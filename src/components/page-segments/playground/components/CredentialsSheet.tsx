@@ -77,10 +77,10 @@ const ConversationProviders = () => {
         </div>
         <div>
           <div className="mr-4 inline">
-            <PlayAICredentialsCard />
+            <HumeCredentialsCard />
           </div>
           <div className="mr-4 inline">
-            <HumeCredentialsCard />
+            <PlayAICredentialsCard />
           </div>
           <div className="mr-4 inline">
             <VocodeCredentialsCard />

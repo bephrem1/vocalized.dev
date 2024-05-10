@@ -79,17 +79,6 @@ export const useIsUserSpeaking = (): UseUserTranscriberReturn => {
     }
   };
 
-  const onDisconnect = () => {
-    if (recognitionRef.current) {
-      setTimeout(() => {
-        try {
-          recognitionRef.current.start();
-        } catch {}
-        setTranscriberState(UserTranscriberState.LISTENING);
-      }, randomInt({ min: 1000, max: 2000 }));
-    }
-  };
-
   // start / stop recognition
 
   const startRecognition = () => {
@@ -98,8 +87,7 @@ export const useIsUserSpeaking = (): UseUserTranscriberReturn => {
         onAudioStart,
         onAudioEnd,
         onSpeechResult,
-        onError,
-        onDisconnect
+        onError
       });
     }
 
@@ -122,28 +110,16 @@ export const useIsUserSpeaking = (): UseUserTranscriberReturn => {
     }
   };
 
-  // rescue transcription if it gets stuck
-
-  useInterval(() => {
-    if (
-      transcriberState === UserTranscriberState.IDLE ||
-      transcriberState === UserTranscriberState.ERROR
-    ) {
-      startRecognition();
-    }
-  }, 10000);
-
   // update handlers - they close over state values
 
   useEffect(() => {
     if (recognitionRef.current) {
       recognitionRef.current.onresult = onSpeechResult;
       recognitionRef.current.onerror = onError;
-      recognitionRef.current.onend = onDisconnect;
       recognitionRef.current.audiostart = onAudioStart;
       recognitionRef.current.audioend = onAudioEnd;
     }
-  }, [onSpeechResult, onError, onDisconnect, onAudioStart, onAudioEnd]);
+  }, [onSpeechResult, onError, onAudioStart, onAudioEnd]);
 
   return {
     isUserSpeaking,
@@ -181,7 +157,7 @@ export const useUserSpeechHandlers = ({
 
 // helpers
 
-const setupRecognition = ({ onAudioStart, onAudioEnd, onSpeechResult, onError, onDisconnect }) => {
+const setupRecognition = ({ onAudioStart, onAudioEnd, onSpeechResult, onError }) => {
   const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
   recognition.lang = 'en-US';
   recognition.interimResults = true;
@@ -192,7 +168,6 @@ const setupRecognition = ({ onAudioStart, onAudioEnd, onSpeechResult, onError, o
   recognition.audioend = onAudioEnd;
   recognition.onresult = onSpeechResult;
   recognition.onerror = onError;
-  recognition.onend = onDisconnect;
 
   return recognition;
 };
