@@ -59,9 +59,9 @@ const LatencyPill = ({ latencyMs, index }: { latencyMs: number; index: number })
     'bg-emerald-700 bg-opacity-75 hover:bg-opacity-50 border border-solid border-emerald-600':
       latencyMs <= 1000,
     'bg-amber-700 bg-opacity-75 hover:bg-opacity-50 border border-solid border-amber-600':
-      latencyMs > 1000 && latencyMs <= 1500,
+      latencyMs > 1000 && latencyMs <= 1750,
     'bg-rose-800 bg-opacity-75 hover:bg-opacity-50 border border-solid border-rose-600':
-      latencyMs > 1500,
+      latencyMs > 1750,
     'rounded-full': true,
     'select-none': true
   });

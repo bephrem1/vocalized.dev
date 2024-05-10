@@ -5,12 +5,13 @@ import { FunctionComponent } from 'react';
 import { Providers } from '../../../../../../fixtures/providers';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
+import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
 
-interface BlandDemoProps {
-  disabled?: boolean;
-}
+interface BlandDemoProps {}
 
-const BlandDemo: FunctionComponent<BlandDemoProps> = ({ disabled }) => {
+const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
+  const disabled = useConvoDemoDisabled({ providerId: Providers.Bland.id });
+
   return (
     <div className="relative w-full h-full">
       <div className="flex flex-col w-full h-full items-center justify-center">

@@ -1,5 +1,6 @@
 import { FunctionComponent, useContext } from 'react';
 
+import InfoTooltip from '../../../../../shared/tooltip/InfoTooltip';
 import { Providers } from '../../../../../../fixtures/providers';
 import { UserSpeechRecognitionContext } from '../../../../../../context/user-speech-recognition';
 import clsx from 'clsx';
@@ -40,7 +41,14 @@ export const ConvoDemoTurnIndicator: FunctionComponent<ConvoDemoTurnIndicatorPro
 
   return (
     <div>
-      <p className="text-neutral-300 text-sm mb-2.5">Speaking</p>
+      <div className="flex flex-row items-center mb-2.5">
+        <p className="text-neutral-300 text-sm mr-1.5">Speaking</p>
+        <InfoTooltip
+          text="An indicator showing who is speaking. Works best while wearing headphones."
+          sizePx={11}
+          infoIconColor="text-neutral-300"
+        />
+      </div>
       <div className="flex flex-row items-center">
         <div className={userBadgeClassName}>
           <p className="text-neutral-300 text-xs">user</p>

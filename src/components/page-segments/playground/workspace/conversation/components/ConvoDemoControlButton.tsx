@@ -1,17 +1,16 @@
-import { FunctionComponent, useContext } from 'react';
 import { faPlay, faStop } from '@fortawesome/free-solid-svg-icons';
 
 import { Button } from '../../../../../shared/shadcn/components/ui/button';
 import { CallState } from '../../../../../../types/call';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { UserSpeechRecognitionContext } from '../../../../../../context/user-speech-recognition';
+import { FunctionComponent } from 'react';
 import clsx from 'clsx';
 import { useOpacity } from '../../../../../../hooks/animation';
 
 interface ConvoDemoControlButtonProps {
   callState: CallState;
   disabled: boolean;
-  onClick?: () => void;
+  onClick: () => void;
 }
 
 export const ConvoDemoControlButton: FunctionComponent<ConvoDemoControlButtonProps> = ({
@@ -19,17 +18,6 @@ export const ConvoDemoControlButton: FunctionComponent<ConvoDemoControlButtonPro
   disabled,
   onClick
 }: ConvoDemoControlButtonProps) => {
-  const { startSpeechRecognition } = useContext(UserSpeechRecognitionContext);
-  const _onClick = () => {
-    if (callState === CallState.Off) {
-      // startSpeechRecognition();
-    }
-
-    if (onClick) {
-      onClick();
-    }
-  };
-
   const buttonDisabled = callState === CallState.Connecting || disabled;
 
   const animatedOpacity = useOpacity({ start: 0, end: 1 });
@@ -89,7 +77,7 @@ export const ConvoDemoControlButton: FunctionComponent<ConvoDemoControlButtonPro
       <Button
         className={buttonClassName}
         disabled={buttonDisabled}
-        onClick={_onClick}
+        onClick={onClick}
         style={{ opacity }}
       >
         {faIcon ? (

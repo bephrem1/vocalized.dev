@@ -5,12 +5,13 @@ import { FunctionComponent } from 'react';
 import { Providers } from '../../../../../../fixtures/providers';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
+import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
 
-interface HumeDemoProps {
-  disabled?: boolean;
-}
+interface HumeDemoProps {}
 
-const HumeDemo: FunctionComponent<HumeDemoProps> = ({ disabled }) => {
+const HumeDemo: FunctionComponent<HumeDemoProps> = () => {
+  const disabled = useConvoDemoDisabled({ providerId: Providers.Hume.id });
+
   return (
     <div className="relative w-full h-full">
       <div className="flex flex-col w-full h-full items-center justify-center">

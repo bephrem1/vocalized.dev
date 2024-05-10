@@ -1,7 +1,7 @@
 import { FIRST_MESSAGE_DEFAULT, SYSTEM_PROMPT_DEFAULT } from '../fixtures/prompts';
-import React, { useState } from 'react';
 
 import { PlaygroundMode } from '../components/page-segments/playground/playground-modes';
+import React from 'react';
 import { SESSION_STORAGE_KEYS } from '../persistence';
 import { isEmpty } from '../helpers/empty';
 import { usePersistedValue } from '../hooks/persistence';
@@ -17,6 +17,9 @@ interface IPlaygroundContext {
   setSystemPrompt: (prompt: string) => void;
   firstMessage?: string;
   setFirstMessage?: (message: string) => void;
+
+  activeConvoProviderId?: string;
+  setActiveConvoProviderId?: (providerId: string) => void;
 }
 export const PlaygroundContext = React.createContext<IPlaygroundContext>({
   playgroundMode: PlaygroundMode.Conversation,
@@ -28,7 +31,10 @@ export const PlaygroundContext = React.createContext<IPlaygroundContext>({
   systemPrompt: SYSTEM_PROMPT_DEFAULT,
   setSystemPrompt: () => {},
   firstMessage: '',
-  setFirstMessage: () => {}
+  setFirstMessage: () => {},
+
+  activeConvoProviderId: null,
+  setActiveConvoProviderId: () => {}
 });
 export const PlaygroundProvider = ({ children }) => {
   const { value: playgroundMode, setValue: setPlaygroundMode } = usePersistedValue<PlaygroundMode>({
@@ -54,6 +60,8 @@ export const PlaygroundProvider = ({ children }) => {
     useSessionStorage: true
   });
 
+  const [activeConvoProviderId, setActiveConvoProviderId] = React.useState<string>(null);
+
   const toggleCredentialsDrawer = (open?: boolean) => {
     if (!isEmpty(open)) {
       setCredentialsDrawerOpen(open);
@@ -72,7 +80,10 @@ export const PlaygroundProvider = ({ children }) => {
     systemPrompt,
     setSystemPrompt,
     firstMessage,
-    setFirstMessage
+    setFirstMessage,
+
+    activeConvoProviderId,
+    setActiveConvoProviderId
   };
 
   return <PlaygroundContext.Provider value={value}>{children}</PlaygroundContext.Provider>;

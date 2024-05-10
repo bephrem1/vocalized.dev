@@ -5,12 +5,13 @@ import { FunctionComponent } from 'react';
 import { Providers } from '../../../../../../fixtures/providers';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
+import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
 
-interface RetellDemoProps {
-  disabled?: boolean;
-}
+interface RetellDemoProps {}
 
-const RetellDemo: FunctionComponent<RetellDemoProps> = ({ disabled }) => {
+const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
+  const disabled = useConvoDemoDisabled({ providerId: Providers.Retell.id });
+
   return (
     <div className="relative w-full h-full">
       <div className="flex flex-col w-full h-full items-center justify-center">
