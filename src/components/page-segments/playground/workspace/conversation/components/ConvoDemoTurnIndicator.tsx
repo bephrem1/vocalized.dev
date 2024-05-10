@@ -44,7 +44,7 @@ export const ConvoDemoTurnIndicator: FunctionComponent<ConvoDemoTurnIndicatorPro
       <div className="flex flex-row items-center mb-2.5">
         <p className="text-neutral-300 text-sm mr-1.5">Speaking</p>
         <InfoTooltip
-          text="An indicator showing who is speaking. Works best while wearing headphones."
+          text="An indicator showing who is speaking. If not working or slow, try refreshing or switching to a different browser (like Chrome). Works best while wearing headphones."
           sizePx={11}
           infoIconColor="text-neutral-300"
         />
