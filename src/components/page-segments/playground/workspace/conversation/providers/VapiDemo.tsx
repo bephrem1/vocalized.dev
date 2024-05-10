@@ -18,17 +18,16 @@ import clsx from 'clsx';
 import { isEmpty } from '../../../../../../helpers/empty';
 import { roundToNPlaces } from '../../../../../../helpers/numbers';
 import tinycolor from 'tinycolor2';
+import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
 import { useLatencyTimer } from '../../hooks/useLatencyTimer';
 import { useOpacity } from '../../../../../../hooks/animation';
 import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
 
-interface VapiDemoProps {
-  disabled?: boolean;
-}
+interface VapiDemoProps {}
 
 const vapiBrandColor = '#5dfeca';
 
-const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
+const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
@@ -47,12 +46,13 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
     }
   };
 
-  const { isUserSpeaking } = useContext(UserSpeechRecognitionContext);
+  const { isUserSpeaking, stopSpeechRecognition } = useContext(UserSpeechRecognitionContext);
+  const handleUserSpeechEnd = () => {
+    startLatencyTimer();
+  };
   useUserSpeechHandlers({
     isUserSpeaking,
-    onUserSpeechEnd: () => {
-      startLatencyTimer();
-    }
+    onUserSpeechEnd: handleUserSpeechEnd
   });
 
   const { vapiClient } = useVapi({
@@ -61,12 +61,15 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ disabled = false }) => {
     recordLatencyReading,
     resetLatencyTimer,
     clearLatencyReadings,
-    setAssistantIsSpeaking
+    setAssistantIsSpeaking,
+    stopSpeechRecognition
   });
 
   const onClick = useOnClick({ callState, setCallState, vapiClient });
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
+
+  const disabled = useConvoDemoDisabled({ providerId: Providers.Vapi.id });
 
   const orbColor = tinycolor(vapiBrandColor).setAlpha(0.2).toRgbString();
   const className = clsx({
@@ -153,9 +156,11 @@ const useVapi = ({
   recordLatencyReading,
   resetLatencyTimer,
   clearLatencyReadings,
-  setAssistantIsSpeaking
+  setAssistantIsSpeaking,
+  stopSpeechRecognition
 }) => {
   const [vapiClient, setVapiClient] = useState(null);
+  const { setActiveConvoProviderId } = useContext(PlaygroundContext);
 
   // set client on credentials available
   const { getCredentials, checkCredentialsSet } = useContext(CredentialsContext);
@@ -179,12 +184,16 @@ const useVapi = ({
 
         resetLatencyTimer();
         clearLatencyReadings();
+        setActiveConvoProviderId(Providers.Vapi.id);
       });
 
       vapiClient.on('call-end', () => {
         setCallState(CallState.Off);
+
         setVolume(0);
         clearLatencyReadings();
+        stopSpeechRecognition();
+        setActiveConvoProviderId(null);
       });
 
       vapiClient.on('speech-start', () => {
@@ -215,7 +224,7 @@ const useOnClick = ({ callState, setCallState, vapiClient }) => {
   const credentialsSet = checkCredentialsSet({ providerId: Providers.Vapi.id });
 
   const { openModal } = useContext(ModalContext);
-  const { systemPrompt, firstMessage } = useContext(PlaygroundContext);
+  const { systemPrompt, firstMessage, setActiveConvoProviderId } = useContext(PlaygroundContext);
 
   if (callState === CallState.Off && !credentialsSet) {
     return () => {
@@ -249,6 +258,8 @@ const useOnClick = ({ callState, setCallState, vapiClient }) => {
         },
         ...(!isEmpty(firstMessage) ? { firstMessage } : {})
       });
+
+      setActiveConvoProviderId(Providers.Vapi.id);
     }
   };
   const stopCall = () => {
@@ -256,6 +267,7 @@ const useOnClick = ({ callState, setCallState, vapiClient }) => {
       vapiClient.stop();
 
       setCallState(CallState.Off);
+      setActiveConvoProviderId(null);
     }
   };
 

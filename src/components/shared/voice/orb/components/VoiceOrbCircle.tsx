@@ -53,9 +53,23 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
           }}
           style={{ height: '100%', width: '100%' }}
         >
-          <OuterCircleMask $color={color}>
-            <CircleWrapper>
-              <CircleMask $color={color} />
+          <div
+            style={{
+              boxShadow: `0px 4px 40px 0px rgba(0, 0, 0, 0.25), 0 0 80px ${color}, 0 0 0px ${color}`,
+              borderRadius: '9999px',
+              width: '100%',
+              height: '100%'
+            }}
+          >
+            <div
+              style={{
+                overflow: 'hidden',
+                borderRadius: '9999px',
+                width: '100%',
+                height: '100%'
+              }}
+            >
+              <CircleMask color={color} />
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{
@@ -92,8 +106,8 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
                   </Canvas>
                 )}
               </motion.div>
-            </CircleWrapper>
-          </OuterCircleMask>
+            </div>
+          </div>
         </motion.div>
       </motion.div>
     );
@@ -101,44 +115,35 @@ const VoiceOrbCircle: React.FunctionComponent<VoiceOrbCircleProps> = React.memo(
   (p1, p2) => p1.animateTextureMesh === p2.animateTextureMesh
 );
 
-const OuterCircleMask = styled.div<{ $color: string }>`
-  box-shadow: 0px 4px 40px 0px rgba(0, 0, 0, 0.25), 0 0 80px ${({ $color }) => $color},
-    0 0 0px ${({ $color }) => $color};
-  border-radius: 9999px;
-  width: 100%;
-  height: 100%;
-`;
-
-const CircleWrapper = styled.div`
-  overflow: hidden;
-  border-radius: 9999px;
-  width: 100%;
-  height: 100%;
-`;
-
-const CircleMask = styled.div<{ $color: string }>`
-  overflow: hidden;
-  border-radius: 9999px;
-  position: absolute;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-      54.75% 54.75% at 50% 50%,
-      ${({ $color }) => tinycolor($color).setAlpha(0).toRgbString()} 70.24%,
-      ${({ $color }) => tinycolor($color).setAlpha(0.6).toRgbString()} 100%
-    ),
-    linear-gradient(
-      135deg,
-      rgba(22, 35, 37, 0.54) 0%,
-      ${({ $color }) => tinycolor($color).setAlpha(0).toRgbString()} 100%
-    ),
-    radial-gradient(
-      50% 50% at 50% 50%,
-      ${({ $color }) => tinycolor($color).setAlpha(0).toRgbString()} 0%,
-      ${({ $color }) => tinycolor($color).setAlpha(0.65).toRgbString()} 90.5%
-    );
-  background-blend-mode: normal, darken, normal;
-`;
+const CircleMask = ({ color }) => {
+  return (
+    <div
+      style={{
+        overflow: 'hidden',
+        borderRadius: '9999px',
+        position: 'absolute',
+        zIndex: 2,
+        width: '100%',
+        height: '100%',
+        background: `radial-gradient(
+        54.75% 54.75% at 50% 50%,
+        ${tinycolor(color).setAlpha(0).toRgbString()} 70.24%,
+        ${tinycolor(color).setAlpha(0.6).toRgbString()} 100%
+      ),
+      linear-gradient(
+        135deg,
+        rgba(22, 35, 37, 0.54) 0%,
+        ${tinycolor(color).setAlpha(0).toRgbString()} 100%
+      ),
+      radial-gradient(
+        50% 50% at 50% 50%,
+        ${tinycolor(color).setAlpha(0).toRgbString()} 0%,
+        ${tinycolor(color).setAlpha(0.65).toRgbString()} 90.5%
+      )`,
+        backgroundBlendMode: 'normal, darken, normal'
+      }}
+    />
+  );
+};
 
 export default VoiceOrbCircle;

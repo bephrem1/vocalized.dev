@@ -13,13 +13,13 @@ const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {
           <VapiDemo />
         </div>
         <div className="border-dashed border-b border-b-stone-600">
-          <RetellDemo disabled={true} />
+          <RetellDemo />
         </div>
         <div className="border-dashed lg:border-r lg:border-r-stone-600 border-b border-b-stone-600 lg:border-b-0">
-          <BlandDemo disabled={true} />
+          <BlandDemo />
         </div>
         <div>
-          <PlayAIDemo disabled={true} />
+          <PlayAIDemo />
         </div>
       </div>
     </div>

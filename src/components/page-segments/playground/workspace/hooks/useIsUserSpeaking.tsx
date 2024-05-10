@@ -20,6 +20,7 @@ interface UseUserTranscriberReturn {
   transcriberState: UserTranscriberState;
   transcriberErrored: boolean;
   startRecognition: () => void;
+  stopRecognition: () => void;
 }
 
 export const useIsUserSpeaking = (): UseUserTranscriberReturn => {
@@ -111,6 +112,15 @@ export const useIsUserSpeaking = (): UseUserTranscriberReturn => {
 
     setIsUserSpeaking(false);
   };
+  const stopRecognition = () => {
+    if (recognitionRef.current) {
+      recognitionRef.current.stop();
+      recognitionRef.current = null;
+
+      setIsUserSpeaking(false);
+      setTranscriberState(UserTranscriberState.IDLE);
+    }
+  };
 
   // rescue transcription if it gets stuck
 
@@ -139,7 +149,8 @@ export const useIsUserSpeaking = (): UseUserTranscriberReturn => {
     isUserSpeaking,
     transcriberState,
     transcriberErrored: transcriberState === UserTranscriberState.ERROR,
-    startRecognition
+    startRecognition,
+    stopRecognition
   };
 };
 
