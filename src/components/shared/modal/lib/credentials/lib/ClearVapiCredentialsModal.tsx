@@ -5,12 +5,18 @@ import { CredentialsContext } from '../../../../../../context/credentials';
 import { EmptyObject } from '../../../../../../types/empty';
 import { ModalId } from '../../../modal-id';
 import { Providers } from '../../../../../../fixtures/providers';
+import { toast } from '../../../../shadcn/components/ui/use-toast';
 
 const ClearVapiCredentialsModal: FunctionComponent<EmptyObject> = () => {
   const { clearCredentials } = useContext(CredentialsContext);
 
   const onConfirm = () => {
     clearCredentials({ providerId: Providers.Vapi.id });
+
+    toast({
+      title: 'Credentials cleared',
+      description: `Your credentials have been cleared.`
+    });
   };
 
   return (
