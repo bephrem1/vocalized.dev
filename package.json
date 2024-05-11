@@ -34,6 +34,7 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.1",
+    "retell-client-js-sdk": "^1.3.3",
     "styled-components": "^6.1.9",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7",

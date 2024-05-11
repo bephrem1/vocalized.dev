@@ -50,7 +50,7 @@ export const Providers = {
     links: {
       homepage: 'https://www.retellai.com',
       documentation: 'https://docs.retellai.com',
-      dashboard: 'https://retellai.com/dashboard',
+      dashboard: 'https://beta.retellai.com/dashboard',
       playground: null,
       credentials: 'https://beta.retellai.com/dashboard/apiKeys'
     }
