@@ -33,7 +33,7 @@ const RetellClient = new RetellWebClient();
 const SAMPLE_RATE = 44100;
 
 const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
-  const [callState, setCallState] = useState<CallState>(CallState.Connected);
+  const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
 
   const [latencyReadings, setLatencyReadings] = useState<number[]>([]);
