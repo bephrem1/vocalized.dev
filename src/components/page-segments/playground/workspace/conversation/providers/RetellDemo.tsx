@@ -174,7 +174,7 @@ const useRetell = ({
     clearLatencyReadings();
     stopSpeechRecognition();
     setAssistantIsSpeaking(false);
-    setActiveConvoProviderId(Providers.Retell.id);
+    setActiveConvoProviderId(null);
   });
 
   RetellClient.on('agentStartTalking', () => {
