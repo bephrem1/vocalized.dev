@@ -31,6 +31,7 @@ const vapiBrandColor = '#5dfeca';
 
 const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
   const [modelId, setModelId] = useState(VapiModelId.OpenAIGPT3_5Turbo);
+  console.log(modelId);
 
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);
