@@ -30,7 +30,7 @@ interface VapiDemoProps {}
 const vapiBrandColor = '#5dfeca';
 
 const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
-  const [modelId, setModelId] = useState(VapiModelId.Llama70b_8192Groq);
+  const [modelId, setModelId] = useState(VapiModelId.OpenAIGPT3_5Turbo);
 
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);

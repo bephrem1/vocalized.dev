@@ -2,8 +2,7 @@ import {
   Select,
   SelectContent,
   SelectItem,
-  SelectTrigger,
-  SelectValue
+  SelectTrigger
 } from '../../../../../../../shared/shadcn/components/ui/select';
 
 import { FunctionComponent } from 'react';
@@ -26,12 +25,14 @@ export const VapiModelPicker: FunctionComponent<VapiModelPickerProps> = ({
 
       <Select>
         <SelectTrigger className=" flex flex-row  w-fit h-[38px] bg-neutral-900 border-solid border-neutral-800">
-          <ModelSelectItem modelId={VapiModelId.Llama70b_8192Groq} />
+          <ModelSelectItem modelId={modelId} />
         </SelectTrigger>
         <SelectContent className="bg-neutral-900 border-solid border-neutral-800">
-          <SelectItem value="light">Light</SelectItem>
-          <SelectItem value="dark">Dark</SelectItem>
-          <SelectItem value="system">System</SelectItem>
+          {Object.values(VapiModelId).map((modelId) => (
+            <SelectItem key={modelId} value={modelId} onSelect={() => setModelId(modelId)}>
+              <ModelSelectItem modelId={modelId} />
+            </SelectItem>
+          ))}
         </SelectContent>
       </Select>
     </div>
@@ -45,7 +46,7 @@ const ModelSelectItem = ({ modelId }) => {
         <ModelLogo modelId={modelId} />
       </div>
       <div className="mr-2">
-        <p className="text-neutral-200 opacity-[96]">Llama 70b 8192</p>
+        <ModelLabel modelId={modelId} />
       </div>
     </div>
   );
@@ -76,6 +77,23 @@ const ModelLogo = ({ modelId }) => {
       return MetaServedOnGroq;
     case VapiModelId.Llama70b_8192Groq:
       return MetaServedOnGroq;
+  }
+
+  return null;
+};
+
+const ModelLabel = ({ modelId }) => {
+  const Text = ({ children }) => <p className="text-neutral-200 opacity-[96]">{children}</p>;
+
+  switch (modelId) {
+    case VapiModelId.OpenAIGPT3_5Turbo:
+      return <Text>OpenAI GPT-3.5 Turbo</Text>;
+    case VapiModelId.OpenAIGPT4Turbo:
+      return <Text>OpenAI GPT-4 Turbo</Text>;
+    case VapiModelId.Llama8b_8192Groq:
+      return <Text>Llama 8b 8192</Text>;
+    case VapiModelId.Llama70b_8192Groq:
+      return <Text>Llama 70b 8192</Text>;
   }
 
   return null;
