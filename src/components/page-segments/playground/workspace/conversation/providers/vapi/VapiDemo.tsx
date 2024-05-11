@@ -115,7 +115,9 @@ const CallConfigs = ({ modelId, setModelId }) => {
 
   return (
     <div className="absolute top-0 left-0 w-fit h-fit" style={{ opacity: animatedOpacity }}>
-      <VapiModelPicker modelId={modelId} setModelId={setModelId} />
+      <div className="pt-5 pl-5">
+        <VapiModelPicker modelId={modelId} setModelId={setModelId} />
+      </div>
     </div>
   );
 };
