@@ -4,7 +4,7 @@ import { SESSION_STORAGE_KEYS } from '../persistence';
 import { usePersistedValue } from '../hooks/persistence';
 
 type Credentials = {
-  secretKey?: string;
+  apiKey?: string;
   publicKey?: string;
 };
 export type CredentialName = Credentials[keyof Credentials];

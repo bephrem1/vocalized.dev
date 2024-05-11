@@ -193,6 +193,7 @@ const useVapi = ({
         setVolume(0);
         clearLatencyReadings();
         stopSpeechRecognition();
+        setAssistantIsSpeaking(false);
         setActiveConvoProviderId(null);
       });
 
@@ -224,14 +225,13 @@ const useOnClick = ({ callState, setCallState, vapiClient }) => {
   const credentialsSet = checkCredentialsSet({ providerId: Providers.Vapi.id });
 
   const { openModal } = useContext(ModalContext);
-  const { systemPrompt, firstMessage, setActiveConvoProviderId } = useContext(PlaygroundContext);
-
   if (callState === CallState.Off && !credentialsSet) {
     return () => {
       openModal({ modalId: ModalId.SetVapiCredentials });
     };
   }
 
+  const { systemPrompt, firstMessage, setActiveConvoProviderId } = useContext(PlaygroundContext);
   const startCall = () => {
     if (vapiClient) {
       setCallState(CallState.Connecting);
