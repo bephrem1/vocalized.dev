@@ -1,7 +1,6 @@
 import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
 import { FunctionComponent, useContext, useState } from 'react';
 
-import { Button } from '../../../../../shared/shadcn/components/ui/button';
 import { CallState } from '../../../../../../types/call';
 import { ConvoDemoControlButton } from '../components/ConvoDemoControlButton';
 import ConvoDemoLatencyTrace from '../components/ConvoDemoLatencyTrace';
@@ -10,7 +9,6 @@ import { CredentialsContext } from '../../../../../../context/credentials';
 import { ModalContext } from '../../../../../../context/modal';
 import { ModalId } from '../../../../../shared/modal/modal-id';
 import { PlaygroundContext } from '../../../../../../context/playground';
-import { Progress } from '../../../../../shared/shadcn/components/ui/progress';
 import { Providers } from '../../../../../../fixtures/providers';
 import { RetellWebClient } from 'retell-client-js-sdk';
 import { UserSpeechRecognitionContext } from '../../../../../../context/user-speech-recognition';
@@ -18,7 +16,6 @@ import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 import axios from 'axios';
 import clsx from 'clsx';
 import { isEmpty } from '../../../../../../helpers/empty';
-import { roundToNPlaces } from '../../../../../../helpers/numbers';
 import tinycolor from 'tinycolor2';
 import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
 import { useLatencyTimer } from '../../hooks/useLatencyTimer';
@@ -130,22 +127,6 @@ const LatencyTrace = ({ latencyReadings }) => {
       style={{ opacity: animatedOpacity }}
     >
       <ConvoDemoLatencyTrace readings={latencyReadings} />
-    </div>
-  );
-};
-
-const VolumeStats = ({ volume }) => {
-  const adjustedVolume = volume * 100;
-  const displayVolume = roundToNPlaces({ value: volume, n: 6 });
-
-  return (
-    <div>
-      <p className="text-neutral-300 text-sm inline">Volume: {displayVolume}</p>
-      <Progress
-        value={adjustedVolume}
-        className="w-[125px] bg-neutral-700 mt-2 h-1.5"
-        indicatorStyle={{ backgroundColor: retellBrandColor }}
-      />
     </div>
   );
 };

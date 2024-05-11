@@ -1,33 +1,37 @@
-import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
+import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../../components';
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { VapiModelId, getVapiModelConfig } from '.';
 
-import { CallState } from '../../../../../../types/call';
-import { ConvoDemoControlButton } from '../components/ConvoDemoControlButton';
-import ConvoDemoLatencyTrace from '../components/ConvoDemoLatencyTrace';
-import { ConvoDemoTurnIndicator } from '../components/ConvoDemoTurnIndicator';
-import { CredentialsContext } from '../../../../../../context/credentials';
-import { ModalContext } from '../../../../../../context/modal';
-import { ModalId } from '../../../../../shared/modal/modal-id';
-import { PlaygroundContext } from '../../../../../../context/playground';
-import { Progress } from '../../../../../shared/shadcn/components/ui/progress';
-import { Providers } from '../../../../../../fixtures/providers';
-import { UserSpeechRecognitionContext } from '../../../../../../context/user-speech-recognition';
+import { CallState } from '../../../../../../../types/call';
+import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
+import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
+import { ConvoDemoTurnIndicator } from '../../components/ConvoDemoTurnIndicator';
+import { CredentialsContext } from '../../../../../../../context/credentials';
+import { ModalContext } from '../../../../../../../context/modal';
+import { ModalId } from '../../../../../../shared/modal/modal-id';
+import { PlaygroundContext } from '../../../../../../../context/playground';
+import { Progress } from '../../../../../../shared/shadcn/components/ui/progress';
+import { Providers } from '../../../../../../../fixtures/providers';
+import { UserSpeechRecognitionContext } from '../../../../../../../context/user-speech-recognition';
 import Vapi from '@vapi-ai/web';
-import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
+import { VapiModelPicker } from './components/VapiModelPicker';
+import VoiceOrb from '../../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
-import { isEmpty } from '../../../../../../helpers/empty';
-import { roundToNPlaces } from '../../../../../../helpers/numbers';
+import { isEmpty } from '../../../../../../../helpers/empty';
+import { roundToNPlaces } from '../../../../../../../helpers/numbers';
 import tinycolor from 'tinycolor2';
-import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
-import { useLatencyTimer } from '../../hooks/useLatencyTimer';
-import { useOpacity } from '../../../../../../hooks/animation';
-import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
+import { useConvoDemoDisabled } from '../../../hooks/useConvoDemoDisabled';
+import { useLatencyTimer } from '../../../hooks/useLatencyTimer';
+import { useOpacity } from '../../../../../../../hooks/animation';
+import { useUserSpeechHandlers } from '../../../hooks/useIsUserSpeaking';
 
 interface VapiDemoProps {}
 
 const vapiBrandColor = '#5dfeca';
 
 const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
+  const [modelId, setModelId] = useState(VapiModelId.OpenAIGPT3_5Turbo);
+
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
@@ -65,7 +69,8 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
     stopSpeechRecognition
   });
 
-  const onClick = useOnClick({ callState, setCallState, vapiClient });
+  const onClick = useOnClick({ modelId, vapiClient, callState, setCallState });
+  const showCallConfigs = callState === CallState.Off;
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
@@ -91,6 +96,8 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
       </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
+        {showCallConfigs && <CallConfigs modelId={modelId} setModelId={setModelId} />}
+
         {showRealtimeStats && (
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
@@ -99,6 +106,16 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
         <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
         <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} label="docs" />
       </div>
+    </div>
+  );
+};
+
+const CallConfigs = ({ modelId, setModelId }) => {
+  const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
+
+  return (
+    <div className="absolute top-0 left-0 w-fit h-fit" style={{ opacity: animatedOpacity }}>
+      <VapiModelPicker modelId={modelId} setModelId={setModelId} />
     </div>
   );
 };
@@ -220,7 +237,7 @@ const useVapi = ({
   return { vapiClient };
 };
 
-const useOnClick = ({ callState, setCallState, vapiClient }) => {
+const useOnClick = ({ modelId, vapiClient, callState, setCallState }) => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
   const credentialsSet = checkCredentialsSet({ providerId: Providers.Vapi.id });
 
@@ -242,16 +259,7 @@ const useOnClick = ({ callState, setCallState, vapiClient }) => {
           model: 'nova-2',
           language: 'en-US'
         },
-        model: {
-          provider: 'openai',
-          model: 'gpt-3.5-turbo',
-          messages: [
-            {
-              role: 'system',
-              content: systemPrompt
-            }
-          ]
-        },
+        model: getVapiModelConfig({ modelId, systemPrompt }),
         voice: {
           provider: 'playht',
           voiceId: 'jennifer'
