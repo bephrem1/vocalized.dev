@@ -204,14 +204,6 @@ const useRetell = ({
     setAssistantIsSpeaking(false);
   });
 
-  RetellClient.on('update', (update) => {
-    console.log('update event', update);
-  });
-
-  RetellClient.on('audio', (audio: Uint8Array) => {
-    // console.log('audio event', audio);
-  });
-
   RetellClient.on('error', (e) => {
     console.error(e);
   });
