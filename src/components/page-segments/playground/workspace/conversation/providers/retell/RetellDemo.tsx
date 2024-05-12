@@ -10,6 +10,7 @@ import { CredentialsContext } from '../../../../../../../context/credentials';
 import { ModalContext } from '../../../../../../../context/modal';
 import { ModalId } from '../../../../../../shared/modal/modal-id';
 import { PlaygroundContext } from '../../../../../../../context/playground';
+import { Progress } from '../../../../../../shared/shadcn/components/ui/progress';
 import { Providers } from '../../../../../../../fixtures/providers';
 import RetellModelPicker from './components/RetellModelPicker';
 import RetellVoicePicker from './components/RetellVoicePicker';
@@ -23,6 +24,7 @@ import tinycolor from 'tinycolor2';
 import { useConvoDemoDisabled } from '../../../hooks/useConvoDemoDisabled';
 import { useLatencyTimer } from '../../../hooks/useLatencyTimer';
 import { useOpacity } from '../../../../../../../hooks/animation';
+import { useSimulatedVolume } from '../../../hooks/useSimulatedVolume';
 import { useUserSpeechHandlers } from '../../../hooks/useIsUserSpeaking';
 
 interface RetellDemoProps {}
@@ -30,7 +32,6 @@ interface RetellDemoProps {}
 const retellBrandColor = '#ffffff';
 
 const RetellClient = new RetellWebClient();
-const SAMPLE_RATE = 44100;
 
 const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
   const [modelId, setModelId] = useState(RetellModelId.OpenAIGPT3_5Turbo);
@@ -39,6 +40,8 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
 
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
+
+  const { volume } = useSimulatedVolume({ assistantIsSpeaking });
 
   const [latencyReadings, setLatencyReadings] = useState<number[]>([]);
   const addLatencyReading = (latencyMs: number) =>
@@ -90,8 +93,8 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
         <VoiceOrb
           color={orbColor}
           sizePx={175}
-          callState={CallState.Off}
-          volume={0}
+          callState={callState}
+          volume={volume}
           onClick={onClick}
           disabled={disabled}
         />
@@ -110,9 +113,7 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
           />
         )}
 
-        {showRealtimeStats && (
-          <RealtimeStats volume={0.5} assistantIsSpeaking={assistantIsSpeaking} />
-        )}
+        {showRealtimeStats && <RealtimeStats assistantIsSpeaking={assistantIsSpeaking} />}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLogoSymbol src={Providers.Retell.logo.localPath} />
@@ -139,7 +140,7 @@ const CallConfigs = ({ modelId, setModelId, voiceId, setVoiceId, sampleRate, set
   );
 };
 
-const RealtimeStats = ({ assistantIsSpeaking, volume }) => {
+const RealtimeStats = ({ assistantIsSpeaking }) => {
   const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
 
   return (
@@ -248,7 +249,7 @@ const useOnClick = ({ modelId, voiceId, sampleRate, callState, setCallState }) =
       if (callId) {
         RetellClient.startConversation({
           callId,
-          sampleRate: SAMPLE_RATE,
+          sampleRate,
           enableUpdate: true
         });
       } else {
@@ -379,5 +380,9 @@ const RETELL_API_BASE_URL = 'https://api.retellai.com';
 const getCreateRetellLLMUrl = () => `${RETELL_API_BASE_URL}/create-retell-llm`;
 const getCreateAgentUrl = () => `${RETELL_API_BASE_URL}/create-agent`;
 const getRegisterCallUrl = () => `${RETELL_API_BASE_URL}/register-call`;
+const deleteRetellLLMUrl = ({ llmId }: { llmId: string }) =>
+  `${RETELL_API_BASE_URL}/delete-retell-llm/${llmId}`;
+const deleteAgentUrl = ({ agentId }: { agentId: string }) =>
+  `${RETELL_API_BASE_URL}/delete-agent/${agentId}`;
 
 export default RetellDemo;
