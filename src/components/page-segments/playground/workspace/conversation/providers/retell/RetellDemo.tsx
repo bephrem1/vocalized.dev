@@ -10,7 +10,6 @@ import { CredentialsContext } from '../../../../../../../context/credentials';
 import { ModalContext } from '../../../../../../../context/modal';
 import { ModalId } from '../../../../../../shared/modal/modal-id';
 import { PlaygroundContext } from '../../../../../../../context/playground';
-import { Progress } from '../../../../../../shared/shadcn/components/ui/progress';
 import { Providers } from '../../../../../../../fixtures/providers';
 import RetellModelPicker from './components/RetellModelPicker';
 import RetellVoicePicker from './components/RetellVoicePicker';
@@ -380,9 +379,5 @@ const RETELL_API_BASE_URL = 'https://api.retellai.com';
 const getCreateRetellLLMUrl = () => `${RETELL_API_BASE_URL}/create-retell-llm`;
 const getCreateAgentUrl = () => `${RETELL_API_BASE_URL}/create-agent`;
 const getRegisterCallUrl = () => `${RETELL_API_BASE_URL}/register-call`;
-const deleteRetellLLMUrl = ({ llmId }: { llmId: string }) =>
-  `${RETELL_API_BASE_URL}/delete-retell-llm/${llmId}`;
-const deleteAgentUrl = ({ agentId }: { agentId: string }) =>
-  `${RETELL_API_BASE_URL}/delete-agent/${agentId}`;
 
 export default RetellDemo;
