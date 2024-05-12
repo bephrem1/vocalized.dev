@@ -1,26 +1,29 @@
-import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
+import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../../components';
 import { FunctionComponent, useContext, useState } from 'react';
+import { RetellModelId, RetellSampleRate, RetellVoiceId } from '.';
 
-import { CallState } from '../../../../../../types/call';
-import { ConvoDemoControlButton } from '../components/ConvoDemoControlButton';
-import ConvoDemoLatencyTrace from '../components/ConvoDemoLatencyTrace';
-import { ConvoDemoTurnIndicator } from '../components/ConvoDemoTurnIndicator';
-import { CredentialsContext } from '../../../../../../context/credentials';
-import { ModalContext } from '../../../../../../context/modal';
-import { ModalId } from '../../../../../shared/modal/modal-id';
-import { PlaygroundContext } from '../../../../../../context/playground';
-import { Providers } from '../../../../../../fixtures/providers';
+import { CallState } from '../../../../../../../types/call';
+import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
+import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
+import { ConvoDemoTurnIndicator } from '../../components/ConvoDemoTurnIndicator';
+import { CredentialsContext } from '../../../../../../../context/credentials';
+import { ModalContext } from '../../../../../../../context/modal';
+import { ModalId } from '../../../../../../shared/modal/modal-id';
+import { PlaygroundContext } from '../../../../../../../context/playground';
+import { Providers } from '../../../../../../../fixtures/providers';
+import RetellModelPicker from './components/RetellModelPicker';
+import RetellVoicePicker from './components/RetellVoicePicker';
 import { RetellWebClient } from 'retell-client-js-sdk';
-import { UserSpeechRecognitionContext } from '../../../../../../context/user-speech-recognition';
-import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
+import { UserSpeechRecognitionContext } from '../../../../../../../context/user-speech-recognition';
+import VoiceOrb from '../../../../../../shared/voice/orb/VoiceOrb';
 import axios from 'axios';
 import clsx from 'clsx';
-import { isEmpty } from '../../../../../../helpers/empty';
+import { isEmpty } from '../../../../../../../helpers/empty';
 import tinycolor from 'tinycolor2';
-import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
-import { useLatencyTimer } from '../../hooks/useLatencyTimer';
-import { useOpacity } from '../../../../../../hooks/animation';
-import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
+import { useConvoDemoDisabled } from '../../../hooks/useConvoDemoDisabled';
+import { useLatencyTimer } from '../../../hooks/useLatencyTimer';
+import { useOpacity } from '../../../../../../../hooks/animation';
+import { useUserSpeechHandlers } from '../../../hooks/useIsUserSpeaking';
 
 interface RetellDemoProps {}
 
@@ -30,6 +33,10 @@ const RetellClient = new RetellWebClient();
 const SAMPLE_RATE = 44100;
 
 const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
+  const [modelId, setModelId] = useState(RetellModelId.OpenAIGPT3_5Turbo);
+  const [voiceId, setVoiceId] = useState(RetellVoiceId.ElevenLabsMarissa);
+  const [sampleRate, setSampleRate] = useState(RetellSampleRate.SAMPLE_RATE_44100);
+
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
 
@@ -65,7 +72,8 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
     stopSpeechRecognition
   });
 
-  const onClick = useOnClick({ callState, setCallState });
+  const onClick = useOnClick({ modelId, voiceId, sampleRate, callState, setCallState });
+  const showCallConfigs = callState === CallState.Off;
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
@@ -91,6 +99,17 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
       </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
+        {showCallConfigs && (
+          <CallConfigs
+            modelId={modelId}
+            setModelId={setModelId}
+            voiceId={voiceId}
+            setVoiceId={setVoiceId}
+            sampleRate={sampleRate}
+            setSampleRate={setSampleRate}
+          />
+        )}
+
         {showRealtimeStats && (
           <RealtimeStats volume={0.5} assistantIsSpeaking={assistantIsSpeaking} />
         )}
@@ -98,6 +117,23 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
 
         <ConvoDemoLogoSymbol src={Providers.Retell.logo.localPath} />
         <ConvoDemoLinkToSiteBadge dest={Providers.Retell.links.documentation} label="docs" />
+      </div>
+    </div>
+  );
+};
+
+const CallConfigs = ({ modelId, setModelId, voiceId, setVoiceId, sampleRate, setSampleRate }) => {
+  const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
+
+  return (
+    <div className="absolute top-0 left-0 w-fit h-fit" style={{ opacity: animatedOpacity }}>
+      <div className="pt-5 pl-5">
+        <div className="mb-2">
+          <RetellModelPicker modelId={modelId} setModelId={setModelId} />
+        </div>
+        <div className="mb-2">
+          <RetellVoicePicker voiceId={voiceId} setVoiceId={setVoiceId} />
+        </div>
       </div>
     </div>
   );
@@ -181,7 +217,7 @@ const useRetell = ({
   });
 };
 
-const useOnClick = ({ callState, setCallState }) => {
+const useOnClick = ({ modelId, voiceId, sampleRate, callState, setCallState }) => {
   const { getCredentials, checkCredentialsSet } = useContext(CredentialsContext);
   const credentialsSet = checkCredentialsSet({ providerId: Providers.Retell.id });
 
@@ -204,6 +240,9 @@ const useOnClick = ({ callState, setCallState }) => {
       const { callId } = await setupCall({
         systemPrompt,
         firstMessage,
+        modelId,
+        voiceId,
+        sampleRate,
         apiKey: credentials.apiKey
       });
       if (callId) {
@@ -235,13 +274,18 @@ const useOnClick = ({ callState, setCallState }) => {
   }
 };
 
-const setupCall = async ({ systemPrompt, firstMessage, apiKey }) => {
-  const { llmWebsocketUrl } = await createRetellLLM({ systemPrompt, firstMessage, apiKey });
+const setupCall = async ({ systemPrompt, firstMessage, modelId, voiceId, sampleRate, apiKey }) => {
+  const { llmWebsocketUrl } = await createRetellLLM({
+    systemPrompt,
+    firstMessage,
+    modelId,
+    apiKey
+  });
   if (llmWebsocketUrl) {
-    const { agentId } = await createAgent({ llmWebsocketUrl, apiKey });
+    const { agentId } = await createAgent({ voiceId, llmWebsocketUrl, apiKey });
 
     if (agentId) {
-      const { callId } = await registerCall({ agentId, apiKey });
+      const { callId } = await registerCall({ agentId, sampleRate, apiKey });
 
       return { callId };
     }
@@ -250,7 +294,7 @@ const setupCall = async ({ systemPrompt, firstMessage, apiKey }) => {
   return { callId: null };
 };
 
-const createRetellLLM = async ({ systemPrompt, firstMessage, apiKey }) => {
+const createRetellLLM = async ({ systemPrompt, firstMessage, modelId, apiKey }) => {
   try {
     const response = await axios({
       method: 'POST',
@@ -259,7 +303,7 @@ const createRetellLLM = async ({ systemPrompt, firstMessage, apiKey }) => {
         Authorization: `Bearer ${apiKey}`
       },
       data: {
-        model: 'gpt-3.5-turbo',
+        model: modelId,
         general_prompt: systemPrompt,
         ...(!isEmpty(firstMessage) ? { begin_message: firstMessage } : {})
       }
@@ -274,7 +318,7 @@ const createRetellLLM = async ({ systemPrompt, firstMessage, apiKey }) => {
 
   return { llmWebsocketUrl: null };
 };
-const createAgent = async ({ llmWebsocketUrl, apiKey }) => {
+const createAgent = async ({ voiceId, llmWebsocketUrl, apiKey }) => {
   try {
     const response = await axios({
       method: 'POST',
@@ -285,7 +329,7 @@ const createAgent = async ({ llmWebsocketUrl, apiKey }) => {
       data: {
         llm_websocket_url: llmWebsocketUrl,
         agent_name: 'Vocalized Test Agent',
-        voice_id: '11labs-Marissa',
+        voice_id: voiceId,
         responsiveness: 0,
         interruption_sensitivity: 1,
         enable_backchannel: true,
@@ -304,7 +348,7 @@ const createAgent = async ({ llmWebsocketUrl, apiKey }) => {
 
   return { agentId: null };
 };
-const registerCall = async ({ agentId, apiKey }) => {
+const registerCall = async ({ agentId, sampleRate, apiKey }) => {
   try {
     const response = await axios({
       method: 'POST',
@@ -316,7 +360,7 @@ const registerCall = async ({ agentId, apiKey }) => {
         agent_id: agentId,
         audio_websocket_protocol: 'web',
         audio_encoding: 's16le',
-        sample_rate: SAMPLE_RATE,
+        sample_rate: sampleRate,
         end_call_after_silence_ms: 10000
       }
     });

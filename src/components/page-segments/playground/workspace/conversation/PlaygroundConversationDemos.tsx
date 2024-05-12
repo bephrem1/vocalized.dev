@@ -2,7 +2,7 @@ import BlandDemo from './providers/BlandDemo';
 import { EmptyObject } from '../../../../../types/empty';
 import { FunctionComponent } from 'react';
 import HumeDemo from './providers/HumeDemo';
-import RetellDemo from './providers/RetellDemo';
+import RetellDemo from './providers/retell/RetellDemo';
 import VapiDemo from './providers/vapi/VapiDemo';
 
 const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {

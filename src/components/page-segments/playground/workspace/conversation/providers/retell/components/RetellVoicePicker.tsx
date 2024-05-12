@@ -6,19 +6,19 @@ import {
 } from '../../../../../../../shared/shadcn/components/ui/select';
 
 import { FunctionComponent } from 'react';
-import { VapiVoiceId } from '..';
+import { RetellVoiceId } from '..';
 import { twMerge } from 'tailwind-merge';
 
-interface VapiVoicePickerProps {
-  voiceId: VapiVoiceId;
-  setVoiceId: (voiceId: VapiVoiceId) => void;
+interface RetellVoicePickerProps {
+  voiceId: RetellVoiceId;
+  setVoiceId: (voiceId: RetellVoiceId) => void;
 }
 
-export const VapiVoicePicker: FunctionComponent<VapiVoicePickerProps> = ({
+export const RetellVoicePicker: FunctionComponent<RetellVoicePickerProps> = ({
   voiceId,
   setVoiceId
 }) => {
-  const onValueChange = (voiceId: VapiVoiceId) => {
+  const onValueChange = (voiceId: RetellVoiceId) => {
     setVoiceId(voiceId);
   };
 
@@ -31,7 +31,7 @@ export const VapiVoicePicker: FunctionComponent<VapiVoicePickerProps> = ({
         <VoiceSelectItem voiceId={voiceId} />
       </SelectTrigger>
       <SelectContent className="bg-neutral-900 border-solid border-neutral-800">
-        {Object.values(VapiVoiceId).map((voiceId) => (
+        {Object.values(RetellVoiceId).map((voiceId) => (
           <SelectItem key={voiceId} value={voiceId} className="hover:bg-neutral-800">
             <VoiceSelectItem voiceId={voiceId} />
           </SelectItem>
@@ -59,18 +59,20 @@ const VoiceLogo = ({ voiceId }) => {
   const imgClassName = 'w-[18px] h-[18px] rounded-[0.165rem]';
 
   // providers
-  const PlayHT = <img src="/images/logos/playht.png" className={imgClassName} draggable={false} />;
+  const ElevenLabs = (
+    <img src="/images/logos/elevenlabs.png" className={imgClassName} draggable={false} />
+  );
 
   // countries
   const USA = <img src="/images/country/usa.png" className={imgClassName} draggable={false} />;
 
   switch (voiceId) {
-    // PlayHT
-    case VapiVoiceId.PlayHTJennifer:
-    case VapiVoiceId.PlayHTJack:
+    // ElevenLabs
+    case RetellVoiceId.ElevenLabsMarissa:
+    case RetellVoiceId.ElevenLabsBing:
       return (
         <>
-          <div className="mr-1.5">{PlayHT}</div>
+          <div className="mr-1.5">{ElevenLabs}</div>
           {USA}
         </>
       );
@@ -83,10 +85,10 @@ const VoiceLabel = ({ voiceId }) => {
   const Text = ({ children }) => <p className="text-neutral-200 opacity-[96]">{children}</p>;
 
   switch (voiceId) {
-    case VapiVoiceId.PlayHTJennifer:
-      return <Text>Jennifer</Text>;
-    case VapiVoiceId.PlayHTJack:
-      return <Text>Jack</Text>;
+    case RetellVoiceId.ElevenLabsMarissa:
+      return <Text>Marissa</Text>;
+    case RetellVoiceId.ElevenLabsBing:
+      return <Text>Bing</Text>;
   }
 
   return null;
@@ -94,9 +96,9 @@ const VoiceLabel = ({ voiceId }) => {
 
 const VoiceGender = ({ voiceId }) => {
   switch (voiceId) {
-    case VapiVoiceId.PlayHTJennifer:
+    case RetellVoiceId.ElevenLabsMarissa:
       return <GenderSymbol gender="female" />;
-    case VapiVoiceId.PlayHTJack:
+    case RetellVoiceId.ElevenLabsBing:
       return <GenderSymbol gender="male" />;
   }
 };
@@ -117,4 +119,4 @@ const GenderSymbol = ({ gender }: { gender: 'male' | 'female' }) => {
   );
 };
 
-export default VapiVoicePicker;
+export default RetellVoicePicker;
