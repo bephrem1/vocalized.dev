@@ -22,27 +22,21 @@ export const VapiModelPicker: FunctionComponent<VapiModelPickerProps> = ({
   };
 
   return (
-    <div className="relative flex flex-row">
-      <div>
-        <p></p>
-      </div>
-
-      <Select value={modelId} onValueChange={onValueChange}>
-        <SelectTrigger
-          value={modelId}
-          className=" flex flex-row  w-fit h-[38px] bg-neutral-900 border-solid border-neutral-800"
-        >
-          <ModelSelectItem modelId={modelId} />
-        </SelectTrigger>
-        <SelectContent className="bg-neutral-900 border-solid border-neutral-800">
-          {Object.values(VapiModelId).map((modelId) => (
-            <SelectItem key={modelId} value={modelId}>
-              <ModelSelectItem modelId={modelId} />
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+    <Select value={modelId} onValueChange={onValueChange}>
+      <SelectTrigger
+        value={modelId}
+        className=" flex flex-row w-fit h-[38px] bg-neutral-900 border-solid border-neutral-800"
+      >
+        <ModelSelectItem modelId={modelId} />
+      </SelectTrigger>
+      <SelectContent className="bg-neutral-900 border-solid border-neutral-800">
+        {Object.values(VapiModelId).map((modelId) => (
+          <SelectItem key={modelId} value={modelId} className="hover:bg-neutral-800">
+            <ModelSelectItem modelId={modelId} />
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };
 
