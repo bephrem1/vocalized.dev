@@ -9,7 +9,7 @@ import { FunctionComponent } from 'react';
 import { VapiModelId } from '..';
 
 interface VapiModelPickerProps {
-  modelId: string;
+  modelId: VapiModelId;
   setModelId: (modelId: VapiModelId) => void;
 }
 
@@ -69,13 +69,11 @@ const ModelLogo = ({ modelId }) => {
   switch (modelId) {
     // proprietary
     case VapiModelId.OpenAIGPT3_5Turbo:
-      return OpenAI;
     case VapiModelId.OpenAIGPT4Turbo:
       return OpenAI;
 
     // open source
     case VapiModelId.Llama8b_8192Groq:
-      return MetaServedOnGroq;
     case VapiModelId.Llama70b_8192Groq:
       return MetaServedOnGroq;
   }
@@ -88,13 +86,13 @@ const ModelLabel = ({ modelId }) => {
 
   switch (modelId) {
     case VapiModelId.OpenAIGPT3_5Turbo:
-      return <Text>OpenAI GPT-3.5 Turbo</Text>;
+      return <Text>GPT-3.5 Turbo</Text>;
     case VapiModelId.OpenAIGPT4Turbo:
-      return <Text>OpenAI GPT-4 Turbo</Text>;
+      return <Text>GPT-4 Turbo</Text>;
     case VapiModelId.Llama8b_8192Groq:
-      return <Text>Llama 8b 8192</Text>;
+      return <Text>Llama 8b</Text>;
     case VapiModelId.Llama70b_8192Groq:
-      return <Text>Llama 70b 8192</Text>;
+      return <Text>Llama 70b</Text>;
   }
 
   return null;

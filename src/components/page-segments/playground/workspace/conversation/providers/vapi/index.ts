@@ -29,7 +29,6 @@ export const getVapiModelConfig = ({
     ]
   };
 };
-
 const getVapiModelBaseOptions = (modelId: VapiModelId) => {
   switch (modelId) {
     case VapiModelId.OpenAIGPT3_5Turbo:
@@ -51,6 +50,26 @@ const getVapiModelBaseOptions = (modelId: VapiModelId) => {
       return {
         provider: 'groq',
         model: 'llama3-70b-8192'
+      };
+  }
+};
+
+export enum VapiVoiceId {
+  PlayHTJennifer = 'playht-jennifer',
+  PlayHTJack = 'playht-jack'
+}
+
+export const getVapiVoiceConfig = ({ voiceId }: { voiceId: VapiVoiceId }) => {
+  switch (voiceId) {
+    case VapiVoiceId.PlayHTJennifer:
+      return {
+        provider: 'playht',
+        voiceId: 'jennifer'
+      };
+    case VapiVoiceId.PlayHTJack:
+      return {
+        provider: 'playht',
+        voiceId: 'jack'
       };
   }
 };

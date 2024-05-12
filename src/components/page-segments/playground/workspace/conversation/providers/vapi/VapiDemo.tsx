@@ -1,6 +1,6 @@
 import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../../components';
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
-import { VapiModelId, getVapiModelConfig } from '.';
+import { VapiModelId, VapiVoiceId, getVapiModelConfig, getVapiVoiceConfig } from '.';
 
 import { CallState } from '../../../../../../../types/call';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
@@ -15,6 +15,7 @@ import { Providers } from '../../../../../../../fixtures/providers';
 import { UserSpeechRecognitionContext } from '../../../../../../../context/user-speech-recognition';
 import Vapi from '@vapi-ai/web';
 import { VapiModelPicker } from './components/VapiModelPicker';
+import VapiVoicePicker from './components/VapiVoicePicker';
 import VoiceOrb from '../../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
 import { isEmpty } from '../../../../../../../helpers/empty';
@@ -31,6 +32,7 @@ const vapiBrandColor = '#5dfeca';
 
 const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
   const [modelId, setModelId] = useState(VapiModelId.OpenAIGPT3_5Turbo);
+  const [voiceId, setVoiceId] = useState(VapiVoiceId.PlayHTJennifer);
 
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [volume, setVolume] = useState(0);
@@ -69,7 +71,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
     stopSpeechRecognition
   });
 
-  const onClick = useOnClick({ modelId, vapiClient, callState, setCallState });
+  const onClick = useOnClick({ modelId, voiceId, vapiClient, callState, setCallState });
   const showCallConfigs = callState === CallState.Off;
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
@@ -96,7 +98,14 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
       </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
-        {showCallConfigs && <CallConfigs modelId={modelId} setModelId={setModelId} />}
+        {showCallConfigs && (
+          <CallConfigs
+            modelId={modelId}
+            setModelId={setModelId}
+            voiceId={voiceId}
+            setVoiceId={setVoiceId}
+          />
+        )}
 
         {showRealtimeStats && (
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
@@ -110,13 +119,16 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
   );
 };
 
-const CallConfigs = ({ modelId, setModelId }) => {
+const CallConfigs = ({ modelId, setModelId, voiceId, setVoiceId }) => {
   const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
 
   return (
     <div className="absolute top-0 left-0 w-fit h-fit" style={{ opacity: animatedOpacity }}>
       <div className="pt-5 pl-5">
-        <VapiModelPicker modelId={modelId} setModelId={setModelId} />
+        <div className="mb-2">
+          <VapiModelPicker modelId={modelId} setModelId={setModelId} />
+        </div>
+        <VapiVoicePicker voiceId={voiceId} setVoiceId={setVoiceId} />
       </div>
     </div>
   );
@@ -239,7 +251,7 @@ const useVapi = ({
   return { vapiClient };
 };
 
-const useOnClick = ({ modelId, vapiClient, callState, setCallState }) => {
+const useOnClick = ({ modelId, voiceId, vapiClient, callState, setCallState }) => {
   const { checkCredentialsSet } = useContext(CredentialsContext);
   const credentialsSet = checkCredentialsSet({ providerId: Providers.Vapi.id });
 
@@ -262,10 +274,7 @@ const useOnClick = ({ modelId, vapiClient, callState, setCallState }) => {
           language: 'en-US'
         },
         model: getVapiModelConfig({ modelId, systemPrompt }),
-        voice: {
-          provider: 'playht',
-          voiceId: 'jennifer'
-        },
+        voice: getVapiVoiceConfig({ voiceId }),
         ...(!isEmpty(firstMessage) ? { firstMessage } : {})
       });
 
