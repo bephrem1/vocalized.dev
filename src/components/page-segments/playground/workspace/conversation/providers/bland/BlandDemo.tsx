@@ -2,6 +2,7 @@ import { BlandModelId, BlandVoiceId } from '.';
 import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../../components';
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 
+import BlandModelPicker from './components/BlandModelPicker';
 import { BlandWebClient } from 'bland-client-js-sdk';
 import { CallState } from '../../../../../../../types/call';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
@@ -82,6 +83,7 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
     blandClient,
     setBlandClient
   });
+  const showCallConfigs = callState === CallState.Off;
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
@@ -103,6 +105,15 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
       </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
+        {showCallConfigs && (
+          <CallConfigs
+            modelId={modelId}
+            setModelId={setModelId}
+            voiceId={voiceId}
+            setVoiceId={setVoiceId}
+          />
+        )}
+
         {showRealtimeStats && (
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
@@ -110,6 +121,23 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
 
         <ConvoDemoLogoSymbol src={Providers.Bland.logo.localPath} />
         <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.documentation} label="docs" />
+      </div>
+    </div>
+  );
+};
+
+const CallConfigs = ({ modelId, setModelId, voiceId, setVoiceId }) => {
+  const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
+
+  return (
+    <div className="absolute top-0 left-0 w-fit h-fit" style={{ opacity: animatedOpacity }}>
+      <div className="pt-5 pl-5">
+        <div className="mb-2">
+          <BlandModelPicker modelId={modelId} setModelId={setModelId} />
+        </div>
+        <div className="mb-2">
+          {/* <RetellVoicePicker voiceId={voiceId} setVoiceId={setVoiceId} /> */}
+        </div>
       </div>
     </div>
   );
