@@ -7,6 +7,7 @@ import {
 
 import { FunctionComponent } from 'react';
 import { RetellModelId } from '..';
+import { twMerge } from 'tailwind-merge';
 
 interface RetellModelPickerProps {
   modelId: RetellModelId;
@@ -73,13 +74,28 @@ const ModelLogo = ({ modelId }) => {
 };
 
 const ModelLabel = ({ modelId }) => {
-  const Text = ({ children }) => <p className="text-neutral-200 opacity-[96]">{children}</p>;
+  const TextRegular = ({ children }) => (
+    <p className="text-neutral-200 text-sm opacity-[96] inline">{children}</p>
+  );
+  const TextSmall = ({ className = null, children }) => (
+    <p className={twMerge('text-neutral-200 text-xs opacity-[96] inline', className)}>{children}</p>
+  );
 
   switch (modelId) {
     case RetellModelId.OpenAIGPT3_5Turbo:
-      return <Text>GPT-3.5 Turbo (Retell LLM)</Text>;
+      return (
+        <span>
+          <TextRegular>GPT-3.5 Turbo</TextRegular>
+          <TextSmall className="text-neutral-400"> (Retell LLM)</TextSmall>
+        </span>
+      );
     case RetellModelId.OpenAIGPT4Turbo:
-      return <Text>GPT-4 Turbo (Retell LLM)</Text>;
+      return (
+        <span>
+          <TextRegular>GPT-4 Turbo</TextRegular>
+          <TextSmall className="text-neutral-400"> (Retell LLM)</TextSmall>
+        </span>
+      );
   }
 
   return null;

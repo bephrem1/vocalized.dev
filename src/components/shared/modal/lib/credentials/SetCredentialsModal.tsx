@@ -32,7 +32,7 @@ interface SetCredentialsModalProps {
   title: string;
   description: string;
   logoPath: string;
-  homepageUrl: string;
+  credentialsUrl: string;
   siteHostname: string;
   credentialFields: Array<CredentialName>;
   faqItems: Array<[JSX.Element, JSX.Element]>;
@@ -45,7 +45,7 @@ const SetCredentialsModal: FunctionComponent<SetCredentialsModalProps> = ({
   title,
   description,
   logoPath,
-  homepageUrl,
+  credentialsUrl,
   siteHostname,
   credentialFields,
   faqItems,
@@ -119,7 +119,7 @@ const SetCredentialsModal: FunctionComponent<SetCredentialsModalProps> = ({
             />
 
             <div className="absolute right-4 bottom-3">
-              <Link type="external" dest={homepageUrl} fillContainer openInNewWindow>
+              <Link type="external" dest={credentialsUrl} fillContainer openInNewWindow>
                 <div className="w-full h-full flex flex-row items-center justify-center px-2 py-1 bg-neutral-900 border border-neutral-800 rounded-sm">
                   <p className="text-neutral-500 text-xs mr-1.5"> Visit {siteHostname}</p>
                   <FontAwesomeIcon

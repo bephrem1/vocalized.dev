@@ -14,7 +14,7 @@ const SetVapiCredentialsModal: FunctionComponent<EmptyObject> = () => {
       title="Set Vapi Public Key"
       description="Set your Vapi credentials to begin conversations."
       logoPath={Providers.Vapi.logo.localPath}
-      homepageUrl={Providers.Vapi.links.homepage}
+      credentialsUrl={Providers.Vapi.links.credentials}
       siteHostname={Providers.Vapi.siteHostname}
       credentialFields={['publicKey']}
       faqItems={[

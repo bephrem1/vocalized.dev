@@ -14,7 +14,7 @@ const SetRetellCredentialsModal: FunctionComponent<EmptyObject> = () => {
       title="Set Retell API Key"
       description="Set your Retell credentials to begin conversations."
       logoPath={Providers.Retell.logo.localPath}
-      homepageUrl={Providers.Retell.links.homepage}
+      credentialsUrl={Providers.Retell.links.credentials}
       siteHostname={Providers.Retell.siteHostname}
       credentialFields={['apiKey']}
       faqItems={[
