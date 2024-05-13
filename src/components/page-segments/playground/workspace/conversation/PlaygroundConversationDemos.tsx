@@ -1,4 +1,4 @@
-import BlandDemo from './providers/BlandDemo';
+import BlandDemo from './providers/bland/BlandDemo';
 import { EmptyObject } from '../../../../../types/empty';
 import { FunctionComponent } from 'react';
 import HumeDemo from './providers/HumeDemo';

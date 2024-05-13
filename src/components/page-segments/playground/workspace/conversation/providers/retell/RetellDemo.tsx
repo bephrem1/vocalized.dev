@@ -82,14 +82,10 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
   const showLatencyTrace = callState === CallState.Connected;
 
   const disabled = useConvoDemoDisabled({ providerId: Providers.Retell.id });
-
   const orbColor = tinycolor(retellBrandColor).setAlpha(0.2).toRgbString();
-  const className = clsx({
-    'relative w-full h-full': true
-  });
 
   return (
-    <div className={className}>
+    <div className="relative w-full h-full">
       <div className="flex flex-col w-full h-full items-center justify-center">
         <VoiceOrb
           color={orbColor}
