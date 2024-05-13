@@ -1,3 +1,4 @@
+import ClearBlandCredentialsModal from '../../shared/modal/lib/credentials/lib/ClearBlandCredentialsModal';
 import ClearRetellCredentialsModal from '../../shared/modal/lib/credentials/lib/ClearRetellCredentialsModal';
 import ClearVapiCredentialsModal from '../../shared/modal/lib/credentials/lib/ClearVapiCredentialsModal';
 import CredentialsSheet from './components/CredentialsSheet';
@@ -6,6 +7,7 @@ import { FunctionComponent } from 'react';
 import PlaygroundFooter from './footer/PlaygroundFooter';
 import PlaygroundTopBar from './top-bar/PlaygroundTopBar';
 import PlaygroundWorkspace from './workspace/PlaygroundWorkspace';
+import SetBlandCredentialsModal from '../../shared/modal/lib/credentials/lib/SetBlandCredentialsModal';
 import SetRetellCredentialsModal from '../../shared/modal/lib/credentials/lib/SetRetellCredentialsModal';
 import SetVapiCredentialsModal from '../../shared/modal/lib/credentials/lib/SetVapiCredentialsModal';
 
@@ -31,9 +33,11 @@ const PlaygroundModals = () => {
     <>
       <SetVapiCredentialsModal />
       <SetRetellCredentialsModal />
+      <SetBlandCredentialsModal />
 
       <ClearVapiCredentialsModal />
       <ClearRetellCredentialsModal />
+      <ClearBlandCredentialsModal />
     </>
   );
 };
