@@ -5,17 +5,26 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { BlandWebClient } from 'bland-client-js-sdk';
 import { CallState } from '../../../../../../../types/call';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
+import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
+import { ConvoDemoTurnIndicator } from '../../components/ConvoDemoTurnIndicator';
 import { CredentialsContext } from '../../../../../../../context/credentials';
 import { ModalContext } from '../../../../../../../context/modal';
 import { ModalId } from '../../../../../../shared/modal/modal-id';
 import { PlaygroundContext } from '../../../../../../../context/playground';
+import { Progress } from '../../../../../../shared/shadcn/components/ui/progress';
 import { Providers } from '../../../../../../../fixtures/providers';
+import { UserSpeechRecognitionContext } from '../../../../../../../context/user-speech-recognition';
 import VoiceOrb from '../../../../../../shared/voice/orb/VoiceOrb';
 import axios from 'axios';
 import clsx from 'clsx';
 import { isEmpty } from '../../../../../../../helpers/empty';
+import { roundToNPlaces } from '../../../../../../../helpers/numbers';
 import tinycolor from 'tinycolor2';
 import { useConvoDemoDisabled } from '../../../hooks/useConvoDemoDisabled';
+import { useLatencyTimer } from '../../../hooks/useLatencyTimer';
+import { useOpacity } from '../../../../../../../hooks/animation';
+import { useSimulatedVolume } from '../../../hooks/useSimulatedVolume';
+import { useUserSpeechHandlers } from '../../../hooks/useIsUserSpeaking';
 
 interface BlandDemoProps {}
 
@@ -30,7 +39,40 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
 
-  useBland({ blandClient });
+  const { volume } = useSimulatedVolume({ assistantIsSpeaking });
+
+  const [latencyReadings, setLatencyReadings] = useState<number[]>([]);
+  const addLatencyReading = (latencyMs: number) =>
+    setLatencyReadings((prev) => [latencyMs, ...prev]);
+  const clearLatencyReadings = () => setLatencyReadings([]);
+
+  const { startLatencyTimer, readAndResetLatencyTimer, resetLatencyTimer } = useLatencyTimer();
+  const recordLatencyReading = () => {
+    const latencyMs = readAndResetLatencyTimer();
+
+    if (!isEmpty(latencyMs)) {
+      addLatencyReading(latencyMs);
+    }
+  };
+
+  const { isUserSpeaking, stopSpeechRecognition } = useContext(UserSpeechRecognitionContext);
+  const handleUserSpeechEnd = () => {
+    startLatencyTimer();
+  };
+  useUserSpeechHandlers({
+    isUserSpeaking,
+    onUserSpeechEnd: handleUserSpeechEnd
+  });
+
+  useBland({
+    setCallState,
+    recordLatencyReading,
+    resetLatencyTimer,
+    clearLatencyReadings,
+    setAssistantIsSpeaking,
+    stopSpeechRecognition,
+    blandClient
+  });
 
   const onClick = useOnClick({
     modelId,
@@ -40,6 +82,8 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
     blandClient,
     setBlandClient
   });
+  const showRealtimeStats = callState === CallState.Connected;
+  const showLatencyTrace = callState === CallState.Connected;
 
   const disabled = useConvoDemoDisabled({ providerId: Providers.Bland.id });
   const orbColor = tinycolor(blandBrandColor).setAlpha(0.2).lighten(15).toRgbString();
@@ -50,6 +94,7 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
         <VoiceOrb
           color={orbColor}
           sizePx={175}
+          volume={volume}
           callState={CallState.Off}
           onClick={onClick}
           disabled={disabled}
@@ -58,6 +103,11 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
       </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
+        {showRealtimeStats && (
+          <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
+        )}
+        {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
+
         <ConvoDemoLogoSymbol src={Providers.Bland.logo.localPath} />
         <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.documentation} label="docs" />
       </div>
@@ -65,10 +115,102 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
   );
 };
 
-const useBland = ({ blandClient }: { blandClient: BlandWebClient }) => {
+const RealtimeStats = ({ volume, assistantIsSpeaking }) => {
+  const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
+
+  return (
+    <div className="absolute top-0 left-0 w-[194px] h-fit" style={{ opacity: animatedOpacity }}>
+      <div className="pt-3 pb-4 px-4 border-r border-r-stone-800 border-b border-b-stone-800 border-dashed">
+        <VolumeStats volume={volume} />
+      </div>
+      <div className="pt-3 pb-4 px-4 border-r border-r-stone-800 border-b border-b-stone-800 border-dashed rounded-br-sm">
+        <ConvoDemoTurnIndicator
+          assistantIsSpeaking={assistantIsSpeaking}
+          providerId={Providers.Bland.id}
+        />
+      </div>
+    </div>
+  );
+};
+
+const VolumeStats = ({ volume }) => {
+  const adjustedVolume = volume * 100;
+  const displayVolume = roundToNPlaces({ value: volume, n: 3 });
+
+  const activeBarColor = tinycolor(blandBrandColor).lighten(20).toRgbString();
+
+  return (
+    <div>
+      <span className="whitespace-nowrap">
+        <p className="text-neutral-300 text-sm inline">Volume </p>
+        <p className="text-neutral-400 text-xs inline">(simulated): </p>
+        <p className="text-neutral-300 text-sm inline"> {displayVolume}</p>
+      </span>
+      <Progress
+        value={adjustedVolume}
+        className="w-[125px] bg-neutral-700 mt-2 h-1.5"
+        indicatorStyle={{ backgroundColor: activeBarColor }}
+      />
+    </div>
+  );
+};
+
+const LatencyTrace = ({ latencyReadings }) => {
+  const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
+
+  return (
+    <div
+      className="absolute top-0 right-0 w-fit h-fit pr-5 pt-3.5 border-dashed border-r-neutral-100"
+      style={{ opacity: animatedOpacity }}
+    >
+      <ConvoDemoLatencyTrace readings={latencyReadings} />
+    </div>
+  );
+};
+
+const useBland = ({
+  setCallState,
+  recordLatencyReading,
+  resetLatencyTimer,
+  clearLatencyReadings,
+  setAssistantIsSpeaking,
+  stopSpeechRecognition,
+  blandClient
+}) => {
+  const { setActiveConvoProviderId } = useContext(PlaygroundContext);
+
   useEffect(() => {
     if (blandClient) {
-      console.log(blandClient.eventNames());
+      blandClient.on('conversationStarted', () => {
+        setCallState(CallState.Connected);
+
+        resetLatencyTimer();
+        clearLatencyReadings();
+        setActiveConvoProviderId(Providers.Bland.id);
+      });
+
+      blandClient.on('conversationEnded', () => {
+        setCallState(CallState.Off);
+
+        clearLatencyReadings();
+        stopSpeechRecognition();
+        setAssistantIsSpeaking(false);
+        setActiveConvoProviderId(null);
+      });
+
+      blandClient.on('agentStartTalking', () => {
+        setAssistantIsSpeaking(true);
+
+        recordLatencyReading();
+      });
+
+      blandClient.on('agentStopTalking', () => {
+        setAssistantIsSpeaking(false);
+      });
+
+      blandClient.on('error', (e: any) => {
+        console.error(e);
+      });
     }
   }, [blandClient]);
 };

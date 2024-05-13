@@ -65,6 +65,10 @@ const getAssistantActiveColoring = ({ providerId }) => {
   switch (providerId) {
     case Providers.Vapi.id:
       return 'bg-emerald-700 bg-opacity-75 hover:bg-opacity-50 border border-solid border-emerald-600';
+    case Providers.Retell.id:
+      return 'bg-neutral-700 bg-opacity-75 hover:bg-opacity-50 border border-solid border-neutral-600';
+    case Providers.Bland.id:
+      return 'bg-violet-800 bg-opacity-75 hover:bg-opacity-50 border border-solid border-violet-700';
     default:
       throw Error(`please set a badge coloring for providerId: ${providerId}`);
   }

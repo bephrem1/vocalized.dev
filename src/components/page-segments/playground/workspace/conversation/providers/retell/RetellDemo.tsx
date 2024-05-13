@@ -150,7 +150,7 @@ const RealtimeStats = ({ volume, assistantIsSpeaking }) => {
       <div className="pt-3 pb-4 px-4 border-r border-r-stone-800 border-b border-b-stone-800 border-dashed rounded-br-sm">
         <ConvoDemoTurnIndicator
           assistantIsSpeaking={assistantIsSpeaking}
-          providerId={Providers.Vapi.id}
+          providerId={Providers.Retell.id}
         />
       </div>
     </div>
