@@ -60,6 +60,7 @@ const ModelLogo = ({ modelId }) => {
   switch (modelId) {
     case RetellModelId.OpenAIGPT3_5Turbo:
     case RetellModelId.OpenAIGPT4Turbo:
+    case RetellModelId.OpenAIGPT4o:
       return (
         <>
           <div className="mr-1.5">
@@ -93,6 +94,13 @@ const ModelLabel = ({ modelId }) => {
       return (
         <span>
           <TextRegular>GPT-4 Turbo</TextRegular>
+          <TextSmall className="text-neutral-400"> (Retell LLM)</TextSmall>
+        </span>
+      );
+    case RetellModelId.OpenAIGPT4o:
+      return (
+        <span>
+          <TextRegular>GPT-4o</TextRegular>
           <TextSmall className="text-neutral-400"> (Retell LLM)</TextSmall>
         </span>
       );

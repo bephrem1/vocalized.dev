@@ -68,7 +68,7 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
 const useBland = ({ blandClient }: { blandClient: BlandWebClient }) => {
   useEffect(() => {
     if (blandClient) {
-      console.log(blandClient.isTalking);
+      console.log(blandClient.eventNames());
     }
   }, [blandClient]);
 };
