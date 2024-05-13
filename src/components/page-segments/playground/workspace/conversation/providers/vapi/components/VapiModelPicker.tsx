@@ -70,6 +70,7 @@ const ModelLogo = ({ modelId }) => {
     // proprietary
     case VapiModelId.OpenAIGPT3_5Turbo:
     case VapiModelId.OpenAIGPT4Turbo:
+    case VapiModelId.OpenAIGPT4o:
       return OpenAI;
 
     // open source
@@ -89,6 +90,8 @@ const ModelLabel = ({ modelId }) => {
       return <Text>GPT-3.5 Turbo</Text>;
     case VapiModelId.OpenAIGPT4Turbo:
       return <Text>GPT-4 Turbo</Text>;
+    case VapiModelId.OpenAIGPT4o:
+      return <Text>GPT-4o</Text>;
     case VapiModelId.Llama8b_8192Groq:
       return <Text>Llama 8b</Text>;
     case VapiModelId.Llama70b_8192Groq:
