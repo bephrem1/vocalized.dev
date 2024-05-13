@@ -3,6 +3,7 @@ export enum VapiModelId {
   // - OpenAI
   OpenAIGPT3_5Turbo = 'gpt-3.5-turbo',
   OpenAIGPT4Turbo = 'gpt-4-turbo',
+  OpenAIGPT4o = 'gpt-4o',
 
   // Open Source
   // - Meta
@@ -40,6 +41,11 @@ const getVapiModelBaseOptions = (modelId: VapiModelId) => {
       return {
         provider: 'openai',
         model: 'gpt-4-turbo'
+      };
+    case VapiModelId.OpenAIGPT4o:
+      return {
+        provider: 'openai',
+        model: 'gpt-4o'
       };
     case VapiModelId.Llama8b_8192Groq:
       return {
