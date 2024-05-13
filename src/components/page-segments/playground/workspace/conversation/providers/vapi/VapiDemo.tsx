@@ -31,7 +31,7 @@ interface VapiDemoProps {}
 const vapiBrandColor = '#5dfeca';
 
 const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
-  const [modelId, setModelId] = useState(VapiModelId.OpenAIGPT4o);
+  const [modelId, setModelId] = useState(VapiModelId.OpenAIGPT3_5Turbo);
   const [voiceId, setVoiceId] = useState(VapiVoiceId.PlayHTJennifer);
 
   const [callState, setCallState] = useState<CallState>(CallState.Off);
