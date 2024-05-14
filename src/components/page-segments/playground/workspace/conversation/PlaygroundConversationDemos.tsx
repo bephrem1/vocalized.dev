@@ -1,11 +1,15 @@
+import { FunctionComponent, useState } from 'react';
+
 import BlandDemo from './providers/bland/BlandDemo';
 import { EmptyObject } from '../../../../../types/empty';
-import { FunctionComponent } from 'react';
 import HumeDemo from './providers/HumeDemo';
+import { ProviderId } from '../../../../../fixtures/providers';
 import RetellDemo from './providers/retell/RetellDemo';
 import VapiDemo from './providers/vapi/VapiDemo';
 
 const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {
+  const [visibleDemos, setVisibleDemos] = useState<Array<ProviderId>>([]);
+
   return (
     <div className="flex flex-grow h-full">
       <div className="w-full grid grid-cols-1 grid-rows-4 lg:grid-cols-2 lg:grid-rows-2">
