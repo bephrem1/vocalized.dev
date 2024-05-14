@@ -3,6 +3,7 @@ import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../../components'
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import BlandModelPicker from './components/BlandModelPicker';
+import BlandVoicePicker from './components/BlandVoicePicker';
 import { BlandWebClient } from 'bland-client-js-sdk';
 import { CallState } from '../../../../../../../types/call';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
@@ -136,7 +137,7 @@ const CallConfigs = ({ modelId, setModelId, voiceId, setVoiceId }) => {
           <BlandModelPicker modelId={modelId} setModelId={setModelId} />
         </div>
         <div className="mb-2">
-          {/* <RetellVoicePicker voiceId={voiceId} setVoiceId={setVoiceId} /> */}
+          <BlandVoicePicker voiceId={voiceId} setVoiceId={setVoiceId} />
         </div>
       </div>
     </div>
