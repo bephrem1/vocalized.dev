@@ -8,7 +8,12 @@ import RetellDemo from './providers/retell/RetellDemo';
 import VapiDemo from './providers/vapi/VapiDemo';
 
 const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {
-  const [visibleDemos, setVisibleDemos] = useState<Array<ProviderId>>([]);
+  const [visibleDemos, setVisibleDemos] = useState<Array<ProviderId>>([
+    ProviderId.Vapi,
+    ProviderId.Retell,
+    ProviderId.Bland,
+    ProviderId.Hume
+  ]);
 
   return (
     <div className="flex flex-grow h-full">

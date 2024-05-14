@@ -1,6 +1,6 @@
-import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
-
 import { CallState } from '../../../../../../types/call';
+import ConvoDemoLinks from '../components/ConvoDemoLinks';
+import { ConvoDemoLogoSymbol } from '../components';
 import { FunctionComponent } from 'react';
 import { Providers } from '../../../../../../fixtures/providers';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
@@ -19,8 +19,8 @@ const PlayAIDemo: FunctionComponent<PlayAIDemoProps> = () => {
       </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
+        <ConvoDemoLinks docsLink={Providers.PlayAI.links.documentation} />
         <ConvoDemoLogoSymbol src={Providers.PlayAI.logo.localPath} />
-        <ConvoDemoLinkToSiteBadge dest={Providers.PlayAI.links.documentation} label="docs" />
       </div>
     </div>
   );
