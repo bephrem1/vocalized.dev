@@ -35,7 +35,7 @@ const blandBrandColor = '#6C66E7';
 const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
   const [blandClient, setBlandClient] = useState<BlandWebClient>(null);
 
-  const [modelId, setModelId] = useState(BlandModelId.Turbo);
+  const [modelId, setModelId] = useState(BlandModelId.Base);
   const [voiceId, setVoiceId] = useState(BlandVoiceId.Tina);
 
   const [callState, setCallState] = useState<CallState>(CallState.Off);
