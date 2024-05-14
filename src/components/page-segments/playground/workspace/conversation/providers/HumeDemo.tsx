@@ -20,7 +20,10 @@ const HumeDemo: FunctionComponent<HumeDemoProps> = () => {
 
       <div className={clsx({ 'opacity-50': disabled })}>
         <ConvoDemoLogoSymbol src={Providers.Hume.logo.localPath} />
-        <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.playground} label="playground" />
+        <div>
+          <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.playground} label="playground" />
+          <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.playground} label="playground" />
+        </div>
       </div>
     </div>
   );
