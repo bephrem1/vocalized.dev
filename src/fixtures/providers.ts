@@ -65,7 +65,7 @@ export const Providers = {
     links: {
       homepage: 'https://www.bland.ai',
       documentation: 'https://docs.bland.ai',
-      dashboard: 'https://app.bland.ai',
+      dashboard: 'https://app.bland.ai/dashboard?page=home',
       playground: null,
       credentials: 'https://app.bland.ai/dashboard?page=settings'
     }

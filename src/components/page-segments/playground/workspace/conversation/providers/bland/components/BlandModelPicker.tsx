@@ -5,20 +5,20 @@ import {
   SelectTrigger
 } from '../../../../../../../shared/shadcn/components/ui/select';
 
+import { BlandModelId } from '..';
 import { FunctionComponent } from 'react';
-import { RetellModelId } from '..';
 import { twMerge } from 'tailwind-merge';
 
-interface RetellModelPickerProps {
-  modelId: RetellModelId;
-  setModelId: (modelId: RetellModelId) => void;
+interface BlandModelPickerProps {
+  modelId: BlandModelId;
+  setModelId: (modelId: BlandModelId) => void;
 }
 
-export const RetellModelPicker: FunctionComponent<RetellModelPickerProps> = ({
+export const BlandModelPicker: FunctionComponent<BlandModelPickerProps> = ({
   modelId,
   setModelId
 }) => {
-  const onValueChange = (modelId: RetellModelId) => {
+  const onValueChange = (modelId: BlandModelId) => {
     setModelId(modelId);
   };
 
@@ -31,7 +31,7 @@ export const RetellModelPicker: FunctionComponent<RetellModelPickerProps> = ({
         <ModelSelectItem modelId={modelId} />
       </SelectTrigger>
       <SelectContent className="bg-neutral-900 border-solid border-neutral-800">
-        {Object.values(RetellModelId).map((modelId) => (
+        {Object.values(BlandModelId).map((modelId) => (
           <SelectItem key={modelId} value={modelId} className="hover:bg-neutral-800">
             <ModelSelectItem modelId={modelId} />
           </SelectItem>
@@ -58,17 +58,10 @@ const ModelLogo = ({ modelId }) => {
   const logoClassName = 'w-[18px] h-[18px] rounded-[0.165rem]';
 
   switch (modelId) {
-    case RetellModelId.OpenAIGPT3_5Turbo:
-    case RetellModelId.OpenAIGPT4Turbo:
-    case RetellModelId.OpenAIGPT4o:
-      return (
-        <>
-          <div className="mr-1.5">
-            <img src="/images/logos/openai.png" className={logoClassName} draggable={false} />
-          </div>
-          <img src="/images/logos/retell.png" className={logoClassName} draggable={false} />
-        </>
-      );
+    case BlandModelId.Base:
+    case BlandModelId.Enhanced:
+    case BlandModelId.Turbo:
+      return <img src="/images/logos/bland.png" className={logoClassName} draggable={false} />;
   }
 
   return null;
@@ -83,25 +76,25 @@ const ModelLabel = ({ modelId }) => {
   );
 
   switch (modelId) {
-    case RetellModelId.OpenAIGPT3_5Turbo:
+    case BlandModelId.Base:
       return (
         <span>
-          <TextRegular>GPT-3.5 Turbo</TextRegular>
-          <TextSmall className="text-neutral-400"> (Retell LLM)</TextSmall>
+          <TextRegular>Base</TextRegular>
+          <TextSmall className="text-neutral-400"> (Bland)</TextSmall>
         </span>
       );
-    case RetellModelId.OpenAIGPT4Turbo:
+    case BlandModelId.Enhanced:
       return (
         <span>
-          <TextRegular>GPT-4 Turbo</TextRegular>
-          <TextSmall className="text-neutral-400"> (Retell LLM)</TextSmall>
+          <TextRegular>Enhanced</TextRegular>
+          <TextSmall className="text-neutral-400"> (Bland)</TextSmall>
         </span>
       );
-    case RetellModelId.OpenAIGPT4o:
+    case BlandModelId.Turbo:
       return (
         <span>
-          <TextRegular>GPT-4o</TextRegular>
-          <TextSmall className="text-neutral-400"> (Retell LLM)</TextSmall>
+          <TextRegular>Turbo</TextRegular>
+          <TextSmall className="text-neutral-400"> (Bland)</TextSmall>
         </span>
       );
   }
@@ -109,4 +102,4 @@ const ModelLabel = ({ modelId }) => {
   return null;
 };
 
-export default RetellModelPicker;
+export default BlandModelPicker;

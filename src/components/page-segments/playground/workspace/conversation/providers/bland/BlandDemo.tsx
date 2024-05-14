@@ -1,7 +1,10 @@
+import { BlandModelId, BlandVoiceId } from '.';
 import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../../components';
-import { FunctionComponent, useContext, useState } from 'react';
-import { RetellModelId, RetellSampleRate, RetellVoiceId } from '.';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
 
+import BlandModelPicker from './components/BlandModelPicker';
+import BlandVoicePicker from './components/BlandVoicePicker';
+import { BlandWebClient } from 'bland-client-js-sdk';
 import { CallState } from '../../../../../../../types/call';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
 import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
@@ -12,9 +15,6 @@ import { ModalId } from '../../../../../../shared/modal/modal-id';
 import { PlaygroundContext } from '../../../../../../../context/playground';
 import { Progress } from '../../../../../../shared/shadcn/components/ui/progress';
 import { Providers } from '../../../../../../../fixtures/providers';
-import RetellModelPicker from './components/RetellModelPicker';
-import RetellVoicePicker from './components/RetellVoicePicker';
-import { RetellWebClient } from 'retell-client-js-sdk';
 import { UserSpeechRecognitionContext } from '../../../../../../../context/user-speech-recognition';
 import VoiceOrb from '../../../../../../shared/voice/orb/VoiceOrb';
 import axios from 'axios';
@@ -28,16 +28,15 @@ import { useOpacity } from '../../../../../../../hooks/animation';
 import { useSimulatedVolume } from '../../../hooks/useSimulatedVolume';
 import { useUserSpeechHandlers } from '../../../hooks/useIsUserSpeaking';
 
-interface RetellDemoProps {}
+interface BlandDemoProps {}
 
-const retellBrandColor = '#ffffff';
+const blandBrandColor = '#6C66E7';
 
-const RetellClient = new RetellWebClient();
+const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
+  const [blandClient, setBlandClient] = useState<BlandWebClient>(null);
 
-const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
-  const [modelId, setModelId] = useState(RetellModelId.OpenAIGPT3_5Turbo);
-  const [voiceId, setVoiceId] = useState(RetellVoiceId.ElevenLabsMarissa);
-  const [sampleRate, setSampleRate] = useState(RetellSampleRate.SAMPLE_RATE_44100);
+  const [modelId, setModelId] = useState(BlandModelId.Turbo);
+  const [voiceId, setVoiceId] = useState(BlandVoiceId.Tina);
 
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
@@ -67,22 +66,30 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
     onUserSpeechEnd: handleUserSpeechEnd
   });
 
-  useRetell({
+  useBland({
     setCallState,
     recordLatencyReading,
     resetLatencyTimer,
     clearLatencyReadings,
     setAssistantIsSpeaking,
-    stopSpeechRecognition
+    stopSpeechRecognition,
+    blandClient
   });
 
-  const onClick = useOnClick({ modelId, voiceId, sampleRate, callState, setCallState });
+  const onClick = useOnClick({
+    modelId,
+    voiceId,
+    callState,
+    setCallState,
+    blandClient,
+    setBlandClient
+  });
   const showCallConfigs = callState === CallState.Off;
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
-  const disabled = useConvoDemoDisabled({ providerId: Providers.Retell.id });
-  const orbColor = tinycolor(retellBrandColor).setAlpha(0.2).toRgbString();
+  const disabled = useConvoDemoDisabled({ providerId: Providers.Bland.id });
+  const orbColor = tinycolor(blandBrandColor).setAlpha(0.2).lighten(15).toRgbString();
 
   return (
     <div className="relative w-full h-full">
@@ -90,8 +97,8 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
         <VoiceOrb
           color={orbColor}
           sizePx={175}
-          callState={callState}
           volume={volume}
+          callState={CallState.Off}
           onClick={onClick}
           disabled={disabled}
         />
@@ -105,8 +112,6 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
             setModelId={setModelId}
             voiceId={voiceId}
             setVoiceId={setVoiceId}
-            sampleRate={sampleRate}
-            setSampleRate={setSampleRate}
           />
         )}
 
@@ -115,24 +120,24 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
         )}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
-        <ConvoDemoLogoSymbol src={Providers.Retell.logo.localPath} />
-        <ConvoDemoLinkToSiteBadge dest={Providers.Retell.links.documentation} label="docs" />
+        <ConvoDemoLogoSymbol src={Providers.Bland.logo.localPath} />
+        <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.documentation} label="docs" />
       </div>
     </div>
   );
 };
 
-const CallConfigs = ({ modelId, setModelId, voiceId, setVoiceId, sampleRate, setSampleRate }) => {
+const CallConfigs = ({ modelId, setModelId, voiceId, setVoiceId }) => {
   const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
 
   return (
     <div className="absolute top-0 left-0 w-fit h-fit" style={{ opacity: animatedOpacity }}>
       <div className="pt-5 pl-5">
         <div className="mb-2">
-          <RetellModelPicker modelId={modelId} setModelId={setModelId} />
+          <BlandModelPicker modelId={modelId} setModelId={setModelId} />
         </div>
         <div className="mb-2">
-          <RetellVoicePicker voiceId={voiceId} setVoiceId={setVoiceId} />
+          <BlandVoicePicker voiceId={voiceId} setVoiceId={setVoiceId} />
         </div>
       </div>
     </div>
@@ -150,7 +155,7 @@ const RealtimeStats = ({ volume, assistantIsSpeaking }) => {
       <div className="pt-3 pb-4 px-4 border-r border-r-stone-800 border-b border-b-stone-800 border-dashed rounded-br-sm">
         <ConvoDemoTurnIndicator
           assistantIsSpeaking={assistantIsSpeaking}
-          providerId={Providers.Retell.id}
+          providerId={Providers.Bland.id}
         />
       </div>
     </div>
@@ -160,6 +165,8 @@ const RealtimeStats = ({ volume, assistantIsSpeaking }) => {
 const VolumeStats = ({ volume }) => {
   const adjustedVolume = volume * 100;
   const displayVolume = roundToNPlaces({ value: volume, n: 3 });
+
+  const activeBarColor = tinycolor(blandBrandColor).lighten(20).toRgbString();
 
   return (
     <div>
@@ -171,7 +178,7 @@ const VolumeStats = ({ volume }) => {
       <Progress
         value={adjustedVolume}
         className="w-[125px] bg-neutral-700 mt-2 h-1.5"
-        indicatorStyle={{ backgroundColor: retellBrandColor }}
+        indicatorStyle={{ backgroundColor: activeBarColor }}
       />
     </div>
   );
@@ -190,93 +197,105 @@ const LatencyTrace = ({ latencyReadings }) => {
   );
 };
 
-const useRetell = ({
+const useBland = ({
   setCallState,
   recordLatencyReading,
   resetLatencyTimer,
   clearLatencyReadings,
   setAssistantIsSpeaking,
-  stopSpeechRecognition
+  stopSpeechRecognition,
+  blandClient
 }) => {
   const { setActiveConvoProviderId } = useContext(PlaygroundContext);
 
-  RetellClient.on('conversationStarted', () => {
-    setCallState(CallState.Connected);
+  useEffect(() => {
+    if (blandClient) {
+      blandClient.on('conversationStarted', () => {
+        setCallState(CallState.Connected);
 
-    resetLatencyTimer();
-    clearLatencyReadings();
-    setActiveConvoProviderId(Providers.Retell.id);
-  });
+        resetLatencyTimer();
+        clearLatencyReadings();
+        setActiveConvoProviderId(Providers.Bland.id);
+      });
 
-  RetellClient.on('conversationEnded', () => {
-    setCallState(CallState.Off);
+      blandClient.on('conversationEnded', () => {
+        setCallState(CallState.Off);
 
-    clearLatencyReadings();
-    stopSpeechRecognition();
-    setAssistantIsSpeaking(false);
-    setActiveConvoProviderId(null);
-  });
+        clearLatencyReadings();
+        stopSpeechRecognition();
+        setAssistantIsSpeaking(false);
+        setActiveConvoProviderId(null);
+      });
 
-  RetellClient.on('agentStartTalking', () => {
-    setAssistantIsSpeaking(true);
+      blandClient.on('agentStartTalking', () => {
+        setAssistantIsSpeaking(true);
 
-    recordLatencyReading();
-  });
+        recordLatencyReading();
+      });
 
-  RetellClient.on('agentStopTalking', () => {
-    setAssistantIsSpeaking(false);
-  });
+      blandClient.on('agentStopTalking', () => {
+        setAssistantIsSpeaking(false);
+      });
 
-  RetellClient.on('error', (e) => {
-    console.error(e);
-  });
+      blandClient.on('error', (e: any) => {
+        console.error(e);
+      });
+    }
+  }, [blandClient]);
 };
 
-const useOnClick = ({ modelId, voiceId, sampleRate, callState, setCallState }) => {
+const useOnClick = ({ modelId, voiceId, callState, setCallState, blandClient, setBlandClient }) => {
   const { getCredentials, checkCredentialsSet } = useContext(CredentialsContext);
-  const credentialsSet = checkCredentialsSet({ providerId: Providers.Retell.id });
+  const credentialsSet = checkCredentialsSet({ providerId: Providers.Bland.id });
 
   const { openModal } = useContext(ModalContext);
   if (callState === CallState.Off && !credentialsSet) {
     return () => {
-      openModal({ modalId: ModalId.SetRetellCredentials });
+      openModal({ modalId: ModalId.SetBlandCredentials });
     };
   }
 
   const { systemPrompt, firstMessage, setActiveConvoProviderId } = useContext(PlaygroundContext);
   const startCall = async () => {
-    const credentials = getCredentials({ providerId: Providers.Retell.id });
+    const credentials = getCredentials({ providerId: Providers.Bland.id });
     const apiKeySet = !isEmpty(credentials) && credentials.apiKey;
 
     if (apiKeySet) {
       setCallState(CallState.Connecting);
-      setActiveConvoProviderId(Providers.Retell.id);
+      setActiveConvoProviderId(Providers.Bland.id);
 
-      const { callId } = await setupCall({
-        systemPrompt,
-        firstMessage,
-        modelId,
-        voiceId,
-        sampleRate,
-        apiKey: credentials.apiKey
-      });
-      if (callId) {
-        RetellClient.startConversation({
-          callId,
-          sampleRate,
-          enableUpdate: true
+      try {
+        const { agentId, callToken } = await setupCall({
+          systemPrompt,
+          firstMessage,
+          modelId,
+          voiceId,
+          apiKey: credentials.apiKey
         });
-      } else {
+
+        const callClient = new BlandWebClient(agentId, callToken);
+        setBlandClient(callClient);
+
+        callClient.initConversation({ sampleRate: 44100 } as any).then(() => {
+          setCallState(CallState.Connected);
+        });
+      } catch (error) {
+        console.error('Error starting Bland web call', error);
+
         setCallState(CallState.Off);
         setActiveConvoProviderId(null);
+        setBlandClient(null);
       }
     }
   };
   const stopCall = () => {
-    RetellClient.stopConversation();
+    if (blandClient) {
+      blandClient.stopConversation();
 
-    setCallState(CallState.Off);
-    setActiveConvoProviderId(null);
+      setCallState(CallState.Off);
+      setActiveConvoProviderId(null);
+      setBlandClient(null);
+    }
   };
 
   switch (callState) {
@@ -289,110 +308,69 @@ const useOnClick = ({ modelId, voiceId, sampleRate, callState, setCallState }) =
   }
 };
 
-const setupCall = async ({ systemPrompt, firstMessage, modelId, voiceId, sampleRate, apiKey }) => {
-  const { llmWebsocketUrl } = await createRetellLLM({
+const setupCall = async ({ systemPrompt, firstMessage, modelId, voiceId, apiKey }) => {
+  const { agentId } = await createWebAgent({
     systemPrompt,
     firstMessage,
     modelId,
+    voiceId,
     apiKey
   });
-  if (llmWebsocketUrl) {
-    const { agentId } = await createAgent({ voiceId, llmWebsocketUrl, apiKey });
+  const { callToken } = await authroizeWebCall({ agentId, apiKey });
 
-    if (agentId) {
-      const { callId } = await registerCall({ agentId, sampleRate, apiKey });
-
-      return { callId };
-    }
-  }
-
-  return { callId: null };
+  return { agentId, callToken };
 };
 
-const createRetellLLM = async ({ systemPrompt, firstMessage, modelId, apiKey }) => {
+const createWebAgent = async ({ systemPrompt, firstMessage, modelId, voiceId, apiKey }) => {
   try {
     const response = await axios({
       method: 'POST',
-      url: getCreateRetellLLMUrl(),
+      url: createWebAgentUrl(),
       headers: {
-        Authorization: `Bearer ${apiKey}`
+        Authorization: apiKey
       },
       data: {
+        prompt: systemPrompt,
         model: modelId,
-        general_prompt: systemPrompt,
-        ...(!isEmpty(firstMessage) ? { begin_message: firstMessage } : {})
+        voice: voiceId,
+        first_sentence: firstMessage,
+        language: 'ENG'
       }
     });
 
-    const { llm_websocket_url } = response.data;
-
-    return { llmWebsocketUrl: llm_websocket_url };
-  } catch (error) {
-    console.error('Error creating Retell LLM', error);
-  }
-
-  return { llmWebsocketUrl: null };
-};
-const createAgent = async ({ voiceId, llmWebsocketUrl, apiKey }) => {
-  try {
-    const response = await axios({
-      method: 'POST',
-      url: getCreateAgentUrl(),
-      headers: {
-        Authorization: `Bearer ${apiKey}`
-      },
-      data: {
-        llm_websocket_url: llmWebsocketUrl,
-        agent_name: 'Vocalized Test Agent',
-        voice_id: voiceId,
-        responsiveness: 0,
-        interruption_sensitivity: 1,
-        enable_backchannel: true,
-        backchannel_frequency: 0.8,
-        reminder_trigger_ms: 5000,
-        language: 'en-US'
-      }
-    });
-
-    const { agent_id } = response.data;
+    const { agent } = response.data;
+    const { agent_id } = agent;
 
     return { agentId: agent_id };
   } catch (error) {
-    console.error('Error creating Retell agent', error);
+    console.error('Error creating Bland web agent', error);
   }
 
   return { agentId: null };
 };
-const registerCall = async ({ agentId, sampleRate, apiKey }) => {
+const authroizeWebCall = async ({ agentId, apiKey }) => {
   try {
     const response = await axios({
       method: 'POST',
-      url: getRegisterCallUrl(),
+      url: authorizeWebCallUrl({ agentId }),
       headers: {
-        Authorization: `Bearer ${apiKey}`
-      },
-      data: {
-        agent_id: agentId,
-        audio_websocket_protocol: 'web',
-        audio_encoding: 's16le',
-        sample_rate: sampleRate,
-        end_call_after_silence_ms: 10000
+        Authorization: apiKey
       }
     });
 
-    const { call_id } = response.data;
+    const { token } = response.data;
 
-    return { callId: call_id };
+    return { callToken: token };
   } catch (error) {
-    console.error('Error registering Retell call', error);
+    console.error('Error authorizing Bland web call', error);
   }
 
-  return { callId: null };
+  return { callToken: null };
 };
 
-const RETELL_API_BASE_URL = 'https://api.retellai.com';
-const getCreateRetellLLMUrl = () => `${RETELL_API_BASE_URL}/create-retell-llm`;
-const getCreateAgentUrl = () => `${RETELL_API_BASE_URL}/create-agent`;
-const getRegisterCallUrl = () => `${RETELL_API_BASE_URL}/register-call`;
+const BLAND_API_BASE_URL = 'https://api.bland.ai';
+const createWebAgentUrl = () => `${BLAND_API_BASE_URL}/v1/agents`;
+const authorizeWebCallUrl = ({ agentId }: { agentId: string }) =>
+  `${BLAND_API_BASE_URL}/v1/agents/${agentId}/authorize`;
 
-export default RetellDemo;
+export default BlandDemo;

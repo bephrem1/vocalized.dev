@@ -1,6 +1,7 @@
 export enum RetellModelId {
   OpenAIGPT3_5Turbo = 'gpt-3.5-turbo',
-  OpenAIGPT4Turbo = 'gpt-4-turbo'
+  OpenAIGPT4Turbo = 'gpt-4-turbo',
+  OpenAIGPT4o = 'gpt-4o'
 }
 
 export enum RetellVoiceId {

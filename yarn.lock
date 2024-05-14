@@ -1039,6 +1039,14 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.3.0.tgz#f6e14a97858d327252200242d4ccfe522c445522"
   integrity sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==
 
+bland-client-js-sdk@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/bland-client-js-sdk/-/bland-client-js-sdk-0.0.9.tgz#fd1c3ee15338478bbee6ebc393cc3225e2ac448f"
+  integrity sha512-I+jimlt3tQprWwKJZjIBnYEETtT+T+XJtLYiEpSOp7y/0mw5aXViRelVDh+vVeC0gYV7jNSBmqhsGP8Pqd42qA==
+  dependencies:
+    eventemitter3 "^5.0.1"
+    isomorphic-ws "^5.0.0"
+
 boolbase@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
