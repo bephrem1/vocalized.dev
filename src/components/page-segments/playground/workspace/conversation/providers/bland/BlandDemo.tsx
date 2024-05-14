@@ -1,5 +1,4 @@
 import { BlandModelId, BlandVoiceId } from '.';
-import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../../components';
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 
 import BlandModelPicker from './components/BlandModelPicker';
@@ -8,6 +7,8 @@ import { BlandWebClient } from 'bland-client-js-sdk';
 import { CallState } from '../../../../../../../types/call';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
 import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
+import ConvoDemoLinks from '../../components/ConvoDemoLinks';
+import { ConvoDemoLogoSymbol } from '../../components';
 import { ConvoDemoTurnIndicator } from '../../components/ConvoDemoTurnIndicator';
 import { CredentialsContext } from '../../../../../../../context/credentials';
 import { ModalContext } from '../../../../../../../context/modal';
@@ -26,6 +27,7 @@ import { useConvoDemoDisabled } from '../../../hooks/useConvoDemoDisabled';
 import { useLatencyTimer } from '../../../hooks/useLatencyTimer';
 import { useOpacity } from '../../../../../../../hooks/animation';
 import { useSimulatedVolume } from '../../../hooks/useSimulatedVolume';
+import { useToast } from '../../../../../../shared/shadcn/components/ui/use-toast';
 import { useUserSpeechHandlers } from '../../../hooks/useIsUserSpeaking';
 
 interface BlandDemoProps {}
@@ -120,8 +122,8 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
         )}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
+        <ConvoDemoLinks docsLink={Providers.Bland.links.documentation} />
         <ConvoDemoLogoSymbol src={Providers.Bland.logo.localPath} />
-        <ConvoDemoLinkToSiteBadge dest={Providers.Bland.links.documentation} label="docs" />
       </div>
     </div>
   );
@@ -255,6 +257,7 @@ const useOnClick = ({ modelId, voiceId, callState, setCallState, blandClient, se
     };
   }
 
+  const { toast } = useToast();
   const { systemPrompt, firstMessage, setActiveConvoProviderId } = useContext(PlaygroundContext);
   const startCall = async () => {
     const credentials = getCredentials({ providerId: Providers.Bland.id });
@@ -264,23 +267,35 @@ const useOnClick = ({ modelId, voiceId, callState, setCallState, blandClient, se
       setCallState(CallState.Connecting);
       setActiveConvoProviderId(Providers.Bland.id);
 
-      try {
-        const { agentId, callToken } = await setupCall({
-          systemPrompt,
-          firstMessage,
-          modelId,
-          voiceId,
-          apiKey: credentials.apiKey
-        });
+      const { agentId, callToken } = await setupCall({
+        systemPrompt,
+        firstMessage,
+        modelId,
+        voiceId,
+        apiKey: credentials.apiKey
+      });
 
+      if (!isEmpty(agentId) && !isEmpty(callToken)) {
         const callClient = new BlandWebClient(agentId, callToken);
         setBlandClient(callClient);
 
         callClient.initConversation({ sampleRate: 44100 } as any).then(() => {
           setCallState(CallState.Connected);
         });
-      } catch (error) {
-        console.error('Error starting Bland web call', error);
+      } else {
+        if (isEmpty(agentId)) {
+          toast({
+            title: 'Failed to create Bland agent',
+            description: 'There was an issue creating your Bland agent for the web call.',
+            variant: 'destructive'
+          });
+        } else if (isEmpty(callToken)) {
+          toast({
+            title: 'Failed to authorize web call',
+            description: 'There was an issue authorizing your web call with Bland.',
+            variant: 'destructive'
+          });
+        }
 
         setCallState(CallState.Off);
         setActiveConvoProviderId(null);
@@ -316,9 +331,13 @@ const setupCall = async ({ systemPrompt, firstMessage, modelId, voiceId, apiKey 
     voiceId,
     apiKey
   });
-  const { callToken } = await authroizeWebCall({ agentId, apiKey });
+  if (!isEmpty(agentId)) {
+    const { callToken } = await authroizeWebCall({ agentId, apiKey });
 
-  return { agentId, callToken };
+    return { agentId, callToken };
+  }
+
+  return { agentId: null, callToken: null };
 };
 
 const createWebAgent = async ({ systemPrompt, firstMessage, modelId, voiceId, apiKey }) => {

@@ -1,10 +1,11 @@
-import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../../components';
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { VapiModelId, VapiVoiceId, getVapiModelConfig, getVapiVoiceConfig } from '.';
 
 import { CallState } from '../../../../../../../types/call';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
 import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
+import ConvoDemoLinks from '../../components/ConvoDemoLinks';
+import { ConvoDemoLogoSymbol } from '../../components';
 import { ConvoDemoTurnIndicator } from '../../components/ConvoDemoTurnIndicator';
 import { CredentialsContext } from '../../../../../../../context/credentials';
 import { ModalContext } from '../../../../../../../context/modal';
@@ -112,8 +113,8 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
         )}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
+        <ConvoDemoLinks docsLink={Providers.Vapi.links.documentation} />
         <ConvoDemoLogoSymbol src={Providers.Vapi.logo.localPath} />
-        <ConvoDemoLinkToSiteBadge dest={Providers.Vapi.links.documentation} label="docs" />
       </div>
     </div>
   );

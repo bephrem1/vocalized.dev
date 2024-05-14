@@ -1,10 +1,11 @@
-import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../../components';
 import { FunctionComponent, useContext, useState } from 'react';
 import { RetellModelId, RetellSampleRate, RetellVoiceId } from '.';
 
 import { CallState } from '../../../../../../../types/call';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
 import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
+import ConvoDemoLinks from '../../components/ConvoDemoLinks';
+import { ConvoDemoLogoSymbol } from '../../components';
 import { ConvoDemoTurnIndicator } from '../../components/ConvoDemoTurnIndicator';
 import { CredentialsContext } from '../../../../../../../context/credentials';
 import { ModalContext } from '../../../../../../../context/modal';
@@ -115,8 +116,8 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
         )}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
+        <ConvoDemoLinks docsLink={Providers.Retell.links.documentation} />
         <ConvoDemoLogoSymbol src={Providers.Retell.logo.localPath} />
-        <ConvoDemoLinkToSiteBadge dest={Providers.Retell.links.documentation} label="docs" />
       </div>
     </div>
   );

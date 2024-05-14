@@ -1,6 +1,6 @@
-import { ConvoDemoLinkToSiteBadge, ConvoDemoLogoSymbol } from '../components';
-
 import { CallState } from '../../../../../../types/call';
+import ConvoDemoLinks from '../components/ConvoDemoLinks';
+import { ConvoDemoLogoSymbol } from '../components';
 import { FunctionComponent } from 'react';
 import { Providers } from '../../../../../../fixtures/providers';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
@@ -19,11 +19,11 @@ const HumeDemo: FunctionComponent<HumeDemoProps> = () => {
       </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
+        <ConvoDemoLinks
+          docsLink={Providers.Hume.links.documentation}
+          playgroundLink={Providers.Hume.links.playground}
+        />
         <ConvoDemoLogoSymbol src={Providers.Hume.logo.localPath} />
-        <div>
-          <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.playground} label="playground" />
-          <ConvoDemoLinkToSiteBadge dest={Providers.Hume.links.playground} label="playground" />
-        </div>
       </div>
     </div>
   );
