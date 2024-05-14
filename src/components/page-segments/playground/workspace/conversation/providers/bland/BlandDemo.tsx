@@ -247,6 +247,8 @@ const useBland = ({
 };
 
 const useOnClick = ({ modelId, voiceId, callState, setCallState, blandClient, setBlandClient }) => {
+  const { toast } = useToast();
+
   const { getCredentials, checkCredentialsSet } = useContext(CredentialsContext);
   const credentialsSet = checkCredentialsSet({ providerId: Providers.Bland.id });
 
@@ -257,7 +259,6 @@ const useOnClick = ({ modelId, voiceId, callState, setCallState, blandClient, se
     };
   }
 
-  const { toast } = useToast();
   const { systemPrompt, firstMessage, setActiveConvoProviderId } = useContext(PlaygroundContext);
   const startCall = async () => {
     const credentials = getCredentials({ providerId: Providers.Bland.id });
