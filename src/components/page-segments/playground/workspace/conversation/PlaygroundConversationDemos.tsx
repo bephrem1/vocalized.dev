@@ -10,9 +10,9 @@ import VapiDemo from './providers/vapi/VapiDemo';
 const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {
   const [visibleProviderIds, setVisibleProviderIds] = useState<Array<ProviderId>>([
     ProviderId.Vapi,
-    ProviderId.Retell,
+    ProviderId.Hume,
     ProviderId.Bland,
-    ProviderId.Hume
+    ProviderId.Retell
   ]);
 
   return (

@@ -28,7 +28,7 @@ const CredentialsCard: FunctionComponent<CredentialCardProps> = ({
     'relative',
     'flex flex-row items-center justify-center',
     'py-6 px-8',
-    'min-w-[110px] max-w-[120px]',
+    'min-w-[110px] w-[110px] max-w-[120px]',
     'border',
     credentialsSet ? 'border-stone-400' : 'border-stone-700',
     credentialsSet ? 'border-solid' : 'border-dashed',

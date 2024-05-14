@@ -17,6 +17,7 @@ import Link from '../../../shared/elements/Link';
 import PlayAICredentialsCard from '../credentials/cards/lib/PlayAICredentialsCard';
 import { PlaygroundContext } from '../../../../context/playground';
 import RetellCredentialsCard from '../credentials/cards/lib/RetellCredentialsCard';
+import SindarinCredentialsCard from '../credentials/cards/lib/SindarinCredentialsCard';
 import VapiCredentialsCard from '../credentials/cards/lib/VapiCredentialsCard';
 import VocodeCredentialsCard from '../credentials/cards/lib/VocodeCredentialsCard';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
@@ -69,15 +70,15 @@ const ConversationProviders = () => {
             <VapiCredentialsCard />
           </div>
           <div className="mr-4 inline">
-            <RetellCredentialsCard />
+            <HumeCredentialsCard />
           </div>
           <div className="mr-4 inline">
             <BlandCredentialsCard />
           </div>
         </div>
-        <div>
+        <div className="mb-4">
           <div className="mr-4 inline">
-            <HumeCredentialsCard />
+            <RetellCredentialsCard />
           </div>
           <div className="mr-4 inline">
             <PlayAICredentialsCard />
@@ -85,6 +86,9 @@ const ConversationProviders = () => {
           <div className="mr-4 inline">
             <VocodeCredentialsCard />
           </div>
+        </div>
+        <div>
+          <SindarinCredentialsCard />
         </div>
       </div>
     </div>

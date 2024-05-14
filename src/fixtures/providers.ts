@@ -5,7 +5,8 @@ export enum ProviderId {
   Bland = 'bland',
   PlayAI = 'playai',
   Hume = 'hume',
-  Vocode = 'vocode'
+  Vocode = 'vocode',
+  Sindarin = 'sindarin'
 }
 
 interface IProviderData {
@@ -110,9 +111,25 @@ export const Providers = {
     links: {
       homepage: 'https://www.vocode.dev',
       documentation: 'https://docs.vocode.dev',
-      dashboard: 'https://dashboard.vocode.dev/',
+      dashboard: 'https://dashboard.vocode.dev',
       playground: null,
       credentials: 'https://dashboard.vocode.dev/developers/api-keys'
+    }
+  } as IProviderData,
+  Sindarin: {
+    id: ProviderId.Sindarin,
+    displayName: 'Sindarin',
+    siteHostname: 'sindarin.tech',
+    logo: {
+      localPath: '/images/logos/sindarin.png'
+    },
+    links: {
+      homepage: 'https://www.sindarin.tech',
+      documentation:
+        'https://wirehaired-caravan-e73.notion.site/Sindarin-Persona-Documentation-BETA-130182f2903742f5874cb44aaceaccb7',
+      dashboard: 'https://persona-webapp-beta.vercel.app',
+      playground: 'https://persona-webapp-beta.vercel.app/#',
+      credentials: 'https://persona-webapp-beta.vercel.app/#'
     }
   } as IProviderData
 };
