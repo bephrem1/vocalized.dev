@@ -157,28 +157,29 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
 
   const disabled = useConvoDemoDisabled({ providerId: Providers.Hume.id });
   const orbColor = tinycolor(humeBrandColor).setAlpha(0.2).toRgbString();
+  const speakFirstPillVisible = callState === CallState.Connected && !userHasSpoken;
 
   return (
     <>
       <div className="flex flex-col w-full h-full items-center justify-center">
-        <VoiceOrb
-          color={orbColor}
-          sizePx={175}
-          callState={callState}
-          volume={volume}
-          onClick={onClick}
-          disabled={disabled}
-        />
+        <div className="relative flex flex-col items-center justify-center">
+          <SpeakFirstPill visible={speakFirstPillVisible} />
+          <VoiceOrb
+            color={orbColor}
+            sizePx={175}
+            callState={callState}
+            volume={volume}
+            onClick={onClick}
+            disabled={disabled}
+          />
+        </div>
+
         <ConvoDemoControlButton callState={callState} disabled={disabled} onClick={onClick} />
       </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
         {showRealtimeStats && (
-          <RealtimeStats
-            volume={volume}
-            assistantIsSpeaking={assistantIsSpeaking}
-            userHasSpoken={userHasSpoken}
-          />
+          <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
@@ -192,7 +193,7 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
   );
 };
 
-const RealtimeStats = ({ volume, assistantIsSpeaking, userHasSpoken }) => {
+const RealtimeStats = ({ volume, assistantIsSpeaking }) => {
   const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
 
   return (
@@ -205,9 +206,6 @@ const RealtimeStats = ({ volume, assistantIsSpeaking, userHasSpoken }) => {
           assistantIsSpeaking={assistantIsSpeaking}
           providerId={Providers.Vapi.id}
         />
-      </div>
-      <div className="flex flex-row justify-center pt-5">
-        <SpeakFirstPill visible={!userHasSpoken} />
       </div>
     </div>
   );
@@ -235,6 +233,7 @@ const VolumeStats = ({ volume }) => {
 
 const SpeakFirstPill = ({ visible }) => {
   const className = clsx({
+    'absolute bottom-full mb-7': true,
     'w-fit h-fit px-4 py-1': true,
     'bg-amber-900 border border-solid border-amber-800': true,
     'rounded-full select-none': true,
