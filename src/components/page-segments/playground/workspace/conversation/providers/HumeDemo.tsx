@@ -64,6 +64,7 @@ const HumeDemo: FunctionComponent<HumeDemoProps> = () => {
           resetLatencyTimer={resetLatencyTimer}
           clearLatencyReadings={clearLatencyReadings}
           userHasSpoken={userHasSpoken}
+          setUserHasSpoken={setUserHasSpoken}
         />
       </VoiceProvider>
     </div>
@@ -129,6 +130,7 @@ interface HumeDemoInternalProps {
   resetLatencyTimer: () => void;
   clearLatencyReadings: () => void;
   userHasSpoken: boolean;
+  setUserHasSpoken: (userHasSpoken: boolean) => void;
 }
 
 const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
@@ -137,12 +139,19 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
   latencyReadings,
   resetLatencyTimer,
   clearLatencyReadings,
-  userHasSpoken
+  userHasSpoken,
+  setUserHasSpoken
 }) => {
   const { isPlaying: assistantIsSpeaking } = useVoice();
   const { volume } = useSimulatedVolume({ assistantIsSpeaking });
 
-  const onClick = useOnClick({ callState, setCallState, resetLatencyTimer, clearLatencyReadings });
+  const onClick = useOnClick({
+    callState,
+    setCallState,
+    resetLatencyTimer,
+    clearLatencyReadings,
+    setUserHasSpoken
+  });
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
@@ -187,7 +196,7 @@ const RealtimeStats = ({ volume, assistantIsSpeaking, userHasSpoken }) => {
   const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
 
   return (
-    <div className="absolute top-0 left-0 w-fit h-fit" style={{ opacity: animatedOpacity }}>
+    <div className="absolute top-0 left-0 w-[194px] h-fit" style={{ opacity: animatedOpacity }}>
       <div className="pt-3 pb-4 px-4 border-r border-r-stone-800 border-b border-b-stone-800 border-dashed">
         <VolumeStats volume={volume} />
       </div>
@@ -206,11 +215,15 @@ const RealtimeStats = ({ volume, assistantIsSpeaking, userHasSpoken }) => {
 
 const VolumeStats = ({ volume }) => {
   const adjustedVolume = volume * 100;
-  const displayVolume = roundToNPlaces({ value: volume, n: 6 });
+  const displayVolume = roundToNPlaces({ value: volume, n: 3 });
 
   return (
     <div>
-      <p className="text-neutral-300 text-sm inline">Volume: {displayVolume}</p>
+      <span className="whitespace-nowrap">
+        <p className="text-neutral-300 text-sm inline">Volume </p>
+        <p className="text-neutral-400 text-xs inline">(simulated): </p>
+        <p className="text-neutral-300 text-sm inline"> {displayVolume}</p>
+      </span>
       <Progress
         value={adjustedVolume}
         className="w-[125px] bg-neutral-700 mt-2 h-1.5"
@@ -223,9 +236,10 @@ const VolumeStats = ({ volume }) => {
 const SpeakFirstPill = ({ visible }) => {
   const className = clsx({
     'w-fit h-fit px-4 py-1 mb-1.5': true,
-    'bg-slate-800 border border-solid border-slate-700': true,
+    'bg-amber-950 border border-solid border-amber-900': true,
     'rounded-full select-none': true,
     'transition-opacity duration-500': true,
+    'bg-opacity-75': true,
     'opacity-0': !visible,
     'opacity-100': visible
   });
@@ -250,7 +264,13 @@ const LatencyTrace = ({ latencyReadings }) => {
   );
 };
 
-const useOnClick = ({ callState, setCallState, resetLatencyTimer, clearLatencyReadings }) => {
+const useOnClick = ({
+  callState,
+  setCallState,
+  resetLatencyTimer,
+  clearLatencyReadings,
+  setUserHasSpoken
+}) => {
   const { setActiveConvoProviderId } = useContext(PlaygroundContext);
   const { connect, disconnect } = useVoice();
 
@@ -272,6 +292,7 @@ const useOnClick = ({ callState, setCallState, resetLatencyTimer, clearLatencyRe
       .then(() => {
         setCallState(CallState.Connected);
 
+        setUserHasSpoken(false);
         resetLatencyTimer();
         clearLatencyReadings();
         setActiveConvoProviderId(Providers.Hume.id);
@@ -286,6 +307,7 @@ const useOnClick = ({ callState, setCallState, resetLatencyTimer, clearLatencyRe
 
     setCallState(CallState.Off);
     setActiveConvoProviderId(null);
+    setUserHasSpoken(false);
   };
 
   switch (callState) {
