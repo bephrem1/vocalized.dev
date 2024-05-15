@@ -7,7 +7,15 @@ export const useSimulatedVolume = ({ assistantIsSpeaking }: { assistantIsSpeakin
   useEffect(() => {
     if (assistantIsSpeaking) {
       volumeIntervalRef.current = setInterval(() => {
-        const randomVolume = Math.random(); // random volume between 0 and 1
+        // generate volume mostly between 0.6 and 1, with occasional dips
+        let randomVolume: number;
+        if (Math.random() > 0.2) {
+          // 80% chance to be between 0.6 and 1
+          randomVolume = 0.6 + Math.random() * 0.4;
+        } else {
+          // 20% chance to be between 0 and 0.6
+          randomVolume = Math.random() * 0.6;
+        }
 
         setVolume(randomVolume);
       }, 200);

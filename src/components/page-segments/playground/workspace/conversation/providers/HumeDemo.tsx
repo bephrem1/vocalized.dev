@@ -240,28 +240,11 @@ const SpeakFirstPill = ({ visible }) => {
     'transition-opacity duration-500': true,
     'bg-opacity-80': true,
     'opacity-0': !visible,
-    'opacity-100': visible,
-    'animate-oscillate': visible
+    'opacity-100': visible
   });
 
   return (
     <div className={className} style={{ transition: 'opacity 0.5s' }}>
-      <style>
-        {`
-        @keyframes oscillateOpacity {
-          0%, 100% {
-            opacity: 1;
-          }
-          50% {
-            opacity: 0.5;
-          }
-        }
-
-        .animate-oscillate {
-          animation: oscillateOpacity 3s infinite;
-        }
-      `}
-      </style>
       <p className="text-neutral-200 text-xs">you must speak first</p>
     </div>
   );
