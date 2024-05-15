@@ -11,11 +11,13 @@ const PlayAICredentialsCard: FunctionComponent<EmptyObject> = () => {
   const credentialsSet = checkCredentialsSet({ providerId: ProviderId.PlayAI });
 
   return (
-    <CredentialsCard
-      providerName={Providers.PlayAI.displayName}
-      providerImageUrl="/images/logos/playai.png"
-      credentialsSet={credentialsSet}
-    />
+    <div className="opacity-50 inline">
+      <CredentialsCard
+        providerName={Providers.PlayAI.displayName}
+        providerImageUrl="/images/logos/playai.png"
+        credentialsSet={credentialsSet}
+      />
+    </div>
   );
 };
 

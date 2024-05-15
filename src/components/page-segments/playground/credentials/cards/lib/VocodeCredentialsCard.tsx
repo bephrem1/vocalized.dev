@@ -11,11 +11,13 @@ const VocodeCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Vocode });
 
   return (
-    <CredentialsCard
-      providerName={Providers.Vocode.displayName}
-      providerImageUrl="/images/logos/vocode.png"
-      credentialsSet={credentialsSet}
-    />
+    <div className="opacity-50 inline">
+      <CredentialsCard
+        providerName={Providers.Vocode.displayName}
+        providerImageUrl="/images/logos/vocode.png"
+        credentialsSet={credentialsSet}
+      />
+    </div>
   );
 };
 

@@ -11,11 +11,13 @@ const SindarinCredentialsCard: FunctionComponent<EmptyObject> = () => {
   const credentialsSet = checkCredentialsSet({ providerId: ProviderId.Vocode });
 
   return (
-    <CredentialsCard
-      providerName={Providers.Sindarin.displayName}
-      providerImageUrl="/images/logos/sindarin.png"
-      credentialsSet={credentialsSet}
-    />
+    <div className="opacity-50 inline">
+      <CredentialsCard
+        providerName={Providers.Sindarin.displayName}
+        providerImageUrl="/images/logos/sindarin.png"
+        credentialsSet={credentialsSet}
+      />
+    </div>
   );
 };
 
