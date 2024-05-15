@@ -39,7 +39,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
   const [volume, setVolume] = useState(0);
   const [assistantIsSpeaking, setAssistantIsSpeaking] = useState(false);
 
-  const [latencyReadings, setLatencyReadings] = useState<number[]>([]);
+  const [latencyReadings, setLatencyReadings] = useState<Array<number>>([]);
   const addLatencyReading = (latencyMs: number) =>
     setLatencyReadings((prev) => [latencyMs, ...prev]);
   const clearLatencyReadings = () => setLatencyReadings([]);

@@ -4,8 +4,10 @@ import { EmptyObject } from '../../../../types/empty';
 import InfoTooltip from '../../../shared/tooltip/InfoTooltip';
 import { PlaygroundContext } from '../../../../context/playground';
 import PlaygroundConversationDemos from './conversation/PlaygroundConversationDemos';
+import { ProviderId } from '../../../../fixtures/providers';
 import { Textarea } from '../../../shared/shadcn/components/ui/textarea';
 import { UserSpeechRecognitionProvider } from '../../../../context/user-speech-recognition';
+import clsx from 'clsx';
 
 const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
   return (
@@ -61,14 +63,19 @@ const SystemPromptArea = () => {
 };
 
 const FirstMessageArea = () => {
-  const { firstMessage, setFirstMessage } = useContext(PlaygroundContext);
+  const { firstMessage, setFirstMessage, activeConvoProviderId } = useContext(PlaygroundContext);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setFirstMessage(e.target.value);
   };
 
+  const disabled = activeConvoProviderId === ProviderId.Hume;
+  const className = clsx({
+    'opacity-50': disabled
+  });
+
   return (
-    <div>
+    <div className={className}>
       <div className="flex flex-row items-center mb-3.5">
         <div className="flex flex-row items-center mr-2">
           <p className="text-white text-md font-normal mr-2">First Message</p>
@@ -85,6 +92,7 @@ const FirstMessageArea = () => {
         placeholder="Enter your first message here..."
         onChange={handleChange}
         className="text-white h-[100px] min-h-[75px] max-h-[125px] border-solid border-neutral-400 focus:border-neutral-200"
+        disabled={disabled}
       />
     </div>
   );

@@ -23,6 +23,9 @@ interface IProviderData {
     playground?: string;
     credentials: string;
   };
+  socials?: {
+    discord?: string;
+  };
 }
 
 export const Providers = {

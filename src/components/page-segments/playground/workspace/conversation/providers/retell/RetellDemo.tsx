@@ -45,7 +45,7 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
 
   const { volume } = useSimulatedVolume({ assistantIsSpeaking });
 
-  const [latencyReadings, setLatencyReadings] = useState<number[]>([]);
+  const [latencyReadings, setLatencyReadings] = useState<Array<number>>([]);
   const addLatencyReading = (latencyMs: number) =>
     setLatencyReadings((prev) => [latencyMs, ...prev]);
   const clearLatencyReadings = () => setLatencyReadings([]);

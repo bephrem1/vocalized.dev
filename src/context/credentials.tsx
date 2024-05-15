@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import React from 'react';
 import { SESSION_STORAGE_KEYS } from '../persistence';
 import { usePersistedValue } from '../hooks/persistence';
 
