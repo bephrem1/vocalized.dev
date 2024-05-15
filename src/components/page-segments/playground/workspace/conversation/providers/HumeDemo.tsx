@@ -235,17 +235,34 @@ const SpeakFirstPill = ({ visible }) => {
   const className = clsx({
     'absolute bottom-full mb-7': true,
     'w-fit h-fit px-4 py-1': true,
-    'bg-amber-900 border border-solid border-amber-800': true,
+    'bg-gray-700 border border-solid border-gray-500': true,
     'rounded-full select-none': true,
     'transition-opacity duration-500': true,
     'bg-opacity-80': true,
     'opacity-0': !visible,
-    'opacity-100': visible
+    'opacity-100': visible,
+    'animate-oscillate': visible
   });
 
   return (
     <div className={className} style={{ transition: 'opacity 0.5s' }}>
-      <p className="text-neutral-300 text-xs">you must speak first</p>
+      <style>
+        {`
+        @keyframes oscillateOpacity {
+          0%, 100% {
+            opacity: 1;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+
+        .animate-oscillate {
+          animation: oscillateOpacity 3s infinite;
+        }
+      `}
+      </style>
+      <p className="text-neutral-200 text-xs">you must speak first</p>
     </div>
   );
 };

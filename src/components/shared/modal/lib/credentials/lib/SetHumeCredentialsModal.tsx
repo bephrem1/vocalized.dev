@@ -31,7 +31,7 @@ const SetHumeCredentialsModal: FunctionComponent<EmptyObject> = () => {
               dest={Providers.Hume.links.credentials}
               anchor={`"API keys" section`}
             />
-            <SetCredentialsModalUI.Faq.Text text=". Copy & paste it above." />
+            <SetCredentialsModalUI.Faq.Text text={`. Copy & paste the "API key" field above.`} />
           </span>
         ],
         FaqWhereAreCredentialsStored
