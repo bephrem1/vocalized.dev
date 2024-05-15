@@ -24,7 +24,7 @@ const SetHumeCredentialsModal: FunctionComponent<EmptyObject> = () => {
             <SetCredentialsModalUI.Faq.Text text="Your Hume API key will be in your " />
             <SetCredentialsModalUI.Faq.Link
               dest={Providers.Hume.links.dashboard}
-              anchor="Hume dashboard"
+              anchor="dashboard"
             />
             <SetCredentialsModalUI.Faq.Text text=" in the " />
             <SetCredentialsModalUI.Faq.Link
