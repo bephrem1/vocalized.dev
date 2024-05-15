@@ -206,7 +206,7 @@ const RealtimeStats = ({ volume, assistantIsSpeaking, userHasSpoken }) => {
           providerId={Providers.Vapi.id}
         />
       </div>
-      <div className="pt-5 pl-4">
+      <div className="flex flex-row justify-center pt-5">
         <SpeakFirstPill visible={!userHasSpoken} />
       </div>
     </div>
@@ -235,11 +235,11 @@ const VolumeStats = ({ volume }) => {
 
 const SpeakFirstPill = ({ visible }) => {
   const className = clsx({
-    'w-fit h-fit px-4 py-1 mb-1.5': true,
-    'bg-amber-950 border border-solid border-amber-900': true,
+    'w-fit h-fit px-4 py-1': true,
+    'bg-amber-900 border border-solid border-amber-800': true,
     'rounded-full select-none': true,
     'transition-opacity duration-500': true,
-    'bg-opacity-75': true,
+    'bg-opacity-80': true,
     'opacity-0': !visible,
     'opacity-100': visible
   });
