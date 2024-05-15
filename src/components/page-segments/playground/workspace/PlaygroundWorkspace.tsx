@@ -6,16 +6,13 @@ import { PlaygroundContext } from '../../../../context/playground';
 import PlaygroundConversationDemos from './conversation/PlaygroundConversationDemos';
 import { ProviderId } from '../../../../fixtures/providers';
 import { Textarea } from '../../../shared/shadcn/components/ui/textarea';
-import { UserSpeechRecognitionProvider } from '../../../../context/user-speech-recognition';
 import clsx from 'clsx';
 
 const PlaygroundWorkspace: FunctionComponent<EmptyObject> = () => {
   return (
     <div className="flex flex-col sm:flex-row h-full w-full">
       <ConfigsBlock />
-      <UserSpeechRecognitionProvider>
-        <PlaygroundConversationDemos />
-      </UserSpeechRecognitionProvider>
+      <PlaygroundConversationDemos />
     </div>
   );
 };

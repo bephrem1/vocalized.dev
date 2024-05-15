@@ -1,4 +1,4 @@
-import { FunctionComponent, useContext } from 'react';
+import { FunctionComponent, useContext, useEffect } from 'react';
 
 import InfoTooltip from '../../../../../shared/tooltip/InfoTooltip';
 import { Providers } from '../../../../../../fixtures/providers';
@@ -14,8 +14,11 @@ interface ConvoDemoTurnIndicatorProps {
 export const ConvoDemoTurnIndicator: FunctionComponent<ConvoDemoTurnIndicatorProps> = ({
   assistantIsSpeaking,
   providerId
-}: ConvoDemoTurnIndicatorProps) => {
-  const { isUserSpeaking } = useContext(UserSpeechRecognitionContext);
+}) => {
+  const { isUserSpeaking, startSpeechRecognition } = useContext(UserSpeechRecognitionContext);
+  useEffect(() => {
+    startSpeechRecognition();
+  }, []);
 
   const badgeShared = clsx({
     'w-fit h-fit px-4 py-1': true,
@@ -44,7 +47,7 @@ export const ConvoDemoTurnIndicator: FunctionComponent<ConvoDemoTurnIndicatorPro
       <div className="flex flex-row items-center mb-2.5">
         <p className="text-neutral-300 text-sm mr-1.5">Speaking</p>
         <InfoTooltip
-          text="An indicator showing who is speaking. If not working or slow, try refreshing or switching to a different browser (like Chrome). Works best while wearing headphones."
+          text="An indicator showing who is speaking. Only works while wearing headphones."
           sizePx={11}
           infoIconColor="text-neutral-300"
         />
