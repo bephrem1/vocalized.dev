@@ -1,3 +1,5 @@
+import { Empty } from '../types/empty';
+
 export enum ProviderId {
   // conversation
   Vapi = 'vapi',
@@ -135,4 +137,8 @@ export const Providers = {
       credentials: 'https://persona-webapp-beta.vercel.app/#'
     }
   } as IProviderData
+};
+
+export const getProviderById = (id: ProviderId): IProviderData | Empty => {
+  return Object.values(Providers).find((provider) => provider.id === id);
 };

@@ -41,6 +41,10 @@ const PlaygroundConversationDemos: FunctionComponent<EmptyObject> = () => {
 };
 
 const ConversationDemo = ({ providerId, index }: { providerId: ProviderId; index: number }) => {
+  if (providerId === null) {
+    return <ConvoDemoOpen demoIndex={index} />;
+  }
+
   switch (providerId) {
     case ProviderId.Vapi:
       return <VapiDemo index={index} />;
@@ -51,7 +55,7 @@ const ConversationDemo = ({ providerId, index }: { providerId: ProviderId; index
     case ProviderId.Hume:
       return <HumeDemo index={index} />;
     default:
-      return <ConvoDemoOpen demoIndex={index} providerId={providerId} />;
+      return null;
   }
 };
 
