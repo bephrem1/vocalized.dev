@@ -1,4 +1,5 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
+import { HumeModelId, getHumeLanguageModelConfig } from '.';
 import { VoiceProvider, useVoice } from '@humeai/voice-react';
 
 import { CallState } from '../../../../../../../types/call';
@@ -10,7 +11,6 @@ import { ConvoDemoLogoSymbol } from '../../components';
 import { ConvoDemoTurnIndicator } from '../../components/ConvoDemoTurnIndicator';
 import { CredentialsContext } from '../../../../../../../context/credentials';
 import Environment from '../../../../../../../Environment';
-import { HumeModelId } from '.';
 import HumeModelPicker from './components/HumeModelPicker';
 import { ModalContext } from '../../../../../../../context/modal';
 import { ModalId } from '../../../../../../shared/modal/modal-id';
@@ -19,6 +19,7 @@ import { Progress } from '../../../../../../shared/shadcn/components/ui/progress
 import { Providers } from '../../../../../../../fixtures/providers';
 import { UserSpeechRecognitionContext } from '../../../../../../../context/user-speech-recognition';
 import VoiceOrb from '../../../../../../shared/voice/orb/VoiceOrb';
+import axios from 'axios';
 import clsx from 'clsx';
 import { isEmpty } from '../../../../../../../helpers/empty';
 import { roundToNPlaces } from '../../../../../../../helpers/numbers';
@@ -26,6 +27,7 @@ import tinycolor from 'tinycolor2';
 import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
 import { useLatencyTimer } from '../../hooks/useLatencyTimer';
 import { useOpacity } from '../../../../../../../hooks/animation';
+import { usePrevious } from '../../../../../../../hooks/utils';
 import { useSimulatedVolume } from '../../hooks/useSimulatedVolume';
 import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
 
@@ -39,20 +41,16 @@ const HumeDemo: FunctionComponent<HumeDemoProps> = ({ index }) => {
   const { getCredentials } = useContext(CredentialsContext);
   const credentials = getCredentials({ providerId: Providers.Hume.id });
   const humeApiKey =
-    !isEmpty(credentials) && !isEmpty(credentials.apiKey) ? credentials.apiKey : '';
+    !isEmpty(credentials) && !isEmpty(credentials?.apiKey) ? credentials?.apiKey : '';
 
   const [modelId, setModelId] = useState(HumeModelId.Default);
+  const { configId } = useConfigId({ modelId });
+  const humeConfigId = configId ? configId : '';
 
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [userHasSpoken, setUserHasSpoken] = useState(false);
-  const {
-    onMessage,
-    onClose,
-    sessionSettings,
-    latencyReadings,
-    resetLatencyTimer,
-    clearLatencyReadings
-  } = useCallSetup({ setCallState, userHasSpoken, setUserHasSpoken });
+  const { onMessage, onClose, latencyReadings, resetLatencyTimer, clearLatencyReadings } =
+    useCallSetup({ setCallState, userHasSpoken, setUserHasSpoken });
 
   return (
     <div className="relative w-full h-full">
@@ -62,7 +60,7 @@ const HumeDemo: FunctionComponent<HumeDemoProps> = ({ index }) => {
         debug={Environment.isDevelopment(process.env.NODE_ENV)}
         onMessage={onMessage}
         onClose={onClose}
-        sessionSettings={sessionSettings}
+        configId={humeConfigId}
       >
         <HumeDemoInternal
           modelId={modelId}
@@ -105,7 +103,7 @@ const useCallSetup = ({ setCallState, userHasSpoken, setUserHasSpoken }) => {
     onUserSpeechEnd: handleUserSpeechEnd
   });
 
-  const { systemPrompt, setActiveConvoProviderId } = useContext(PlaygroundContext);
+  const { setActiveConvoProviderId } = useContext(PlaygroundContext);
   const onMessage = (message: any) => {
     if (message.type === 'assistant_message') {
       recordLatencyReading();
@@ -126,7 +124,6 @@ const useCallSetup = ({ setCallState, userHasSpoken, setUserHasSpoken }) => {
   return {
     onMessage,
     onClose,
-    sessionSettings: { systemPrompt },
     latencyReadings,
     resetLatencyTimer,
     clearLatencyReadings
@@ -351,5 +348,120 @@ const useOnClick = ({
       return stopCall;
   }
 };
+
+const useConfigId = ({ modelId }) => {
+  const { getCredentials, checkCredentialsSet } = useContext(CredentialsContext);
+  const credentialsSet = checkCredentialsSet({ providerId: Providers.Hume.id });
+  const credentials = getCredentials({ providerId: Providers.Hume.id });
+
+  const [promptId, setPromptId] = useState<string>(null);
+  const [configId, setConfigId] = useState<string>(null);
+
+  /*
+   * Create prompt to use in config
+   */
+  const { systemPrompt } = useContext(PlaygroundContext);
+  useEffect(() => {
+    const shouldCreatePrompt = credentialsSet && isEmpty(promptId);
+
+    if (shouldCreatePrompt) {
+      createPrompt({ prompt: systemPrompt, apiKey: credentials?.apiKey }).then(({ promptId }) => {
+        setPromptId(promptId);
+      });
+    }
+  }, [credentialsSet]);
+
+  /*
+   * Create config (once prompt is setup)
+   */
+  const prevModelId = usePrevious(modelId);
+  useEffect(() => {
+    const shouldCreateNewConfig = credentialsSet && !isEmpty(promptId) && isEmpty(configId);
+    const modelUpdated = modelId !== prevModelId;
+
+    if (shouldCreateNewConfig || modelUpdated) {
+      createConfig({ promptId, modelId, apiKey: credentials?.apiKey }).then(({ configId }) => {
+        setConfigId(configId);
+      });
+    }
+  }, [promptId, modelId]);
+
+  return { configId };
+};
+
+const createPrompt = async ({ prompt, apiKey }) => {
+  const name = `vocalized-prompt-${Date.now()}`;
+
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: createPromptUrl(),
+      headers: {
+        'X-Hume-Api-Key': apiKey
+      },
+      data: {
+        name,
+        text: prompt
+      }
+    });
+
+    const { id } = response.data;
+
+    return { promptId: id };
+  } catch (error) {
+    console.error('Error creating Hume prompt', error);
+  }
+
+  return { promptId: null };
+};
+const createConfig = async ({
+  promptId,
+  modelId,
+  apiKey
+}: {
+  promptId: string;
+  modelId: HumeModelId;
+  apiKey: string;
+}) => {
+  const name = `vocalized-config-${Date.now()}`;
+  const modelConfig = getHumeLanguageModelConfig({ modelId });
+
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: createConfigUrl(),
+      headers: {
+        'X-Hume-Api-Key': apiKey
+      },
+      data: {
+        name,
+        prompt: {
+          id: promptId
+        },
+        ...(modelConfig
+          ? {
+              language_model: {
+                ...modelConfig
+              }
+            }
+          : {})
+      }
+    });
+
+    const { id } = response.data;
+
+    return { configId: id };
+  } catch (error) {
+    console.error('Error creating Hume config', error);
+  }
+
+  return { configId: null };
+};
+
+const HUME_API_BASE_URL = 'https://api.hume.ai';
+const listConfigsUrl = () => `${HUME_API_BASE_URL}/v0/evi/configs`;
+const createPromptUrl = () => `${HUME_API_BASE_URL}/v0/evi/prompts`;
+const createConfigUrl = () => `${HUME_API_BASE_URL}/v0/evi/configs`;
+const CONFIG_NAME = 'vocalized-test-config';
 
 export default HumeDemo;

@@ -252,7 +252,7 @@ const useOnClick = ({ modelId, voiceId, sampleRate, callState, setCallState }) =
   const { systemPrompt, firstMessage, setActiveConvoProviderId } = useContext(PlaygroundContext);
   const startCall = async () => {
     const credentials = getCredentials({ providerId: Providers.Retell.id });
-    const apiKeySet = !isEmpty(credentials) && credentials.apiKey;
+    const apiKeySet = !isEmpty(credentials) && credentials?.apiKey;
 
     if (apiKeySet) {
       setCallState(CallState.Connecting);
@@ -264,7 +264,7 @@ const useOnClick = ({ modelId, voiceId, sampleRate, callState, setCallState }) =
         modelId,
         voiceId,
         sampleRate,
-        apiKey: credentials.apiKey
+        apiKey: credentials?.apiKey
       });
       if (callId) {
         RetellClient.startConversation({

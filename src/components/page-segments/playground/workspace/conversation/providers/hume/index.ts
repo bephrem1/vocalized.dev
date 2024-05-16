@@ -24,6 +24,10 @@ export enum HumeModelId {
 }
 
 export const getHumeLanguageModelConfig = ({ modelId }) => {
+  if (modelId === HumeModelId.Default) {
+    return null;
+  }
+
   switch (modelId) {
     case HumeModelId.Gpt3_5Turbo:
       return {

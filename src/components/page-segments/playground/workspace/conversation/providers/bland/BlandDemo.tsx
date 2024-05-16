@@ -267,7 +267,7 @@ const useOnClick = ({ modelId, voiceId, callState, setCallState, blandClient, se
   const { systemPrompt, firstMessage, setActiveConvoProviderId } = useContext(PlaygroundContext);
   const startCall = async () => {
     const credentials = getCredentials({ providerId: Providers.Bland.id });
-    const apiKeySet = !isEmpty(credentials) && credentials.apiKey;
+    const apiKeySet = !isEmpty(credentials) && credentials?.apiKey;
 
     if (apiKeySet) {
       setCallState(CallState.Connecting);
@@ -278,7 +278,7 @@ const useOnClick = ({ modelId, voiceId, callState, setCallState, blandClient, se
         firstMessage,
         modelId,
         voiceId,
-        apiKey: credentials.apiKey
+        apiKey: credentials?.apiKey
       });
 
       if (!isEmpty(agentId) && !isEmpty(callToken)) {
