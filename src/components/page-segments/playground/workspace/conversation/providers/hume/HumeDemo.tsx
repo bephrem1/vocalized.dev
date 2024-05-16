@@ -169,6 +169,7 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
     setUserHasSpoken
   });
   const showCallConfigs = callState === CallState.Off;
+  const showCloseButton = callState === CallState.Off;
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
@@ -200,7 +201,7 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
 
-        <ConvoDemoClose demoIndex={demoIndex} />
+        {showCloseButton && <ConvoDemoClose demoIndex={demoIndex} />}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks

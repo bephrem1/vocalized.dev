@@ -77,6 +77,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ index }) => {
 
   const onClick = useOnClick({ modelId, voiceId, vapiClient, callState, setCallState });
   const showCallConfigs = callState === CallState.Off;
+  const showCloseButton = callState === CallState.Off;
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
@@ -114,7 +115,7 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = ({ index }) => {
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
 
-        <ConvoDemoClose demoIndex={index} />
+        {showCloseButton && <ConvoDemoClose demoIndex={index} />}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks docsLink={Providers.Vapi.links.documentation} />

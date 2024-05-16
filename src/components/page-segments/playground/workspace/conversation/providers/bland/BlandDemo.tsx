@@ -90,6 +90,7 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = ({ index }) => {
     setBlandClient
   });
   const showCallConfigs = callState === CallState.Off;
+  const showCloseButton = callState === CallState.Off;
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
@@ -123,7 +124,7 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = ({ index }) => {
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
 
-        <ConvoDemoClose demoIndex={index} />
+        {showCloseButton && <ConvoDemoClose demoIndex={index} />}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks docsLink={Providers.Bland.links.documentation} />

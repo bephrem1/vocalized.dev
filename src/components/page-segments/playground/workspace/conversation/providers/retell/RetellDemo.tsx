@@ -82,6 +82,7 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = ({ index }) => {
 
   const onClick = useOnClick({ modelId, voiceId, sampleRate, callState, setCallState });
   const showCallConfigs = callState === CallState.Off;
+  const showCloseButton = callState === CallState.Off;
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
@@ -117,7 +118,7 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = ({ index }) => {
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
 
-        <ConvoDemoClose demoIndex={index} />
+        {showCloseButton && <ConvoDemoClose demoIndex={index} />}
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks docsLink={Providers.Retell.links.documentation} />
