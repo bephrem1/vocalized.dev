@@ -5,7 +5,7 @@ import { FunctionComponent } from 'react';
 import { Providers } from '../../../../../../fixtures/providers';
 import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
-import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
+import { useConvoDemoDisabled } from '../hooks/useConvoDemoDisabled';
 
 interface VocodeDemoProps {}
 

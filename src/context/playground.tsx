@@ -1,7 +1,8 @@
 import { FIRST_MESSAGE_DEFAULT, SYSTEM_PROMPT_DEFAULT } from '../fixtures/prompts';
+import React, { useState } from 'react';
 
 import { PlaygroundMode } from '../components/page-segments/playground/playground-modes';
-import React from 'react';
+import { ProviderId } from '../fixtures/providers';
 import { SESSION_STORAGE_KEYS } from '../persistence';
 import { isEmpty } from '../helpers/empty';
 import { usePersistedValue } from '../hooks/persistence';
@@ -18,6 +19,9 @@ interface IPlaygroundContext {
   firstMessage?: string;
   setFirstMessage?: (message: string) => void;
 
+  visibleConvoDemoProviderIds?: Array<ProviderId | null>;
+  openConvoDemo?: ({ providerId, index }: { providerId: ProviderId; index: number }) => void;
+  closeConvoDemo?: ({ providerId, index }: { providerId: ProviderId; index: number }) => void;
   activeConvoProviderId?: string;
   setActiveConvoProviderId?: (providerId: string) => void;
 }
@@ -51,16 +55,34 @@ export const PlaygroundProvider = ({ children }) => {
 
   const { value: systemPrompt, setValue: setSystemPrompt } = usePersistedValue<string>({
     defaultValue: SYSTEM_PROMPT_DEFAULT,
-    persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.SYSTEM_PROMPT,
+    persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.CONVERSATION.SYSTEM_PROMPT,
     useSessionStorage: true
   });
   const { value: firstMessage, setValue: setFirstMessage } = usePersistedValue<string>({
     defaultValue: FIRST_MESSAGE_DEFAULT,
-    persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.FIRST_MESSAGE,
+    persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.CONVERSATION.FIRST_MESSAGE,
     useSessionStorage: true
   });
 
-  const [activeConvoProviderId, setActiveConvoProviderId] = React.useState<string>(null);
+  const { value: visibleConvoDemoProviderIds, setValue: setVisibleConvoDemoProviderIds } =
+    usePersistedValue<Array<ProviderId | null>>({
+      defaultValue: [ProviderId.Vapi, ProviderId.Hume, ProviderId.Bland, ProviderId.Retell],
+      persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.CONVERSATION.VISIBLE_DEMOS,
+      useSessionStorage: true
+    });
+  const openConvoDemo = ({ providerId, index }: { providerId: ProviderId; index: number }) => {
+    const newVisibleProviderIds = [...visibleConvoDemoProviderIds];
+
+    newVisibleProviderIds[index] = providerId;
+    setVisibleConvoDemoProviderIds(newVisibleProviderIds);
+  };
+  const closeConvoDemo = ({ providerId, index }: { providerId: ProviderId; index: number }) => {
+    const newVisibleProviderIds = [...visibleConvoDemoProviderIds];
+
+    newVisibleProviderIds[index] = null;
+    setVisibleConvoDemoProviderIds(newVisibleProviderIds);
+  };
+  const [activeConvoProviderId, setActiveConvoProviderId] = useState<string>(null);
 
   const toggleCredentialsDrawer = (open?: boolean) => {
     if (!isEmpty(open)) {
@@ -82,6 +104,9 @@ export const PlaygroundProvider = ({ children }) => {
     firstMessage,
     setFirstMessage,
 
+    visibleConvoDemoProviderIds,
+    openConvoDemo,
+    closeConvoDemo,
     activeConvoProviderId,
     setActiveConvoProviderId
   };

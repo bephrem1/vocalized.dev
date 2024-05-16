@@ -22,10 +22,10 @@ import clsx from 'clsx';
 import { isEmpty } from '../../../../../../../helpers/empty';
 import { roundToNPlaces } from '../../../../../../../helpers/numbers';
 import tinycolor from 'tinycolor2';
-import { useConvoDemoDisabled } from '../../../hooks/useConvoDemoDisabled';
-import { useLatencyTimer } from '../../../hooks/useLatencyTimer';
+import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
+import { useLatencyTimer } from '../../hooks/useLatencyTimer';
 import { useOpacity } from '../../../../../../../hooks/animation';
-import { useUserSpeechHandlers } from '../../../hooks/useIsUserSpeaking';
+import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
 
 interface VapiDemoProps {}
 

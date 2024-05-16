@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useMicVAD } from '@ricky0123/vad-react';
-import { usePrevious } from '../../../../../hooks/utils';
+import { usePrevious } from '../../../../../../hooks/utils';
 
 interface UseUserTranscriberReturn {
   isUserSpeaking: boolean;

@@ -9,8 +9,11 @@ export const SESSION_STORAGE_KEYS = {
     MODE: 'playground:mode',
     CREDENTIALS: 'playground:credentials',
     CREDENTIALS_DRAWER_OPEN: 'playground:credentials-drawer-open',
-    SYSTEM_PROMPT: 'playground:system-prompt',
-    FIRST_MESSAGE: 'playground:first-message'
+    CONVERSATION: {
+      SYSTEM_PROMPT: 'playground:conversation:system-prompt',
+      FIRST_MESSAGE: 'playground:conversation:first-message',
+      VISIBLE_DEMOS: 'playground:conversation:visible-demos'
+    }
   }
 };
 

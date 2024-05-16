@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 
 import { PlaygroundContext } from './playground';
-import { useIsUserSpeaking } from '../components/page-segments/playground/workspace/hooks/useIsUserSpeaking';
+import { useIsUserSpeaking } from '../components/page-segments/playground/workspace/conversation/hooks/useIsUserSpeaking';
 
 interface IUserSpeechRecognitionContext {
   isUserSpeaking: boolean;
