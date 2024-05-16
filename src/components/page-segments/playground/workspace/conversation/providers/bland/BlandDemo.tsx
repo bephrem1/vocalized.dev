@@ -5,6 +5,7 @@ import BlandModelPicker from './components/BlandModelPicker';
 import BlandVoicePicker from './components/BlandVoicePicker';
 import { BlandWebClient } from 'bland-client-js-sdk';
 import { CallState } from '../../../../../../../types/call';
+import ConvoDemoClose from '../../components/ConvoDemoClose';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
 import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
 import ConvoDemoLinks from '../../components/ConvoDemoLinks';
@@ -122,6 +123,7 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = ({ index }) => {
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
 
+        <ConvoDemoClose demoIndex={index} />
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks docsLink={Providers.Bland.links.documentation} />

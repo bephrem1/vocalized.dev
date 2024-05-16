@@ -2,6 +2,7 @@ import { FunctionComponent, useContext, useState } from 'react';
 import { RetellModelId, RetellSampleRate, RetellVoiceId } from '.';
 
 import { CallState } from '../../../../../../../types/call';
+import ConvoDemoClose from '../../components/ConvoDemoClose';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
 import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
 import ConvoDemoLinks from '../../components/ConvoDemoLinks';
@@ -116,6 +117,7 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = ({ index }) => {
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
 
+        <ConvoDemoClose demoIndex={index} />
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks docsLink={Providers.Retell.links.documentation} />

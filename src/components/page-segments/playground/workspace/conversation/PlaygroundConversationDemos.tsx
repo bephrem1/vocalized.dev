@@ -1,6 +1,7 @@
-import { FunctionComponent, useContext, useState } from 'react';
+import { FunctionComponent, useContext } from 'react';
 
 import BlandDemo from './providers/bland/BlandDemo';
+import ConvoDemoOpen from './components/ConvoDemoOpen';
 import { EmptyObject } from '../../../../../types/empty';
 import HumeDemo from './providers/hume/HumeDemo';
 import { PlaygroundContext } from '../../../../../context/playground';
@@ -50,7 +51,7 @@ const ConversationDemo = ({ providerId, index }: { providerId: ProviderId; index
     case ProviderId.Hume:
       return <HumeDemo index={index} />;
     default:
-      return null;
+      return <ConvoDemoOpen demoIndex={index} providerId={providerId} />;
   }
 };
 

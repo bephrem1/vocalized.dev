@@ -2,6 +2,7 @@ import { FunctionComponent, useContext, useState } from 'react';
 import { VoiceProvider, useVoice } from '@humeai/voice-react';
 
 import { CallState } from '../../../../../../../types/call';
+import ConvoDemoClose from '../../components/ConvoDemoClose';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
 import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
 import ConvoDemoLinks from '../../components/ConvoDemoLinks';
@@ -73,6 +74,7 @@ const HumeDemo: FunctionComponent<HumeDemoProps> = ({ index }) => {
           clearLatencyReadings={clearLatencyReadings}
           userHasSpoken={userHasSpoken}
           setUserHasSpoken={setUserHasSpoken}
+          demoIndex={index}
         />
       </VoiceProvider>
     </div>
@@ -141,6 +143,7 @@ interface HumeDemoInternalProps {
   clearLatencyReadings: () => void;
   userHasSpoken: boolean;
   setUserHasSpoken: (userHasSpoken: boolean) => void;
+  demoIndex: number;
 }
 
 const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
@@ -152,7 +155,8 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
   resetLatencyTimer,
   clearLatencyReadings,
   userHasSpoken,
-  setUserHasSpoken
+  setUserHasSpoken,
+  demoIndex
 }) => {
   const { isPlaying: assistantIsSpeaking } = useVoice();
   const { volume } = useSimulatedVolume({ assistantIsSpeaking });
@@ -196,6 +200,7 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
 
+        <ConvoDemoClose demoIndex={demoIndex} />
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks

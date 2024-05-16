@@ -20,7 +20,7 @@ interface IPlaygroundContext {
   setFirstMessage?: (message: string) => void;
 
   visibleConvoDemoProviderIds?: Array<ProviderId | null>;
-  openConvoDemo?: ({ providerId, index }: { providerId: ProviderId; index: number }) => void;
+  openConvoDemo?: ({ index, providerId }: { index: number; providerId: ProviderId }) => void;
   closeConvoDemo?: ({ index }: { index: number }) => void;
   activeConvoProviderId?: string;
   setActiveConvoProviderId?: (providerId: string) => void;
@@ -70,7 +70,7 @@ export const PlaygroundProvider = ({ children }) => {
       persistenceKey: SESSION_STORAGE_KEYS.PLAYGROUND.CONVERSATION.VISIBLE_DEMOS,
       useSessionStorage: true
     });
-  const openConvoDemo = ({ providerId, index }: { providerId: ProviderId; index: number }) => {
+  const openConvoDemo = ({ index, providerId }: { index: number; providerId: ProviderId }) => {
     const newVisibleProviderIds = [...visibleConvoDemoProviderIds];
 
     newVisibleProviderIds[index] = providerId;
