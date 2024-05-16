@@ -30,20 +30,15 @@ export const useUserSpeechHandlers = ({
   onUserSpeechEnd?: () => void;
 }) => {
   const isUserSpeakingPrev = usePrevious(isUserSpeaking);
-  console.log('isUserSpeakingPrev ------------', isUserSpeakingPrev);
-  console.log('isUserSpeaking --------------------------', isUserSpeaking);
   useEffect(() => {
     const userSpeechStarted = isUserSpeaking && !isUserSpeakingPrev;
-    console.log(userSpeechStarted);
 
     if (userSpeechStarted && onUserSpeechStart) {
       onUserSpeechStart();
-      console.log('on speech start');
     }
 
     if (!isUserSpeaking && isUserSpeakingPrev && onUserSpeechEnd) {
       onUserSpeechEnd();
-      console.log('on speech end');
     }
   }, [isUserSpeaking]);
 };
