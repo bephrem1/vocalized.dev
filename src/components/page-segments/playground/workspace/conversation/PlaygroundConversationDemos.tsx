@@ -2,7 +2,7 @@ import { FunctionComponent, useState } from 'react';
 
 import BlandDemo from './providers/bland/BlandDemo';
 import { EmptyObject } from '../../../../../types/empty';
-import HumeDemo from './providers/HumeDemo';
+import HumeDemo from './providers/hume/HumeDemo';
 import { ProviderId } from '../../../../../fixtures/providers';
 import RetellDemo from './providers/retell/RetellDemo';
 import { UserSpeechRecognitionProvider } from '../../../../../context/user-speech-recognition';

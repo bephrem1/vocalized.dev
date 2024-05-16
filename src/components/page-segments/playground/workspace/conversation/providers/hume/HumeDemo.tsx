@@ -1,30 +1,32 @@
 import { FunctionComponent, useContext, useState } from 'react';
 import { VoiceProvider, useVoice } from '@humeai/voice-react';
 
-import { CallState } from '../../../../../../types/call';
-import { ConvoDemoControlButton } from '../components/ConvoDemoControlButton';
-import ConvoDemoLatencyTrace from '../components/ConvoDemoLatencyTrace';
-import ConvoDemoLinks from '../components/ConvoDemoLinks';
-import { ConvoDemoLogoSymbol } from '../components';
-import { ConvoDemoTurnIndicator } from '../components/ConvoDemoTurnIndicator';
-import { CredentialsContext } from '../../../../../../context/credentials';
-import Environment from '../../../../../../Environment';
-import { ModalContext } from '../../../../../../context/modal';
-import { ModalId } from '../../../../../shared/modal/modal-id';
-import { PlaygroundContext } from '../../../../../../context/playground';
-import { Progress } from '../../../../../shared/shadcn/components/ui/progress';
-import { Providers } from '../../../../../../fixtures/providers';
-import { UserSpeechRecognitionContext } from '../../../../../../context/user-speech-recognition';
-import VoiceOrb from '../../../../../shared/voice/orb/VoiceOrb';
+import { CallState } from '../../../../../../../types/call';
+import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
+import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
+import ConvoDemoLinks from '../../components/ConvoDemoLinks';
+import { ConvoDemoLogoSymbol } from '../../components';
+import { ConvoDemoTurnIndicator } from '../../components/ConvoDemoTurnIndicator';
+import { CredentialsContext } from '../../../../../../../context/credentials';
+import Environment from '../../../../../../../Environment';
+import { HumeModelId } from '.';
+import HumeModelPicker from './components/HumeModelPicker';
+import { ModalContext } from '../../../../../../../context/modal';
+import { ModalId } from '../../../../../../shared/modal/modal-id';
+import { PlaygroundContext } from '../../../../../../../context/playground';
+import { Progress } from '../../../../../../shared/shadcn/components/ui/progress';
+import { Providers } from '../../../../../../../fixtures/providers';
+import { UserSpeechRecognitionContext } from '../../../../../../../context/user-speech-recognition';
+import VoiceOrb from '../../../../../../shared/voice/orb/VoiceOrb';
 import clsx from 'clsx';
-import { isEmpty } from '../../../../../../helpers/empty';
-import { roundToNPlaces } from '../../../../../../helpers/numbers';
+import { isEmpty } from '../../../../../../../helpers/empty';
+import { roundToNPlaces } from '../../../../../../../helpers/numbers';
 import tinycolor from 'tinycolor2';
-import { useConvoDemoDisabled } from '../../hooks/useConvoDemoDisabled';
-import { useLatencyTimer } from '../../hooks/useLatencyTimer';
-import { useOpacity } from '../../../../../../hooks/animation';
-import { useSimulatedVolume } from '../../hooks/useSimulatedVolume';
-import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
+import { useConvoDemoDisabled } from '../../../hooks/useConvoDemoDisabled';
+import { useLatencyTimer } from '../../../hooks/useLatencyTimer';
+import { useOpacity } from '../../../../../../../hooks/animation';
+import { useSimulatedVolume } from '../../../hooks/useSimulatedVolume';
+import { useUserSpeechHandlers } from '../../../hooks/useIsUserSpeaking';
 
 interface HumeDemoProps {}
 
@@ -35,6 +37,8 @@ const HumeDemo: FunctionComponent<HumeDemoProps> = () => {
   const credentials = getCredentials({ providerId: Providers.Hume.id });
   const humeApiKey =
     !isEmpty(credentials) && !isEmpty(credentials.apiKey) ? credentials.apiKey : '';
+
+  const [modelId, setModelId] = useState(HumeModelId.Default);
 
   const [callState, setCallState] = useState<CallState>(CallState.Off);
   const [userHasSpoken, setUserHasSpoken] = useState(false);
@@ -58,6 +62,8 @@ const HumeDemo: FunctionComponent<HumeDemoProps> = () => {
         sessionSettings={sessionSettings}
       >
         <HumeDemoInternal
+          modelId={modelId}
+          setModelId={setModelId}
           callState={callState}
           setCallState={setCallState}
           latencyReadings={latencyReadings}
@@ -124,6 +130,8 @@ const useCallSetup = ({ setCallState, userHasSpoken, setUserHasSpoken }) => {
 };
 
 interface HumeDemoInternalProps {
+  modelId: HumeModelId;
+  setModelId: (modelId: HumeModelId) => void;
   callState: CallState;
   setCallState: (callState: CallState) => void;
   latencyReadings: Array<number>;
@@ -134,6 +142,8 @@ interface HumeDemoInternalProps {
 }
 
 const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
+  modelId,
+  setModelId,
   callState,
   setCallState,
   latencyReadings,
@@ -152,6 +162,7 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
     clearLatencyReadings,
     setUserHasSpoken
   });
+  const showCallConfigs = callState === CallState.Off;
   const showRealtimeStats = callState === CallState.Connected;
   const showLatencyTrace = callState === CallState.Connected;
 
@@ -178,6 +189,8 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
       </div>
 
       <div className={clsx({ 'opacity-50': disabled })}>
+        {showCallConfigs && <CallConfigs modelId={modelId} setModelId={setModelId} />}
+
         {showRealtimeStats && (
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
@@ -190,6 +203,18 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
         <ConvoDemoLogoSymbol src={Providers.Hume.logo.localPath} />
       </div>
     </>
+  );
+};
+
+const CallConfigs = ({ modelId, setModelId }) => {
+  const animatedOpacity = useOpacity({ start: 0, end: 1, fadeInDelayMs: 0 });
+
+  return (
+    <div className="absolute top-0 left-0 w-fit h-fit" style={{ opacity: animatedOpacity }}>
+      <div className="pt-5 pl-5">
+        <HumeModelPicker modelId={modelId} setModelId={setModelId} />
+      </div>
+    </div>
   );
 };
 
