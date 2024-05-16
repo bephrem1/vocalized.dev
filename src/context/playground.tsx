@@ -21,7 +21,7 @@ interface IPlaygroundContext {
 
   visibleConvoDemoProviderIds?: Array<ProviderId | null>;
   openConvoDemo?: ({ providerId, index }: { providerId: ProviderId; index: number }) => void;
-  closeConvoDemo?: ({ providerId, index }: { providerId: ProviderId; index: number }) => void;
+  closeConvoDemo?: ({ index }: { index: number }) => void;
   activeConvoProviderId?: string;
   setActiveConvoProviderId?: (providerId: string) => void;
 }
@@ -76,7 +76,7 @@ export const PlaygroundProvider = ({ children }) => {
     newVisibleProviderIds[index] = providerId;
     setVisibleConvoDemoProviderIds(newVisibleProviderIds);
   };
-  const closeConvoDemo = ({ providerId, index }: { providerId: ProviderId; index: number }) => {
+  const closeConvoDemo = ({ index }: { index: number }) => {
     const newVisibleProviderIds = [...visibleConvoDemoProviderIds];
 
     newVisibleProviderIds[index] = null;

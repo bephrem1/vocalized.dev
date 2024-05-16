@@ -28,11 +28,13 @@ import { useOpacity } from '../../../../../../../hooks/animation';
 import { useSimulatedVolume } from '../../hooks/useSimulatedVolume';
 import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
 
-interface HumeDemoProps {}
+interface HumeDemoProps {
+  index: number;
+}
 
 const humeBrandColor = '#fadd98';
 
-const HumeDemo: FunctionComponent<HumeDemoProps> = () => {
+const HumeDemo: FunctionComponent<HumeDemoProps> = ({ index }) => {
   const { getCredentials } = useContext(CredentialsContext);
   const credentials = getCredentials({ providerId: Providers.Hume.id });
   const humeApiKey =
@@ -190,10 +192,10 @@ const HumeDemoInternal: FunctionComponent<HumeDemoInternalProps> = ({
 
       <div className={clsx({ 'opacity-50': disabled })}>
         {showCallConfigs && <CallConfigs modelId={modelId} setModelId={setModelId} />}
-
         {showRealtimeStats && (
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
+
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks

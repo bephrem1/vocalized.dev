@@ -30,11 +30,13 @@ import { useSimulatedVolume } from '../../hooks/useSimulatedVolume';
 import { useToast } from '../../../../../../shared/shadcn/components/ui/use-toast';
 import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
 
-interface BlandDemoProps {}
+interface BlandDemoProps {
+  index: number;
+}
 
 const blandBrandColor = '#6C66E7';
 
-const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
+const BlandDemo: FunctionComponent<BlandDemoProps> = ({ index }) => {
   const [blandClient, setBlandClient] = useState<BlandWebClient>(null);
 
   const [modelId, setModelId] = useState(BlandModelId.Base);
@@ -116,10 +118,10 @@ const BlandDemo: FunctionComponent<BlandDemoProps> = () => {
             setVoiceId={setVoiceId}
           />
         )}
-
         {showRealtimeStats && (
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
+
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks docsLink={Providers.Bland.links.documentation} />

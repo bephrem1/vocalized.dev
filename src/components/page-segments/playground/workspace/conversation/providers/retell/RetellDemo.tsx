@@ -29,13 +29,15 @@ import { useOpacity } from '../../../../../../../hooks/animation';
 import { useSimulatedVolume } from '../../hooks/useSimulatedVolume';
 import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
 
-interface RetellDemoProps {}
+interface RetellDemoProps {
+  index: number;
+}
 
 const retellBrandColor = '#ffffff';
 
 const RetellClient = new RetellWebClient();
 
-const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
+const RetellDemo: FunctionComponent<RetellDemoProps> = ({ index }) => {
   const [modelId, setModelId] = useState(RetellModelId.OpenAIGPT3_5Turbo);
   const [voiceId, setVoiceId] = useState(RetellVoiceId.ElevenLabsMarissa);
   const [sampleRate, setSampleRate] = useState(RetellSampleRate.SAMPLE_RATE_44100);
@@ -110,10 +112,10 @@ const RetellDemo: FunctionComponent<RetellDemoProps> = () => {
             setSampleRate={setSampleRate}
           />
         )}
-
         {showRealtimeStats && (
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
+
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks docsLink={Providers.Retell.links.documentation} />

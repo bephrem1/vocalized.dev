@@ -2,6 +2,7 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { VapiModelId, VapiVoiceId, getVapiModelConfig, getVapiVoiceConfig } from '.';
 
 import { CallState } from '../../../../../../../types/call';
+import ConvoDemoClose from '../../components/ConvoDemoClose';
 import { ConvoDemoControlButton } from '../../components/ConvoDemoControlButton';
 import ConvoDemoLatencyTrace from '../../components/ConvoDemoLatencyTrace';
 import ConvoDemoLinks from '../../components/ConvoDemoLinks';
@@ -27,11 +28,13 @@ import { useLatencyTimer } from '../../hooks/useLatencyTimer';
 import { useOpacity } from '../../../../../../../hooks/animation';
 import { useUserSpeechHandlers } from '../../hooks/useIsUserSpeaking';
 
-interface VapiDemoProps {}
+interface VapiDemoProps {
+  index: number;
+}
 
 const vapiBrandColor = '#5dfeca';
 
-const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
+const VapiDemo: FunctionComponent<VapiDemoProps> = ({ index }) => {
   const [modelId, setModelId] = useState(VapiModelId.OpenAIGPT3_5Turbo);
   const [voiceId, setVoiceId] = useState(VapiVoiceId.PlayHTJennifer);
 
@@ -107,10 +110,11 @@ const VapiDemo: FunctionComponent<VapiDemoProps> = () => {
             setVoiceId={setVoiceId}
           />
         )}
-
         {showRealtimeStats && (
           <RealtimeStats volume={volume} assistantIsSpeaking={assistantIsSpeaking} />
         )}
+
+        <ConvoDemoClose demoIndex={index} />
         {showLatencyTrace && <LatencyTrace latencyReadings={latencyReadings} />}
 
         <ConvoDemoLinks docsLink={Providers.Vapi.links.documentation} />
