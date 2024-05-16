@@ -35,7 +35,7 @@ export const ConvoDemoOpen: FunctionComponent<ConvoDemoOpenProps> = ({ demoIndex
 
   return (
     <div className={containerClassName} onClick={togglePopover}>
-      <Popover open={true}>
+      <Popover open={popoverOpen}>
         <div className="flex flex-row w-24 h-24 items-center justify-center border border-dashed border-stone-600 rounded-full">
           <PopoverTrigger>
             <PlusIcon className="w-7 h-7 text-stone-600" />
