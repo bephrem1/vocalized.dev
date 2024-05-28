@@ -64,7 +64,7 @@ export const useDocumentHeadComponents = ({
       <meta
         key="twitter:domain"
         property="twitter:domain"
-        content={process.env.NEXT_PUBLIC_HOSTNAME}
+        content={process.env.NEXT_PUBLIC_HOSTNAME || 'localhost'}
       />
       <meta key="twitter:card" name="twitter:card" content="summary_large_image" />
     </React.Fragment>

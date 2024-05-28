@@ -99,7 +99,7 @@ const getQueryParamString = (queryParams: Record<string, string>): string => {
 };
 
 const getBaseFrontendUrl = () => {
-  const host = process.env.NEXT_PUBLIC_HOSTNAME;
+  const host = process.env.NEXT_PUBLIC_HOSTNAME || 'localhost';
 
   return getBaseUrl({
     protocol: host === 'localhost' ? 'http' : 'https',
